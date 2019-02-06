@@ -145,4 +145,23 @@ class Products_model extends CI_Model {
         endif;
     }
 
+    public function getAttributes($id) {
+        $data=array();
+        $this->db->from('product_attributes');
+        $this->db->where('product_id', $id);
+        $query = $this->db->get();
+        $result= $query->result_array();
+        
+        if($result):
+            foreach ($result as $value) :
+            $data[]=array(
+                'attribute_id'=>$value['attribute_id'],
+                'text'=>$value['text'],
+            );
+            endforeach;
+        endif;
+        
+        return $data;
+    }
+
 }

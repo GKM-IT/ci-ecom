@@ -125,13 +125,15 @@ class Products extends REST_Controller {
         $this->data = [];
         $this->data['data'] = [];
 
-
         $id = $this->post('id');
 
         $object = $this->products_model->getById($id);
 
         $result = [];
         if ($object):
+
+            $attributes = $this->products_model->getAttributes($id);
+
             $result = [
                 'id' => $object['id'],
                 'type_id' => $object['type_id'],
@@ -156,6 +158,7 @@ class Products extends REST_Controller {
                 'minimum' => $object['minimum'],
                 'shipping' => $object['shipping'],
                 'inventory' => $object['inventory'],
+                'attributes' => $attributes,
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
