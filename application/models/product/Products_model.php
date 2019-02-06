@@ -135,7 +135,23 @@ class Products_model extends CI_Model {
             $this->db->insert($this->table);
             $id = $this->db->insert_id();
         endif;
+        
+        
+        $this->db->where('product_id', $id);
+        $this->db->delete('product_attributes');
 
+        if($this->input->post('attributes')):
+            $attributes=json2arr($this->input->post('attributes'));
+            if($attributes):
+                foreach ($attributes as $attribute):
+                $this->db->set('product_id', $id);
+                $this->db->set('attribute_id', $attribute['attribute_id']);
+                $this->db->set('text', $attribute['text']);
+                $this->db->insert('product_attributes');
+                endforeach;
+            endif;
+        endif;
+        
         if ($this->db->trans_status() === FALSE) :
             $this->db->trans_rollback();
             return FALSE;
