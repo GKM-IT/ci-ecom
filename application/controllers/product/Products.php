@@ -132,6 +132,7 @@ class Products extends REST_Controller {
         $result = [];
         if ($object):
 
+            $categories = $this->products_model->getCategories($id);
             $attributes = $this->products_model->getAttributes($id);
 
             $result = [
@@ -159,6 +160,7 @@ class Products extends REST_Controller {
                 'shipping' => $object['shipping'],
                 'inventory' => $object['inventory'],
                 'attributes' => $attributes,
+                'categories' => $categories,
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
