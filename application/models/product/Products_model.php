@@ -145,6 +145,20 @@ class Products_model extends CI_Model
         endif;
 
         $this->db->where('product_id', $id);
+        $this->db->delete('product_categories');
+
+        if ($this->input->post('categories')):
+            $categories = json2arr($this->input->post('categories'));
+            if ($categories):
+                foreach ($categories as $category):
+                    $this->db->set('product_id', $id);
+                    $this->db->set('category_id', $category['id']);                    
+                    $this->db->insert('product_categories');
+                endforeach;
+            endif;
+        endif;
+
+        $this->db->where('product_id', $id);
         $this->db->delete('product_attributes');
 
         if ($this->input->post('attributes')):
