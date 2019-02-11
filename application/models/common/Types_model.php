@@ -6,7 +6,7 @@ class Types_model extends CI_Model {
     private $table_view = 'types';
     private $column_order = array(null, 'name', 'updated_at', null);
     private $column_search = array('name', 'updated_at');
-    private $order = array('updated_at' => 'desc');
+    private $order = array('sort_order' => 'asc');
     private $currectDatetime = '';
 
     public function __construct() {
