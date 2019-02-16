@@ -85,6 +85,13 @@ class Categories_model extends CI_Model {
         return $query->row_array();
     }
 
+    public function getByType($id) {
+        $this->db->from($this->table_view);
+        $this->db->where('type_id', $id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function deleteById($id) {
         $this->db->trans_start();
         $this->db->where('id', $id);
