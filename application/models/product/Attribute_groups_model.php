@@ -1,6 +1,7 @@
 <?php
 
-class Attribute_groups_model extends CI_Model {
+class Attribute_groups_model extends CI_Model
+{
 
     private $table = 'attribute_groups';
     private $table_view = 'attribute_groups';
@@ -9,12 +10,14 @@ class Attribute_groups_model extends CI_Model {
     private $order = array('updated_at' => 'desc');
     private $currectDatetime = '';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->currectDatetime = date('Y-m-d h:i:s');
     }
 
-    private function _getTablesQuery() {
+    private function _getTablesQuery()
+    {
         $this->db->from($this->table_view);
         if ($this->input->post('name')):
             $this->db->where('name', $this->input->post('name'));
@@ -25,13 +28,13 @@ class Attribute_groups_model extends CI_Model {
         endif;
         $this->db->where('status', $status);
         $i = 0;
-        foreach ($this->column_search as $item) :
-            if (isset($_POST['length'])) :
-                if (isset($_POST['search']['value'])) :
-                    if ($i === 0) :
+        foreach ($this->column_search as $item):
+            if (isset($_POST['length'])):
+                if (isset($_POST['search']['value'])):
+                    if ($i === 0):
                         $this->db->group_start();
                         $this->db->like($item, $_POST['search']['value']);
-                    else :
+                    else:
                         $this->db->or_like($item, $_POST['search']['value']);
                     endif;
                     if (count($this->column_search) - 1 == $i):
@@ -41,17 +44,18 @@ class Attribute_groups_model extends CI_Model {
             endif;
             $i++;
         endforeach;
-        if (isset($_POST['order'])) :
+        if (isset($_POST['order'])):
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-        elseif (isset($this->order)) :
+        elseif (isset($this->order)):
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
         endif;
     }
 
-    public function getTables() {
+    public function getTables()
+    {
         $this->_getTablesQuery();
-        if ($this->input->post('length')) :
+        if ($this->input->post('length')):
             if ($this->input->post('length') != -1):
                 if ($this->input->post('start')):
                     $start = $this->input->post('start');
@@ -63,43 +67,48 @@ class Attribute_groups_model extends CI_Model {
         endif;
         $query = $this->db->get();
 //        print_r($this->db->last_query());
-//        exit;
+        //        exit;
         return $query->result_array();
     }
 
-    public function countFiltered() {
+    public function countFiltered()
+    {
         $this->_getTablesQuery();
         $query = $this->db->get();
         return $query->num_rows();
     }
 
-    public function countAll() {
+    public function countAll()
+    {
         $this->db->from($this->table_view);
         return $this->db->count_all_results();
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
         $this->db->from($this->table_view);
         $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->row_array();
     }
 
-    public function deleteById($id) {
+    public function deleteById($id)
+    {
         $this->db->trans_start();
         $this->db->where('id', $id);
         $this->db->delete($this->table);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE) :
+        if ($this->db->trans_status() === false):
             $this->db->trans_rollback();
-            return FALSE;
-        else :
+            return false;
+        else:
             $this->db->trans_commit();
-            return TRUE;
+            return true;
         endif;
     }
 
-    public function save() {
+    public function save()
+    {
         $this->db->trans_start();
 
         $this->db->set('name', $this->input->post('name'));
@@ -118,12 +127,12 @@ class Attribute_groups_model extends CI_Model {
             $id = $this->db->insert_id();
         endif;
 
-        if ($this->db->trans_status() === FALSE) :
+        if ($this->db->trans_status() === false):
             $this->db->trans_rollback();
-            return FALSE;
-        else :
+            return false;
+        else:
             $this->db->trans_commit();
-            return TRUE;
+            return true;
         endif;
     }
 
