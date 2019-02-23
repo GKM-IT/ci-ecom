@@ -19,6 +19,9 @@ class Products_model extends CI_Model
     private function _getTablesQuery()
     {
         $this->db->from($this->table_view);
+        if ($this->input->post('categoryId')):
+            $this->db->where('id IN(SELECT product_id FROM product_categories WHERE category_id=' . $this->input->post('categoryId') . ')');
+        endif;
         if ($this->input->post('name')):
             $this->db->where('name', $this->input->post('name'));
         endif;
@@ -30,12 +33,12 @@ class Products_model extends CI_Model
         $i = 0;
         foreach ($this->column_search as $item):
             if (isset($_POST['length'])):
-                if (isset($_POST['search']['value'])):
+                if (isset($_POST['search'])):
                     if ($i === 0):
                         $this->db->group_start();
-                        $this->db->like($item, $_POST['search']['value']);
+                        $this->db->like($item, $_POST['search']);
                     else:
-                        $this->db->or_like($item, $_POST['search']['value']);
+                        $this->db->or_like($item, $_POST['search']);
                     endif;
                     if (count($this->column_search) - 1 == $i):
                         $this->db->group_end();
@@ -152,7 +155,7 @@ class Products_model extends CI_Model
             if ($categories):
                 foreach ($categories as $category):
                     $this->db->set('product_id', $id);
-                    $this->db->set('category_id', $category['id']);                    
+                    $this->db->set('category_id', $category['id']);
                     $this->db->insert('product_categories');
                 endforeach;
             endif;
@@ -196,7 +199,7 @@ class Products_model extends CI_Model
         if ($result):
             foreach ($result as $value):
                 $data[] = array(
-                    'category_id' => $value['category_id'],
+                    'id' => $value['category_id'],
                     'name' => $value['name'],
                 );
             endforeach;
