@@ -19,12 +19,15 @@ class Products_model extends CI_Model
     private function _getTablesQuery()
     {
         $this->db->from($this->table_view);
+
         if ($this->input->post('categoryId')):
             $this->db->where('id IN(SELECT product_id FROM product_categories WHERE category_id=' . $this->input->post('categoryId') . ')');
         endif;
+        
         if ($this->input->post('name')):
             $this->db->where('name', $this->input->post('name'));
         endif;
+        
         $status = 1;
         if ($this->input->post('status') && $this->input->post('status') == 'false'):
             $status = 0;
