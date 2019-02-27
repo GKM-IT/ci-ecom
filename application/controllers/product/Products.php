@@ -2,11 +2,12 @@
 
 use Restserver\Libraries\REST_Controller;
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
-class Products extends REST_Controller {
+class Products extends REST_Controller
+{
 
     private $data = [];
     private $error = [];
@@ -14,7 +15,8 @@ class Products extends REST_Controller {
     private $validations = [];
     private $datetime_format = 'Y-d-m h:i:s';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('product/products_model');
         $this->load->library('form_validation');
@@ -22,7 +24,8 @@ class Products extends REST_Controller {
         $this->form_validation->set_error_delimiters('', '');
     }
 
-    public function index_post() {
+    public function index_post()
+    {
         $this->data = [];
         $this->data['data'] = [];
         $this->data['status'] = true;
@@ -31,7 +34,7 @@ class Products extends REST_Controller {
 
         $result = [];
         if ($list):
-            foreach ($list as $object) :
+            foreach ($list as $object):
                 $result[] = [
                     'id' => $object['id'],
                     'type_id' => $object['type_id'],
@@ -44,7 +47,6 @@ class Products extends REST_Controller {
                     'image' => $object['image'],
                     'image_thumb' => base_url($object['image']),
                     'description' => $object['description'],
-                    'text' => $object['text'],
                     'tax_class_id' => $object['tax_class_id'],
                     'length_class_id' => $object['length_class_id'],
                     'length' => $object['length'],
@@ -66,7 +68,6 @@ class Products extends REST_Controller {
             $this->data['status'] = false;
         endif;
 
-
         $this->data['recordsTotal'] = $this->products_model->countAll();
         $this->data['recordsFiltered'] = $this->products_model->countFiltered();
         $this->data['data'] = $result;
@@ -75,7 +76,8 @@ class Products extends REST_Controller {
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function delete_get($id) {
+    public function delete_get($id)
+    {
         $this->data = [];
         $this->data['data'] = [];
         $this->data['status'] = true;
@@ -97,7 +99,8 @@ class Products extends REST_Controller {
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function deleteAll_post() {
+    public function deleteAll_post()
+    {
         $this->data = [];
         $this->data['data'] = [];
         $this->data['status'] = true;
@@ -106,7 +109,7 @@ class Products extends REST_Controller {
 
         $result = [];
         if ($list):
-            foreach ($list as $id) :
+            foreach ($list as $id):
                 $object = $this->products_model->deleteById($id);
             endforeach;
             $this->data['status'] = true;
@@ -121,7 +124,8 @@ class Products extends REST_Controller {
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function detail_post() {
+    public function detail_post()
+    {
         $this->data = [];
         $this->data['data'] = [];
 
@@ -178,7 +182,8 @@ class Products extends REST_Controller {
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function save_post() {
+    public function save_post()
+    {
         $this->validation();
 
         $this->data = [];
@@ -201,7 +206,8 @@ class Products extends REST_Controller {
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function validation() {
+    public function validation()
+    {
         $this->validations = array(
             'name' => 'required',
             'code' => 'required',
@@ -215,9 +221,10 @@ class Products extends REST_Controller {
         $this->_validation();
     }
 
-    private function _validation() {
+    private function _validation()
+    {
         $this->data = [];
-        foreach ($this->validations as $key => $validation) :
+        foreach ($this->validations as $key => $validation):
             $field = '';
             if ($this->lang->line('text_' . $key)):
                 $field = $this->lang->line('text_' . $key);
@@ -227,17 +234,17 @@ class Products extends REST_Controller {
             $this->form_validation->set_rules($key, $field, $validation);
         endforeach;
 
-        if ($this->form_validation->run() == FALSE):
-            foreach ($this->validations as $key => $validation) :
+        if ($this->form_validation->run() == false):
+            foreach ($this->validations as $key => $validation):
                 if (form_error($key, '', '')):
                     $this->error[] = array(
                         'id' => $key,
-                        'text' => form_error($key, '', '')
+                        'text' => form_error($key, '', ''),
                     );
                 endif;
             endforeach;
 
-            $this->data['status'] = FALSE;
+            $this->data['status'] = false;
             $this->data['message'] = $this->lang->line('error_validation');
             $this->data['result'] = $this->error;
             echo json_encode($this->data);
@@ -245,7 +252,8 @@ class Products extends REST_Controller {
         endif;
     }
 
-    public function image_upload_post() {
+    public function image_upload_post()
+    {
         $this->data = [];
         $this->data['data'] = [];
         $this->data['status'] = true;
@@ -254,15 +262,15 @@ class Products extends REST_Controller {
         $config['allowed_types'] = 'gif|jpg|png';
         $config['file_name'] = 'product';
 //        $config['max_size'] = 100;
-//        $config['max_width'] = 1024;
-//        $config['max_height'] = 768;
+        //        $config['max_width'] = 1024;
+        //        $config['max_height'] = 768;
 
         $this->load->library('upload', $config);
 
-        if (!$this->upload->do_upload('userfile')) :
+        if (!$this->upload->do_upload('userfile')):
             $this->data['status'] = false;
             $this->data['error'] = $this->upload->display_errors();
-        else :
+        else:
             $fileData = $this->upload->data();
 
             if ($fileData['file_name']):

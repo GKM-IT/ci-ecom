@@ -214,8 +214,11 @@ class Products_model extends CI_Model
     public function getAttributes($id)
     {
         $data = array();
-        $this->db->from('product_attributes');
-        $this->db->where('product_id', $id);
+        $this->db->select('pa.*');
+        $this->db->select('a.name AS attribute');
+        $this->db->from('product_attributes pa');
+        $this->db->join('attributes a','a.id=pa.attribute_id');
+        $this->db->where('pa.product_id', $id);
         $query = $this->db->get();
         $result = $query->result_array();
 
@@ -223,6 +226,7 @@ class Products_model extends CI_Model
             foreach ($result as $value):
                 $data[] = array(
                     'attribute_id' => $value['attribute_id'],
+                    'attribute' => $value['attribute'],
                     'text' => $value['text'],
                 );
             endforeach;
