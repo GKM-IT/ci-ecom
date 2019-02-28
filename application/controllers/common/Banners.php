@@ -126,6 +126,7 @@ class Banners extends REST_Controller
                         'name' => $image['name'],
                         'image' => $image['image'],
                         'link' => $image['link'],
+                        'sort_order' => $image['sort_order'],
                     ];
                 endforeach;
             endif;

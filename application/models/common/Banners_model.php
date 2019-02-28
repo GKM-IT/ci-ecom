@@ -126,6 +126,25 @@ class Banners_model extends CI_Model
             $id = $this->db->insert_id();
         endif;
 
+        $this->db->where('banner_id', $id);
+        $this->db->delete('banner_images');
+
+        if ($this->input->post('images')):
+            $images = json2arr($this->input->post('images'));
+            if ($images):
+                foreach ($images as $image):
+                    $this->db->set('banner_id', $id);
+                    $this->db->set('type', $image['type']);
+                    $this->db->set('type_id', $image['type_id']);
+                    $this->db->set('name', $image['name']);
+                    $this->db->set('image', $image['image']);
+                    $this->db->set('link', $image['link']);
+                    $this->db->set('sort_order', $image['sort_order']);
+                    $this->db->insert('banner_images');
+                endforeach;
+            endif;
+        endif;
+
         if ($this->db->trans_status() === false):
             $this->db->trans_rollback();
             return false;
@@ -135,7 +154,8 @@ class Banners_model extends CI_Model
         endif;
     }
 
-    public function getImages($id) {
+    public function getImages($id)
+    {
         $this->db->from('banner_images');
         $this->db->where('banner_id', $id);
         $query = $this->db->get();
