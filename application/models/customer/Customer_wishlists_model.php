@@ -26,14 +26,14 @@ class Customer_wishlists_model extends CI_Model
         $this->db->join('customers c', 'c.id=t.customer_id');
 
         if ($this->input->post('customer_id')):
-            $this->db->where('customer_id', $this->input->post('customer_id'));
+            $this->db->where('t.customer_id', $this->input->post('customer_id'));
         endif;
 
         $status = 1;
         if ($this->input->post('status') && $this->input->post('status') == 'false'):
             $status = 0;
         endif;
-        $this->db->where('status', $status);
+        $this->db->where('t.status', $status);
         $i = 0;
         foreach ($this->column_search as $item):
             if (isset($_POST['length'])):
@@ -99,15 +99,15 @@ class Customer_wishlists_model extends CI_Model
         $this->db->from($this->table_view . ' t');
         $this->db->join('products p', 'p.id=t.product_id');
         $this->db->join('customers c', 'c.id=t.customer_id');
-        $this->db->where('id', $id);
+        $this->db->where('t.id', $id);
         $query = $this->db->get();
         return $query->row_array();
     }
 
-    public function checkWishlist()
+    public function checkWishlist($id)
     {
         $this->db->from($this->table_view);
-        $this->db->where('product_id', $this->input->post('product_id'));
+        $this->db->where('product_id', $id);
         $this->db->where('customer_id', $this->input->post('customer_id'));
         $query = $this->db->get();
         return $query->row_array();
@@ -133,7 +133,11 @@ class Customer_wishlists_model extends CI_Model
         $this->db->trans_start();
         $this->db->set('customer_id', $this->input->post('customer_id'));
         $this->db->set('product_id', $this->input->post('product_id'));
-        $this->db->set('status', $this->input->post('status'));
+        if ($this->input->post('status')):
+            $this->db->set('status', $this->input->post('status'));
+        else:
+            $this->db->set('status', 1);
+        endif;
 
         if ($this->input->post('id')):
             $this->db->set('updated_at', $this->currectDatetime);
