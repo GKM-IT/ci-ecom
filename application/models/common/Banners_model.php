@@ -5,9 +5,9 @@ class Banners_model extends CI_Model
 
     private $table = 'banners';
     private $table_view = 'banners';
-    private $column_order = array(null, 'name', 'updated_at', null);
-    private $column_search = array('name', 'updated_at');
-    private $order = array('created_at' => 'desc');
+    private $column_order = array(null, 'b.name', 't.name', 'b.updated_at', null);
+    private $column_search = array('b.name', 't.name', 'b.updated_at');
+    private $order = array('b.created_at' => 'desc');
     private $currectDatetime = '';
 
     public function __construct()
@@ -18,15 +18,19 @@ class Banners_model extends CI_Model
 
     private function _getTablesQuery()
     {
-        $this->db->from($this->table_view);
+        $this->db->select('b.*');
+        $this->db->select('t.name as type');
+        $this->db->from($this->table_view . ' b');
+        $this->db->join('types t', 't.id=b.type_id');
+
         if ($this->input->post('name')):
-            $this->db->where('name', $this->input->post('name'));
+            $this->db->where('b.name', $this->input->post('name'));
         endif;
         $status = 1;
         if ($this->input->post('status') && $this->input->post('status') == 'false'):
             $status = 0;
         endif;
-        $this->db->where('status', $status);
+        $this->db->where('b.status', $status);
         $i = 0;
         foreach ($this->column_search as $item):
             if (isset($_POST['length'])):
@@ -86,8 +90,11 @@ class Banners_model extends CI_Model
 
     public function getById($id)
     {
-        $this->db->from($this->table_view);
-        $this->db->where('id', $id);
+        $this->db->select('b.*');
+        $this->db->select('t.name as type');
+        $this->db->from($this->table_view . ' b');
+        $this->db->join('types t', 't.id=b.type_id');
+        $this->db->where('b.id', $id);
         $query = $this->db->get();
         return $query->row_array();
     }

@@ -259,11 +259,11 @@ class Products extends REST_Controller
         $this->data['status'] = true;
         $path = 'upload/products/';
         $config['upload_path'] = $path;
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = 'gif|jpg|jpeg|png';
         $config['file_name'] = 'product';
-//        $config['max_size'] = 100;
-        //        $config['max_width'] = 1024;
-        //        $config['max_height'] = 768;
+        // $config['max_size'] = 100;
+        // $config['max_width'] = 1024;
+        // $config['max_height'] = 768;
 
         $this->load->library('upload', $config);
 

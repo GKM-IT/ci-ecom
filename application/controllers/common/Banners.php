@@ -38,6 +38,7 @@ class Banners extends REST_Controller
                 $result[] = [
                     'id' => $object['id'],
                     'type_id' => $object['type_id'],
+                    'type' => $object['type'],
                     'name' => $object['name'],
                     'status' => $object['status'],
                     'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
@@ -134,6 +135,7 @@ class Banners extends REST_Controller
             $result = [
                 'id' => $object['id'],
                 'type_id' => $object['type_id'],
+                'type' => $object['type'],
                 'name' => $object['name'],
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
@@ -216,6 +218,41 @@ class Banners extends REST_Controller
             echo json_encode($this->data);
             exit;
         endif;
+    }
+
+    public function image_upload_post()
+    {
+        $this->data = [];
+        $this->data['data'] = [];
+        $this->data['status'] = true;
+        $path = 'upload/banners/';
+        $config['upload_path'] = $path;
+        $config['allowed_types'] = 'gif|jpg|jpeg|png';
+        $config['file_name'] = 'banner';
+        // $config['max_size'] = 100;
+        // $config['max_width'] = 1024;
+        // $config['max_height'] = 768;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('userfile')):
+            $this->data['status'] = false;
+            $this->data['error'] = $this->upload->display_errors();
+        else:
+            $fileData = $this->upload->data();
+
+            if ($fileData['file_name']):
+                $filename = $fileData['file_name'];
+            else:
+                $filename = '';
+            endif;
+            $data = [];
+            $data['full_path'] = base_url($path . $filename);
+            $data['base_path'] = $path . $filename;
+            $this->data['data'] = $data;
+        endif;
+
+        $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
 }
