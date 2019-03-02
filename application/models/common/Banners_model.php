@@ -141,8 +141,8 @@ class Banners_model extends CI_Model
             if ($images):
                 foreach ($images as $image):
                     $this->db->set('banner_id', $id);
-                    $this->db->set('type', $image['type']);
-                    $this->db->set('type_id', $image['type_id']);
+                    // $this->db->set('type', $image['type']);
+                    // $this->db->set('type_id', $image['type_id']);
                     $this->db->set('name', $image['name']);
                     $this->db->set('image', $image['image']);
                     $this->db->set('link', $image['link']);
