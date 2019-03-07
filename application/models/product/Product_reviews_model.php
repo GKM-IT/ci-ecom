@@ -5,8 +5,8 @@ class Product_reviews_model extends CI_Model
 
     private $table = 'product_reviews';
     private $table_view = 'product_reviews';
-    private $column_order = array(null, 'name','text','status', 'updated_at', null);
-    private $column_search = array('name','text','status', 'updated_at',);
+    private $column_order = array(null, 'name', 'text', 'status', 'updated_at', null);
+    private $column_search = array('name', 'text', 'status', 'updated_at');
     private $order = array('updated_at' => 'desc');
     private $currectDatetime = '';
 
@@ -30,9 +30,9 @@ class Product_reviews_model extends CI_Model
         // $this->db->join('customers c', 'c.id=pr.customer_id');
         // $this->db->join('ratings r', 'r.id=pr.rating_id');
 
-        // if ($this->input->post('name')):
-        //     $this->db->where('pr.name', $this->input->post('name'));
-        // endif;
+        if ($this->input->post('product_id')):
+            $this->db->where('product_id', $this->input->post('product_id'));
+        endif;
         $status = 1;
         if ($this->input->post('status') && $this->input->post('status') == 'false'):
             $status = 0;

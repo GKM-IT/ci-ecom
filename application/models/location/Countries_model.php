@@ -62,8 +62,8 @@ class Countries_model extends CI_Model {
             endif;
         endif;
         $query = $this->db->get();
-//        print_r($this->db->last_query());
-//        exit;
+    //    print_r($this->db->last_query());
+    //    exit;
         return $query->result_array();
     }
 
