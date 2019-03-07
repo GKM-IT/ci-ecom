@@ -1,13 +1,13 @@
 <?php
 
-class Customers_model extends CI_Model
+class Carts_model extends CI_Model
 {
 
-    private $table = 'customers';
-    private $table_view = 'customers';
-    private $column_order = array(null, 'name', 'email', 'contact', 'updated_at', null);
-    private $column_search = array('name', 'email', 'contact', 'updated_at');
-    private $order = array('updated_at' => 'desc');
+    private $table = 'carts';
+    private $table_view = 'carts';
+    private $column_order = array(null, 't.token', 'p.name', 't.updated_at', null);
+    private $column_search = array('t.token', 'p.name', 't.updated_at');
+    private $order = array('t.created_at' => 'desc');
     private $currectDatetime = '';
 
     public function __construct()
@@ -18,15 +18,19 @@ class Customers_model extends CI_Model
 
     private function _getTablesQuery()
     {
-        $this->db->from($this->table_view);
-        if ($this->input->post('name')):
-            $this->db->where('name', $this->input->post('name'));
+        $this->db->select('t.*');
+        $this->db->select('p.name as product');
+        $this->db->from($this->table_view . ' t');
+        $this->db->join('products p', 'p.id=t.product_id');
+
+        if ($this->input->post('token')):
+            $this->db->where('t.token', $this->input->post('token'));
         endif;
         $status = 1;
         if ($this->input->post('status') && $this->input->post('status') == 'false'):
             $status = 0;
         endif;
-        $this->db->where('status', $status);
+        $this->db->where('t.status', $status);
         $i = 0;
         foreach ($this->column_search as $item):
             if (isset($_POST['length'])):
@@ -86,30 +90,12 @@ class Customers_model extends CI_Model
 
     public function getById($id)
     {
-        $this->db->from($this->table_view);
-        $this->db->where('id', $id);
-        $query = $this->db->get();
-        return $query->row_array();
-    }
-
-    public function getByEmail($email)
-    {
-        $this->db->from($this->table_view);
-        $this->db->where('email', $email);
-        if ($this->input->post('id')):
-            $this->db->where('id !=', $this->input->post('id'));
-        endif;
-        $query = $this->db->get();
-        return $query->row_array();
-    }
-
-    public function getByContact($contact)
-    {
-        $this->db->from($this->table_view);
-        $this->db->where('contact', $contact);
-        if ($this->input->post('id')):
-            $this->db->where('id !=', $this->input->post('id'));
-        endif;
+        
+        $this->db->select('t.*');
+        $this->db->select('p.name as product');
+        $this->db->from($this->table_view . ' t');
+        $this->db->join('products p', 'p.id=t.product_id');
+        $this->db->where('t.id', $id);
         $query = $this->db->get();
         return $query->row_array();
     }
@@ -129,14 +115,23 @@ class Customers_model extends CI_Model
         endif;
     }
 
+    public function checkProduct($id)
+    {
+        $this->db->from($this->table_view);
+        $this->db->where('product_id', $id);
+        $this->db->where('token', $this->input->post('token'));
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
     public function save()
     {
         $this->db->trans_start();
-        $this->db->set('group_id', $this->input->post('group_id'));
-        $this->db->set('name', $this->input->post('name'));
-        $this->db->set('email', $this->input->post('email'));
-        $this->db->set('contact', $this->input->post('contact'));
-        $this->db->set('password', $this->input->post('password'));
+
+        $this->db->set('token', $this->input->post('token'));
+        $this->db->set('customer_id', $this->input->post('customer_id'));
+        $this->db->set('product_id', $this->input->post('product_id'));
+        $this->db->set('quantity', $this->input->post('quantity'));
         $this->db->set('status', $this->input->post('status'));
 
         if ($this->input->post('id')):
@@ -158,28 +153,5 @@ class Customers_model extends CI_Model
             return true;
         endif;
     }
-
-    public function checkUsername($username)
-    {
-        $this->db->from($this->table_view);
-        $this->db->group_start();
-        $this->db->where('email', $username);
-        $this->db->or_where('contact', $username);
-        $this->db->group_end();
-        $query = $this->db->get();
-        return $query->row_array();
-    }
-
-    public function login()
-    {
-        $this->db->from($this->table_view);
-        $this->db->group_start();
-        $this->db->where('email', $this->input->post('username'));
-        $this->db->or_where('contact', $this->input->post('username'));
-        $this->db->group_end();
-        $this->db->where('password', $this->input->post('password'));
-        $query = $this->db->get();
-        return $query->row_array();
-    }    
 
 }

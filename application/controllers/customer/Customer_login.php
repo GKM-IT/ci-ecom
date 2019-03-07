@@ -37,6 +37,7 @@ class Customer_login extends REST_Controller {
                 'name' => $object['name'],
                 'email' => $object['email'],
                 'contact' => $object['contact'],
+                'token' => random_string('alnum', 8),
                 'status' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
                 'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
