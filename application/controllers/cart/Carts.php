@@ -38,7 +38,10 @@ class Carts extends REST_Controller
                 $result[] = [
                     'id' => $object['id'],
                     'token' => $object['token'],
-                    'product' => $object['product'],
+                    'product_id' => $object['product_id'],
+                    'product_name' => $object['product_name'],
+                    'price' => $object['price'],
+                    'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
                     'status' => $object['status'],
                     'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                     'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
@@ -119,7 +122,10 @@ class Carts extends REST_Controller
             $result = [
                 'id' => $object['id'],
                 'token' => $object['token'],
-                'product' => $object['product'],
+                'product_id' => $object['product_id'],
+                'price' => $object['price'],
+                'product_name' => $object['product_name'],
+                'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
@@ -205,7 +211,11 @@ class Carts extends REST_Controller
             endforeach;
 
             $this->data['status'] = false;
-            $this->data['message'] = $this->lang->line('error_validation');
+            if (validation_errors()) {
+                $this->data['message'] = validation_errors();
+            } else {
+                $this->data['message'] = $this->lang->line('error_validation');
+            }
             $this->data['result'] = $this->error;
             echo json_encode($this->data);
             exit;

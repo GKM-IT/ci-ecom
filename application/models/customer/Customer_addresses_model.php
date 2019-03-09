@@ -1,12 +1,12 @@
 <?php
 
-class Customer_wishlists_model extends CI_Model
+class Customer_addresses_model extends CI_Model
 {
 
-    private $table = 'customer_wishlists';
-    private $table_view = 'customer_wishlists';
-    private $column_order = array(null, 'product_name', 'customer_name', 'updated_at', null);
-    private $column_search = array('product_name', 'customer_name', 'updated_at');
+    private $table = 'customer_addresses';
+    private $table_view = 'customer_addresses';
+    private $column_order = array(null, 'name', 'contact', 'updated_at', null);
+    private $column_search = array('name', 'contact', 'updated_at');
     private $order = array('updated_at' => 'desc');
     private $currectDatetime = '';
 
@@ -18,23 +18,18 @@ class Customer_wishlists_model extends CI_Model
 
     private function _getTablesQuery()
     {
-        $this->db->select('t.*');
-        $this->db->select('p.name as product_name');
-        $this->db->select('p.image as product_image');        
-        $this->db->select('c.name as customer_name');
-        $this->db->from($this->table_view . ' t');
-        $this->db->join('products p', 'p.id=t.product_id');
-        $this->db->join('customers c', 'c.id=t.customer_id');
-
+        $this->db->from($this->table_view);
         if ($this->input->post('customer_id')):
-            $this->db->where('t.customer_id', $this->input->post('customer_id'));
+            $this->db->where('customer_id', $this->input->post('customer_id'));
         endif;
-
+        if ($this->input->post('name')):
+            $this->db->where('name', $this->input->post('name'));
+        endif;
         $status = 1;
         if ($this->input->post('status') && $this->input->post('status') == 'false'):
             $status = 0;
         endif;
-        $this->db->where('t.status', $status);
+        $this->db->where('status', $status);
         $i = 0;
         foreach ($this->column_search as $item):
             if (isset($_POST['length'])):
@@ -94,22 +89,8 @@ class Customer_wishlists_model extends CI_Model
 
     public function getById($id)
     {
-        $this->db->select('t.*');
-        $this->db->select('p.name as product_name');
-        $this->db->select('c.name as customer_name');
-        $this->db->from($this->table_view . ' t');
-        $this->db->join('products p', 'p.id=t.product_id');
-        $this->db->join('customers c', 'c.id=t.customer_id');
-        $this->db->where('t.id', $id);
-        $query = $this->db->get();
-        return $query->row_array();
-    }
-
-    public function checkWishlist($id)
-    {
         $this->db->from($this->table_view);
-        $this->db->where('product_id', $id);
-        $this->db->where('customer_id', $this->input->post('customer_id'));
+        $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->row_array();
     }
@@ -133,12 +114,17 @@ class Customer_wishlists_model extends CI_Model
     {
         $this->db->trans_start();
         $this->db->set('customer_id', $this->input->post('customer_id'));
-        $this->db->set('product_id', $this->input->post('product_id'));
-        if ($this->input->post('status')):
-            $this->db->set('status', $this->input->post('status'));
-        else:
-            $this->db->set('status', 1);
-        endif;
+        $this->db->set('name', $this->input->post('name'));
+        $this->db->set('contact', $this->input->post('contact'));
+        $this->db->set('country_id', $this->input->post('country_id'));
+        $this->db->set('zone_id', $this->input->post('zone_id'));
+        $this->db->set('name', $this->input->post('name'));
+        $this->db->set('name', $this->input->post('name'));
+        $this->db->set('name', $this->input->post('name'));
+        $this->db->set('name', $this->input->post('name'));
+        $this->db->set('name', $this->input->post('name'));
+        $this->db->set('name', $this->input->post('name'));
+        $this->db->set('status', $this->input->post('status'));
 
         if ($this->input->post('id')):
             $this->db->set('updated_at', $this->currectDatetime);
