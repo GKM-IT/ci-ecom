@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 26, 2019 at 04:26 PM
+-- Generation Time: Mar 13, 2019 at 06:06 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -46,7 +46,7 @@ CREATE TABLE `attributes` (
 --
 
 INSERT INTO `attributes` (`id`, `group_id`, `name`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'Colour', 'undefined', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-02 02:34:57'),
+(1, 1, 'color', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 01:50:45'),
 (2, 2, 'Surface Finish', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 1, 'red', 'undefined', 0, 1, 0, '2019-02-02 02:35:21', 0, '0000-00-00 00:00:00');
 
@@ -73,7 +73,7 @@ CREATE TABLE `attribute_groups` (
 --
 
 INSERT INTO `attribute_groups` (`id`, `name`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Color', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 'Color', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 01:52:10'),
 (2, 'Finishing', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -98,7 +98,7 @@ CREATE TABLE `banners` (
 --
 
 INSERT INTO `banners` (`id`, `type_id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'Men Shirt Banner', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+(1, 1, 'Men Shirt Banner', 1, 0, '0000-00-00 00:00:00', 0, '2019-03-02 12:29:12');
 
 -- --------------------------------------------------------
 
@@ -122,7 +122,8 @@ CREATE TABLE `banner_images` (
 --
 
 INSERT INTO `banner_images` (`id`, `banner_id`, `type`, `type_id`, `name`, `image`, `link`, `sort_order`) VALUES
-(1, 1, 'category', 1, 'Banner 1', '', '', 0);
+(15, 1, '', 0, 'dasd', 'upload/banners/banner6.jpg', 'dasd', 1),
+(16, 1, '', 0, 'hii', 'upload/banners/banner8.jpg', 'hiii', 0);
 
 -- --------------------------------------------------------
 
@@ -132,7 +133,7 @@ INSERT INTO `banner_images` (`id`, `banner_id`, `type`, `type_id`, `name`, `imag
 
 CREATE TABLE `carts` (
   `id` int(11) NOT NULL,
-  `code` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `token` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `customer_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `option` text COLLATE utf8_unicode_ci NOT NULL,
@@ -148,8 +149,15 @@ CREATE TABLE `carts` (
 -- Dumping data for table `carts`
 --
 
-INSERT INTO `carts` (`id`, `code`, `customer_id`, `product_id`, `option`, `quantity`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, '', 0, 1, '', '10.0000', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+INSERT INTO `carts` (`id`, `token`, `customer_id`, `product_id`, `option`, `quantity`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, '', 0, 1, '', '10.0000', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(2, '1', 1, 1, '', '1.0000', 1, 0, '2019-03-07 05:52:22', 0, '0000-00-00 00:00:00'),
+(4, 'jMAL84af', 1, 1, '', '1.0000', 1, 0, '2019-03-09 11:19:37', 0, '0000-00-00 00:00:00'),
+(5, 'jMAL84af', 1, 3, '', '1.0000', 1, 0, '2019-03-09 11:19:41', 0, '0000-00-00 00:00:00'),
+(6, 'jMAL84af', 1, 2, '', '1.0000', 1, 0, '2019-03-09 11:19:47', 0, '0000-00-00 00:00:00'),
+(7, 'ifrYKT5D', 1, 1, '', '1.0000', 1, 0, '2019-03-09 01:18:33', 0, '0000-00-00 00:00:00'),
+(8, 'ifrYKT5D', 1, 3, '', '1.0000', 1, 0, '2019-03-09 01:18:37', 0, '0000-00-00 00:00:00'),
+(9, 'ifrYKT5D', 1, 2, '', '1.0000', 1, 0, '2019-03-09 01:18:41', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -514,7 +522,7 @@ CREATE TABLE `currencies` (
 --
 
 INSERT INTO `currencies` (`id`, `name`, `code`, `symbol_left`, `symbol_right`, `decimal_place`, `value`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'US Dollar', 'USD', '$', '', '2', 1.00000000, '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 'US Dollar', 'USD', '$', '', '2', 1.00000000, '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:26:59'),
 (2, 'Indian Rupees', 'INR', '', '₹', '2', 71.27000000, '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -543,7 +551,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `group_id`, `name`, `email`, `contact`, `password`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', '123456', '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', '123', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:20:58'),
 (2, 3, 'ali', 'ali@gmail.com', '6876764374', '123', '', 1, 0, '2019-02-09 07:46:20', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -592,7 +600,7 @@ CREATE TABLE `customer_groups` (
 --
 
 INSERT INTO `customer_groups` (`id`, `name`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'default', '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 'default', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:19:54'),
 (2, 'vendor', '', 1, 0, '2019-02-09 07:34:49', 0, '0000-00-00 00:00:00'),
 (3, 'regular', '', 1, 0, '2019-02-09 07:38:50', 0, '0000-00-00 00:00:00');
 
@@ -618,7 +626,8 @@ CREATE TABLE `customer_wishlists` (
 --
 
 INSERT INTO `customer_wishlists` (`id`, `customer_id`, `product_id`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 1, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+(5, 1, 3, 1, 0, '2019-03-09 10:18:15', 0, '0000-00-00 00:00:00'),
+(8, 1, 2, 1, 0, '2019-03-09 10:49:40', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -645,7 +654,7 @@ CREATE TABLE `informations` (
 --
 
 INSERT INTO `informations` (`id`, `name`, `description`, `text`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'about us', 'about us', '<p>\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p><p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p><p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-23 01:57:31'),
+(1, 'about', '', '', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:01:59'),
 (2, 'privacy & policy', 'privacy & policy', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-23 01:55:24'),
 (3, 'terms & conditions', 'terms & conditions', '<p>\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n</p>', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-23 01:55:49');
 
@@ -673,69 +682,10 @@ CREATE TABLE `inquiries` (
 --
 
 INSERT INTO `inquiries` (`id`, `name`, `email`, `contact`, `text`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'nadim', 'nadim', '7737033665', 'hii', 1, 0, '2019-01-31 12:07:34', 0, '0000-00-00 00:00:00'),
-(2, 'ali', 'ali@gmail.com', '123456', 'hii how are you', 1, 0, '2019-01-31 12:16:57', 0, '0000-00-00 00:00:00'),
-(3, 'test', 'test', 'test', 'tets', 1, 0, '2019-01-31 12:17:24', 0, '0000-00-00 00:00:00'),
-(4, 'nadim', 'nadim@gkmit.co', '7737033665', 'hi', 1, 0, '2019-02-07 06:21:21', 0, '0000-00-00 00:00:00'),
-(5, 'nadim', 'nadim@gkmit.co', '77370335665', 'hiii', 1, 0, '2019-02-07 06:46:06', 0, '0000-00-00 00:00:00'),
-(6, 'nadim', 'nadim@gkmit.co', '77370335665', 'hiii this is test from react', 1, 0, '2019-02-07 06:47:09', 0, '0000-00-00 00:00:00'),
-(7, 'nadim', 'nadim@gkmit.co', '77370335665', 'dsdad', 1, 0, '2019-02-07 06:48:45', 0, '0000-00-00 00:00:00'),
-(8, 'nadim', 'nadim@gkmit.co', '77370335665', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1, 0, '2019-02-07 06:49:33', 0, '0000-00-00 00:00:00'),
-(9, 'nadim', 'nadim@gkmit.co', '77370335665', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1, 0, '2019-02-07 06:49:53', 0, '0000-00-00 00:00:00'),
-(10, 'nadim', 'nadim@gkmit.co', '77370335665', 'hihhi', 1, 0, '2019-02-07 06:51:00', 0, '0000-00-00 00:00:00'),
-(11, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasd', 1, 0, '2019-02-07 06:51:31', 0, '0000-00-00 00:00:00'),
-(12, 'nadim', 'nadim@gkmit.co', '77370335665', 'hi', 1, 0, '2019-02-07 06:52:18', 0, '0000-00-00 00:00:00'),
-(13, 'abc', 'abc@gkmit.co', '786886867', '123', 1, 0, '2019-02-07 06:53:41', 0, '0000-00-00 00:00:00'),
-(14, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasd', 1, 0, '2019-02-07 06:58:09', 0, '0000-00-00 00:00:00'),
-(15, 'nadim', 'nadim@gkmit.co', '77370335665', 'hi', 1, 0, '2019-02-07 07:07:15', 0, '0000-00-00 00:00:00'),
-(16, 'nadim', 'nadim@gkmit.co', '77370335665', 'hi', 1, 0, '2019-02-07 07:07:31', 0, '0000-00-00 00:00:00'),
-(17, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasd', 1, 0, '2019-02-07 07:09:57', 0, '0000-00-00 00:00:00'),
-(18, 'nadim', 'nadim@gkmit.co', '77370335665', 'sad', 1, 0, '2019-02-07 07:10:40', 0, '0000-00-00 00:00:00'),
-(19, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasd', 1, 0, '2019-02-07 08:25:43', 0, '0000-00-00 00:00:00'),
-(20, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasd', 1, 0, '2019-02-07 08:26:28', 0, '0000-00-00 00:00:00'),
-(21, 'nadim', 'nadim@gkmit.co', '77370335665', 'asss', 1, 0, '2019-02-07 08:27:51', 0, '0000-00-00 00:00:00'),
-(22, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasd', 1, 0, '2019-02-07 08:30:02', 0, '0000-00-00 00:00:00'),
-(23, 'nadim', 'nadim@gkmit.co', '77370335665', 'test', 1, 0, '2019-02-07 08:31:28', 0, '0000-00-00 00:00:00'),
-(24, 'nadim', 'nadim@gkmit.co', '77370335665', 'das', 1, 0, '2019-02-07 08:34:19', 0, '0000-00-00 00:00:00'),
-(25, 'nadim', 'nadim@gkmit.co', '77370335665', '123', 1, 0, '2019-02-07 09:35:47', 0, '0000-00-00 00:00:00'),
-(26, 'nadim', 'nadim@gkmit.co', '77370335665', 'a', 1, 0, '2019-02-07 09:38:06', 0, '0000-00-00 00:00:00'),
-(27, 'nadim', 'nadim@gkmit.co', '77370335665', 'a', 1, 0, '2019-02-07 09:38:56', 0, '0000-00-00 00:00:00'),
-(28, 'nadim', 'nadim@gkmit.co', '77370335665', 'a', 1, 0, '2019-02-07 09:38:59', 0, '0000-00-00 00:00:00'),
-(29, 'nadim', 'nadim@gkmit.co', '77370335665', 'ihihih', 1, 0, '2019-02-07 09:40:31', 0, '0000-00-00 00:00:00'),
-(30, 'nadim', 'nadim@gkmit.co', '77370335665', 'sad', 1, 0, '2019-02-07 09:47:04', 0, '0000-00-00 00:00:00'),
-(31, 'nadim', 'nadim@gkmit.co', '77370335665', 'ddd', 1, 0, '2019-02-07 09:48:40', 0, '0000-00-00 00:00:00'),
-(32, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasd', 1, 0, '2019-02-07 09:49:55', 0, '0000-00-00 00:00:00'),
-(33, 'sd', 'dasd@dasd.com', 'dasd', 'dsad', 1, 0, '2019-02-07 09:51:05', 0, '0000-00-00 00:00:00'),
-(34, 'nadim', 'nadim@gkmit.co', '77370335665', 'dsad', 1, 0, '2019-02-07 09:52:32', 0, '0000-00-00 00:00:00'),
-(35, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasdasd', 1, 0, '2019-02-08 07:19:19', 0, '0000-00-00 00:00:00'),
-(36, 'nadim', 'nadim@gkmit.co', '77370335665', 'hiiii', 1, 0, '2019-02-08 07:19:33', 0, '0000-00-00 00:00:00'),
-(37, 'nadim', 'nadim@gkmit.co', '77370335665', 'hii', 1, 0, '2019-02-08 08:36:28', 0, '0000-00-00 00:00:00'),
-(38, 'nadim', 'nadim@gkmit.co', '77370335665', 'ddasd', 1, 0, '2019-02-08 08:37:02', 0, '0000-00-00 00:00:00'),
-(39, 'nadim', 'nadim@gkmit.co', '77370335665', 'a', 1, 0, '2019-02-08 08:37:26', 0, '0000-00-00 00:00:00'),
-(40, 'nadim', 'nadim@gkmit.co', '77370335665', 'a', 1, 0, '2019-02-08 08:37:46', 0, '0000-00-00 00:00:00'),
-(41, 'nadim', 'nadim@gkmit.co', '77370335665', 'dd', 1, 0, '2019-02-08 08:38:21', 0, '0000-00-00 00:00:00'),
-(42, 'nadim', 'nadim@gkmit.co', '77370335665', 'q', 1, 0, '2019-02-08 08:38:53', 0, '0000-00-00 00:00:00'),
-(43, 'nadim', 'nadim@gkmit.co', '77370335665', 'hi', 1, 0, '2019-02-08 10:38:37', 0, '0000-00-00 00:00:00'),
-(44, 'nadim', 'nadim@gkmit.co', '77370335665', 'asdasd', 1, 0, '2019-02-08 10:39:21', 0, '0000-00-00 00:00:00'),
-(45, 'nadim', 'nadim@gkmit.co', '77370335665', 'hii', 1, 0, '2019-02-08 10:41:50', 0, '0000-00-00 00:00:00'),
-(46, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasd', 1, 0, '2019-02-08 10:42:20', 0, '0000-00-00 00:00:00'),
-(47, 'nadim', 'nadim@gkmit.co', '77370335665', 'hi', 1, 0, '2019-02-08 11:16:58', 0, '0000-00-00 00:00:00'),
-(48, 'nadim', 'nadim@gkmit.co', '77370335665', 'hi', 1, 0, '2019-02-08 11:18:15', 0, '0000-00-00 00:00:00'),
-(49, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasdasd', 1, 0, '2019-02-08 11:20:12', 0, '0000-00-00 00:00:00'),
-(50, 'nadim', 'nadim@gkmit.co', '77370335665', 's', 1, 0, '2019-02-08 11:21:36', 0, '0000-00-00 00:00:00'),
-(51, 'nadim', 'nadim@gkmit.co', '77370335665', 's', 1, 0, '2019-02-08 11:22:19', 0, '0000-00-00 00:00:00'),
-(52, 'nadim', 'nadim@gkmit.co', '77370335665', 'hi', 1, 0, '2019-02-08 11:27:05', 0, '0000-00-00 00:00:00'),
-(53, 'nadim', 'nadim@gkmit.co', '77370335665', 's', 1, 0, '2019-02-08 11:29:09', 0, '0000-00-00 00:00:00'),
-(54, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasd', 1, 0, '2019-02-08 11:31:11', 0, '0000-00-00 00:00:00'),
-(55, 'nadim', 'nadim@gkmit.co', '77370335665', '12', 1, 0, '2019-02-08 11:38:09', 0, '0000-00-00 00:00:00'),
-(56, 'nadim', 'nadim@gkmit.co', '77370335665', 's', 1, 0, '2019-02-08 11:43:24', 0, '0000-00-00 00:00:00'),
-(57, 'nadim', 'nadim@gkmit.co', '77370335665', 's', 1, 0, '2019-02-08 11:43:28', 0, '0000-00-00 00:00:00'),
-(58, 'nadim', 'nadim@gkmit.co', '77370335665', 'hi', 1, 0, '2019-02-08 11:46:01', 0, '0000-00-00 00:00:00'),
-(59, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasd', 1, 0, '2019-02-08 11:47:54', 0, '0000-00-00 00:00:00'),
-(60, 'nadim', 'nadim@gkmit.co', '77370335665', 's', 1, 0, '2019-02-08 11:49:12', 0, '0000-00-00 00:00:00'),
-(61, 'nadim', 'nadim@gkmit.co', '77370335665', 'se', 1, 0, '2019-02-08 11:52:41', 0, '0000-00-00 00:00:00'),
-(62, 'nadim', 'nadim@gkmit.co', '77370335665', 'hi', 1, 0, '2019-02-08 11:57:24', 0, '0000-00-00 00:00:00'),
-(63, 'nadim', 'nadim@gkmit.co', '77370335665', 'dasbdkajsd', 1, 0, '2019-02-08 11:59:52', 0, '0000-00-00 00:00:00');
+(1, 'nadim', 'nadim@gmail.com', '7737033665', 'hii', 1, 0, '2019-03-03 03:07:15', 0, '0000-00-00 00:00:00'),
+(2, 'nadim', 'nadim@gmail.com', '748237948723', 'fsdfdsf', 1, 0, '2019-03-03 03:11:54', 0, '0000-00-00 00:00:00'),
+(3, 'nadim', 'nadi@dsd..fdsf', '423423f', 'sdfdsf', 1, 0, '2019-03-03 03:14:06', 0, '0000-00-00 00:00:00'),
+(4, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 'hi', 1, 0, '2019-03-05 07:30:32', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -761,7 +711,7 @@ CREATE TABLE `length_classes` (
 --
 
 INSERT INTO `length_classes` (`id`, `name`, `unit`, `value`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Centimeter', 'cm', '1.00000000', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-02 12:03:44'),
+(1, 'Centimeter', 'cm', '1.00000000', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:18:19'),
 (2, 'Millimeter', 'mm', '10.00000000', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 'Inch', 'in', '0.39370000', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
@@ -774,6 +724,7 @@ INSERT INTO `length_classes` (`id`, `name`, `unit`, `value`, `sort_order`, `stat
 CREATE TABLE `locations` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `contact_person` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `contact` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `country_id` int(11) NOT NULL,
@@ -793,9 +744,9 @@ CREATE TABLE `locations` (
 -- Dumping data for table `locations`
 --
 
-INSERT INTO `locations` (`id`, `name`, `contact`, `email`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'nadim', '7737033665', 'nadim@gmail.com', 99, 1501, 1, '313001', 'udaipur', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-25 01:13:26'),
-(2, 'a', 'a', 'a', 99, 1501, 1, '1', '1', 1, 1, 0, '2019-01-31 10:24:38', 0, '2019-02-09 07:18:43');
+INSERT INTO `locations` (`id`, `name`, `contact_person`, `contact`, `email`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 'nadim', '', '7737033665', 'nadim@gmail.com', 99, 1501, 1, '313001', 'udaipur', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-25 01:13:26'),
+(2, 'a', '', 'a', 'a', 99, 1501, 1, '1', '1', 1, 1, 0, '2019-01-31 10:24:38', 0, '2019-02-09 07:18:43');
 
 -- --------------------------------------------------------
 
@@ -820,9 +771,10 @@ CREATE TABLE `manufactures` (
 --
 
 INSERT INTO `manufactures` (`id`, `name`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'ABC', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-30 01:28:33'),
+(1, 'chain', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-26 04:52:08'),
 (2, 'XYZ', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(3, 'TEST', '', 0, 1, 0, '2019-01-30 01:29:10', 0, '0000-00-00 00:00:00');
+(3, 'TEST', '', 0, 1, 0, '2019-01-30 01:29:10', 0, '0000-00-00 00:00:00'),
+(4, 'chain', '', 0, 1, 0, '2019-02-26 04:52:18', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -851,6 +803,17 @@ CREATE TABLE `orders` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `order_type_id`, `customer_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `comment`, `total`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 03:11:01', 0, '2019-03-13 06:02:19'),
+(2, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 03:20:22', 0, '2019-03-13 06:02:35'),
+(3, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 04:51:58', 0, '2019-03-13 06:02:41'),
+(11, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-13 05:57:56', 0, '0000-00-00 00:00:00'),
+(12, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-13 06:01:34', 0, '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -860,12 +823,31 @@ CREATE TABLE `orders` (
 CREATE TABLE `order_products` (
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `quantity` decimal(15,4) NOT NULL,
-  `price` decimal(15,4) NOT NULL,
-  `total` decimal(15,4) NOT NULL,
-  `tax` decimal(15,4) NOT NULL,
-  `reward` int(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `price` decimal(15,8) NOT NULL,
+  `quantity` decimal(15,8) NOT NULL,
+  `total` decimal(15,8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `order_products`
+--
+
+INSERT INTO `order_products` (`order_id`, `product_id`, `price`, `quantity`, `total`) VALUES
+(1, 1, '123.00000000', '1.00000000', '123.00000000'),
+(1, 2, '456.00000000', '1.00000000', '456.00000000'),
+(1, 3, '1000.00000000', '1.00000000', '1000.00000000'),
+(2, 1, '123.00000000', '1.00000000', '123.00000000'),
+(2, 2, '456.00000000', '1.00000000', '456.00000000'),
+(2, 3, '1000.00000000', '1.00000000', '1000.00000000'),
+(3, 1, '123.00000000', '1.00000000', '123.00000000'),
+(3, 2, '456.00000000', '1.00000000', '456.00000000'),
+(3, 3, '1000.00000000', '1.00000000', '1000.00000000'),
+(11, 1, '123.00000000', '1.00000000', '123.00000000'),
+(11, 2, '456.00000000', '1.00000000', '456.00000000'),
+(11, 3, '1000.00000000', '1.00000000', '1000.00000000'),
+(12, 1, '123.00000000', '1.00000000', '123.00000000'),
+(12, 2, '456.00000000', '1.00000000', '456.00000000'),
+(12, 3, '1000.00000000', '1.00000000', '1000.00000000');
 
 -- --------------------------------------------------------
 
@@ -880,6 +862,17 @@ CREATE TABLE `order_totals` (
   `value` decimal(15,4) NOT NULL,
   `sort_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `order_totals`
+--
+
+INSERT INTO `order_totals` (`order_id`, `code`, `title`, `value`, `sort_order`) VALUES
+(1, 'total', 'total', '456.0000', 0),
+(2, 'total', 'total', '456.0000', 0),
+(3, 'total', 'total', '456.0000', 0),
+(11, 'total', 'total', '456.0000', 0),
+(12, 'total', 'total', '456.0000', 0);
 
 -- --------------------------------------------------------
 
@@ -902,7 +895,7 @@ CREATE TABLE `order_types` (
 --
 
 INSERT INTO `order_types` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Default', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 'Default', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:15:18'),
 (2, 'Draft', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 'Quotation ', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
@@ -947,9 +940,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `type_id`, `manufacturer_id`, `code`, `model`, `sku`, `name`, `price`, `image`, `description`, `text`, `tax_class_id`, `length_class_id`, `length`, `width`, `height`, `weight_class_id`, `weight`, `viewed`, `minimum`, `shipping`, `inventory`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 1, '123', '123', '123', 'Gold Ring', '123.00000000', 'upload/products/product4.jpg', 'test', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p><p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p><p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 1, 1, '10.00000000', '10.00000000', '20.00000000', 1, '30.00000000', 0, 2, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-23 02:10:52'),
+(1, 1, 1, '123', '123', '123', 'Gold Ring', '123.00000000', 'upload/products/product8.jpg', 'test', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p><p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </p><p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 1, 1, '10.00000000', '10.00000000', '20.00000000', 1, '30.00000000', 0, 2, 0, 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-03-02 12:45:20'),
 (2, 3, 1, 'c456', 'c456', 'c456', 'chain', '456.00000000', 'upload/products/product6.jpg', '', '', 1, 1, '0.00000000', '0.00000000', '0.00000000', 1, '0.00000000', 0, 2, 0, 0, 1, 0, '2019-02-02 01:44:38', 0, '2019-02-08 07:10:05'),
-(3, 3, 1, '123', '123', '123', 'ring', '1000.00000000', 'upload/products/product7.jpg', 'hii', '<p><img src=\"data:image/jpeg;base64,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\" style=\"width: 415px;\">hii</p>', 1, 1, '0.00000000', '0.00000000', '0.00000000', 1, '0.00000000', 0, 2, 0, 0, 1, 0, '2019-02-02 01:56:25', 0, '2019-02-23 01:46:51');
+(3, 3, 1, '123', '123', '123', 'ring', '1000.00000000', 'upload/products/product7.jpg', 'hii', '<p><img src=\"data:image/jpeg;base64,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\" style=\"width: 415px;\">hii</p>', 1, 1, '0.00000000', '0.00000000', '0.00000000', 1, '0.00000000', 0, 2, 0, 0, 1, 0, '2019-02-02 01:56:25', 0, '2019-02-23 01:46:51'),
+(4, 1, 1, '123', '123', '123', 'chain 123', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-02-26 04:48:21', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -970,7 +964,7 @@ CREATE TABLE `product_attributes` (
 INSERT INTO `product_attributes` (`product_id`, `attribute_id`, `text`) VALUES
 (1, 1, 'Gold'),
 (1, 2, 'Plain'),
-(1, 3, 'dark'),
+(1, 3, 'dark red'),
 (3, 1, 'red'),
 (3, 2, 'nif');
 
@@ -1037,7 +1031,7 @@ CREATE TABLE `product_reviews` (
 --
 
 INSERT INTO `product_reviews` (`id`, `product_id`, `customer_id`, `rating_id`, `name`, `text`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 0, 4, 'nadim', 'nice product', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-09 09:09:19'),
+(1, 1, 1, 2, 'nadim', 'nice product\n', 1, 0, '0000-00-00 00:00:00', 0, '2019-03-02 12:36:35'),
 (2, 1, 1, 5, 'nadim', 'excellent', 1, 0, '2019-02-09 09:09:42', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -1063,7 +1057,7 @@ CREATE TABLE `ratings` (
 --
 
 INSERT INTO `ratings` (`id`, `name`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Terrible', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-09 07:16:12'),
+(1, 'Terrible', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:27:56'),
 (2, 'Bad', '', 2, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 'Average', '', 3, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (4, 'Very Good', '', 4, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
@@ -1185,7 +1179,7 @@ CREATE TABLE `tax_classes` (
 --
 
 INSERT INTO `tax_classes` (`id`, `name`, `description`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Taxable Goods', '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 'Taxable Goods', 'Taxable Goods', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:11:29'),
 (2, 'Downloadable Products', '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -1212,8 +1206,24 @@ CREATE TABLE `tax_rates` (
 --
 
 INSERT INTO `tax_rates` (`id`, `tax_class_id`, `name`, `rate`, `type`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'SGST', '10.0000', 'P', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 1, 'SGST', '10.0000', 'p', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:13:17'),
 (2, 1, 'CGST', '8.0000', 'P', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tokens`
+--
+
+CREATE TABLE `tokens` (
+  `id` int(11) NOT NULL,
+  `token` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1238,7 +1248,7 @@ CREATE TABLE `types` (
 --
 
 INSERT INTO `types` (`id`, `name`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Men', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-30 12:13:42'),
+(1, 'Men', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:28:42'),
 (2, 'Women', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-30 12:14:44'),
 (3, 'Children', '', 2, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-30 12:15:01');
 
@@ -1322,7 +1332,7 @@ CREATE TABLE `weight_classes` (
 --
 
 INSERT INTO `weight_classes` (`id`, `name`, `unit`, `value`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Kilogram', 'kg', '1.00000000', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-02 12:03:14'),
+(1, 'Kilogram', 'kg', '1.00000000', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:17:28'),
 (2, 'Gram', 'g', '1000.00000000', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 'Pound', 'lb', '2.20460000', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (4, 'Ounce', 'oz', '35.27400000', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
@@ -5609,16 +5619,14 @@ ALTER TABLE `orders`
 -- Indexes for table `order_products`
 --
 ALTER TABLE `order_products`
-  ADD PRIMARY KEY (`order_id`),
-  ADD KEY `order_id` (`order_id`),
+  ADD UNIQUE KEY `order_id` (`order_id`,`product_id`),
   ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `order_totals`
 --
 ALTER TABLE `order_totals`
-  ADD PRIMARY KEY (`order_id`),
-  ADD KEY `order_id` (`order_id`);
+  ADD PRIMARY KEY (`order_id`);
 
 --
 -- Indexes for table `order_types`
@@ -5712,6 +5720,12 @@ ALTER TABLE `tax_rates`
   ADD KEY `tax_class_id` (`tax_class_id`);
 
 --
+-- Indexes for table `tokens`
+--
+ALTER TABLE `tokens`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `types`
 --
 ALTER TABLE `types`
@@ -5769,13 +5783,13 @@ ALTER TABLE `banners`
 -- AUTO_INCREMENT for table `banner_images`
 --
 ALTER TABLE `banner_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -5823,7 +5837,7 @@ ALTER TABLE `customer_groups`
 -- AUTO_INCREMENT for table `customer_wishlists`
 --
 ALTER TABLE `customer_wishlists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `informations`
@@ -5835,7 +5849,7 @@ ALTER TABLE `informations`
 -- AUTO_INCREMENT for table `inquiries`
 --
 ALTER TABLE `inquiries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `length_classes`
@@ -5853,13 +5867,13 @@ ALTER TABLE `locations`
 -- AUTO_INCREMENT for table `manufactures`
 --
 ALTER TABLE `manufactures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `order_types`
@@ -5871,7 +5885,7 @@ ALTER TABLE `order_types`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `product_images`
@@ -5920,6 +5934,12 @@ ALTER TABLE `tax_classes`
 --
 ALTER TABLE `tax_rates`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tokens`
+--
+ALTER TABLE `tokens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `types`
@@ -6035,7 +6055,7 @@ ALTER TABLE `orders`
 -- Constraints for table `order_products`
 --
 ALTER TABLE `order_products`
-  ADD CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `order_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON UPDATE CASCADE;
 
 --
