@@ -210,7 +210,11 @@ class Orders_model extends CI_Model
     {
         $this->db->trans_start();
 
-        $this->db->set('order_type_id', $this->input->post('order_type_id'));
+        if ($this->input->post('order_type_id')) {
+            $this->db->set('order_type_id', $this->input->post('order_type_id'));
+        } else {
+            $this->db->set('order_type_id', 1);
+        }
         $this->db->set('customer_id', $this->input->post('customer_id'));
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('email', $this->input->post('email'));
@@ -221,8 +225,12 @@ class Orders_model extends CI_Model
         $this->db->set('postcode', $this->input->post('postcode'));
         $this->db->set('address', $this->input->post('address'));
         $this->db->set('comment', $this->input->post('comment'));
-        $this->db->set('total', $this->input->post('total'));
         $this->db->set('status', $this->input->post('status'));
+
+        $filter['token'] = $this->input->post('token');
+        $filter['customer_id'] = $this->input->post('customer_id');
+        $total = $this->carts_model->getCartTotal($filter);
+        $this->db->set('total', $total);
 
         if ($this->input->post('id')):
             $this->db->set('updated_at', $this->currectDatetime);
@@ -297,7 +305,6 @@ class Orders_model extends CI_Model
         if ($products):
             foreach ($products as $value):
                 $total = ($value['price'] * $value['quantity']);
-
             endforeach;
         endif;
 

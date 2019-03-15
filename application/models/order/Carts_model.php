@@ -175,4 +175,16 @@ class Carts_model extends CI_Model
         return $query->result_array();
     }
 
+    public function getCartTotal($array = [])
+    {
+        $total = 0;
+        $products = $this->getProducts($array);
+        if ($products):
+            foreach ($products as $value):
+                $total = ($value['price'] * $value['quantity']);
+            endforeach;
+        endif;
+        return $total;
+    }
+
 }
