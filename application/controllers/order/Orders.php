@@ -137,7 +137,7 @@ class Orders extends REST_Controller
                         'quantity' => $product['quantity'],
                         'price' => $product['price'],
                         'total' => $product['total'],
-                        'tax' => $product['tax'],
+                        // 'tax' => $product['tax'],
                     ];
                 endforeach;
             endif;
