@@ -1,10 +1,10 @@
 <?php
 
-class Carts_model extends CI_Model
+class P_carts_model extends CI_Model
 {
 
-    private $table = 'carts';
-    private $table_view = 'carts';
+    private $table = 'p_carts';
+    private $table_view = 'p_carts';
     private $column_order = array(null, 't.token', 'p.name', 't.updated_at', null);
     private $column_search = array('t.token', 'p.name', 't.updated_at');
     private $order = array('t.created_at' => 'desc');
@@ -72,8 +72,7 @@ class Carts_model extends CI_Model
             endif;
         endif;
         $query = $this->db->get();
-//        print_r($this->db->last_query());
-        //        exit;
+
         return $query->result_array();
     }
 
@@ -91,8 +90,7 @@ class Carts_model extends CI_Model
     }
 
     public function getById($id)
-    {
-        
+    {        
         $this->db->select('t.*');
         $this->db->select('p.name as product_name');
         $this->db->select('p.image as product_image');        
@@ -101,6 +99,18 @@ class Carts_model extends CI_Model
         $this->db->where('t.id', $id);
         $query = $this->db->get();
         return $query->row_array();
+    }
+
+    public function getProducts(){
+        $this->db->from($this->table_view);
+        $this->db->where('product_id', $id);
+        $this->db->where('token', $this->input->post('token'));
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function getCartTotal(){
+        return 0;
     }
 
     public function deleteById($id)

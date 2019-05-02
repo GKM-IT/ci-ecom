@@ -6,7 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
-class Carts extends REST_Controller
+class Purchases extends REST_Controller
 {
 
     private $data = [];
@@ -18,7 +18,7 @@ class Carts extends REST_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('cart/carts_model');
+        $this->load->model('purchase/purchases_model');
         $this->load->library('form_validation');
 
         $this->form_validation->set_error_delimiters('', '');
@@ -30,18 +30,24 @@ class Carts extends REST_Controller
         $this->data['data'] = [];
         $this->data['status'] = true;
 
-        $list = $this->carts_model->getTables();
+        $list = $this->purchases_model->getTables();
 
         $result = [];
         if ($list):
             foreach ($list as $object):
                 $result[] = [
                     'id' => $object['id'],
-                    'token' => $object['token'],
-                    'product_id' => $object['product_id'],
-                    'product_name' => $object['product_name'],
-                    'price' => $object['price'],
-                    'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
+                    'purchase_type' => $object['purchase_type'],
+                    'name' => $object['name'],
+                    'email' => $object['email'],
+                    'contact' => $object['contact'],
+                    'country' => $object['country'],
+                    'zone' => $object['zone'],
+                    'city' => $object['city'],
+                    'postcode' => $object['postcode'],
+                    'address' => $object['address'],
+                    'comment' => $object['comment'],
+                    'total' => $object['total'],
                     'status' => $object['status'],
                     'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                     'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
@@ -52,8 +58,8 @@ class Carts extends REST_Controller
             $this->data['status'] = false;
         endif;
 
-        $this->data['recordsTotal'] = $this->carts_model->countAll();
-        $this->data['recordsFiltered'] = $this->carts_model->countFiltered();
+        $this->data['recordsTotal'] = $this->purchases_model->countAll();
+        $this->data['recordsFiltered'] = $this->purchases_model->countFiltered();
         $this->data['data'] = $result;
         $this->data['message'] = $this->lang->line('text_loading');
 
@@ -66,7 +72,7 @@ class Carts extends REST_Controller
         $this->data['data'] = [];
         $this->data['status'] = true;
 
-        $object = $this->carts_model->deleteById($id);
+        $object = $this->purchases_model->deleteById($id);
 
         $result = [];
         if ($object):
@@ -94,7 +100,7 @@ class Carts extends REST_Controller
         $result = [];
         if ($list):
             foreach ($list as $id):
-                $object = $this->carts_model->deleteById($id);
+                $object = $this->purchases_model->deleteById($id);
             endforeach;
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
@@ -115,19 +121,43 @@ class Carts extends REST_Controller
 
         $id = $this->post('id');
 
-        $object = $this->carts_model->getById($id);
+        $object = $this->purchases_model->getById($id);
 
         $result = [];
         if ($object):
+
+            $products = $this->purchases_model->getProducts($object['id']);
+            $productsData = [];
+            if ($products):
+                foreach ($products as $key => $product):
+                    $productsData[] = [
+                        'product_id' => $product['product_id'],
+                        'product_name' => $product['product_name'],
+                        'product_image' => base_url($product['product_image']),
+                        'quantity' => $product['quantity'],
+                        'price' => $product['price'],
+                        'total' => $product['total'],
+                        // 'tax' => $product['tax'],
+                    ];
+                endforeach;
+            endif;
+
             $result = [
                 'id' => $object['id'],
-                'token' => $object['token'],
-                'product_id' => $object['product_id'],
-                'price' => $object['price'],
-                'product_name' => $object['product_name'],
-                'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
+                'purchase_type' => $object['purchase_type'],
+                'name' => $object['name'],
+                'email' => $object['email'],
+                'contact' => $object['contact'],
+                'country' => $object['country'],
+                'zone' => $object['zone'],
+                'city' => $object['city'],
+                'postcode' => $object['postcode'],
+                'address' => $object['address'],
+                'comment' => $object['comment'],
+                'total' => $object['total'],
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
+                'products' => $productsData,
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
                 'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
             ];
@@ -150,7 +180,7 @@ class Carts extends REST_Controller
         $this->data = [];
         $this->data['data'] = [];
 
-        $object = $this->carts_model->save();
+        $object = $this->purchases_model->save();
 
         $result = [];
         if ($object):
@@ -167,22 +197,18 @@ class Carts extends REST_Controller
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function validate_product($field_value)
-    {
-        if ($this->carts_model->checkProduct($field_value)):
-            $this->form_validation->set_message('validate_product', sprintf($this->lang->line('error_already_exists'), '{field}'));
-            return false;
-        else:
-            return true;
-        endif;
-    }
-
     public function validation()
     {
         $this->validations = array(
-            'token' => 'required',
-            'product_id' => 'required|callback_validate_product',
-            'quantity' => 'required',
+            'purchase_type_id' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'contact' => 'required',
+            'country_id' => 'required',
+            'zone_id' => 'required',
+            'city_id' => 'required',
+            'postcode' => 'required',
+            'address' => 'required',
         );
         $this->_validation();
     }
@@ -211,11 +237,7 @@ class Carts extends REST_Controller
             endforeach;
 
             $this->data['status'] = false;
-            if (validation_errors()) {
-                $this->data['message'] = validation_errors();
-            } else {
-                $this->data['message'] = $this->lang->line('error_validation');
-            }
+            $this->data['message'] = $this->lang->line('error_validation');
             $this->data['result'] = $this->error;
             echo json_encode($this->data);
             exit;

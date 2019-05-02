@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 13, 2019 at 06:06 PM
+-- Generation Time: May 01, 2019 at 06:19 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -157,7 +157,12 @@ INSERT INTO `carts` (`id`, `token`, `customer_id`, `product_id`, `option`, `quan
 (6, 'jMAL84af', 1, 2, '', '1.0000', 1, 0, '2019-03-09 11:19:47', 0, '0000-00-00 00:00:00'),
 (7, 'ifrYKT5D', 1, 1, '', '1.0000', 1, 0, '2019-03-09 01:18:33', 0, '0000-00-00 00:00:00'),
 (8, 'ifrYKT5D', 1, 3, '', '1.0000', 1, 0, '2019-03-09 01:18:37', 0, '0000-00-00 00:00:00'),
-(9, 'ifrYKT5D', 1, 2, '', '1.0000', 1, 0, '2019-03-09 01:18:41', 0, '0000-00-00 00:00:00');
+(9, 'ifrYKT5D', 1, 2, '', '1.0000', 1, 0, '2019-03-09 01:18:41', 0, '0000-00-00 00:00:00'),
+(10, 'F6M5Rb27', 1, 1, '', '1.0000', 1, 0, '2019-03-14 05:23:05', 0, '0000-00-00 00:00:00'),
+(11, 'F6M5Rb27', 1, 3, '', '1.0000', 1, 0, '2019-03-14 05:23:33', 0, '0000-00-00 00:00:00'),
+(12, 'Aq9JnhsT', 1, 1, '', '1.0000', 1, 0, '2019-03-16 01:09:12', 0, '0000-00-00 00:00:00'),
+(13, 'wOZF73xD', 1, 1, '', '1.0000', 1, 0, '2019-04-18 03:44:04', 0, '0000-00-00 00:00:00'),
+(14, 'wOZF73xD', 1, 3, '', '1.0000', 1, 0, '2019-04-18 03:44:11', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -627,7 +632,8 @@ CREATE TABLE `customer_wishlists` (
 
 INSERT INTO `customer_wishlists` (`id`, `customer_id`, `product_id`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (5, 1, 3, 1, 0, '2019-03-09 10:18:15', 0, '0000-00-00 00:00:00'),
-(8, 1, 2, 1, 0, '2019-03-09 10:49:40', 0, '0000-00-00 00:00:00');
+(8, 1, 2, 1, 0, '2019-03-09 10:49:40', 0, '0000-00-00 00:00:00'),
+(9, 1, 1, 1, 0, '2019-03-14 05:23:09', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -808,11 +814,15 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `order_type_id`, `customer_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `comment`, `total`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 03:11:01', 0, '2019-03-13 06:02:19'),
-(2, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 03:20:22', 0, '2019-03-13 06:02:35'),
-(3, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 04:51:58', 0, '2019-03-13 06:02:41'),
-(11, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-13 05:57:56', 0, '0000-00-00 00:00:00'),
-(12, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-13 06:01:34', 0, '0000-00-00 00:00:00');
+(1, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 03:11:01', 0, '2019-03-13 06:02:19'),
+(2, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 03:20:22', 0, '2019-03-13 06:02:35'),
+(3, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 04:51:58', 0, '2019-03-13 06:02:41'),
+(11, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-13 05:57:56', 0, '0000-00-00 00:00:00'),
+(12, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-13 06:01:34', 0, '0000-00-00 00:00:00'),
+(14, 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'dasd', '1000.0000', 1, 0, '2019-03-14 05:59:53', 0, '0000-00-00 00:00:00'),
+(15, 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'hihoiho', '1000.0000', 1, 0, '2019-03-16 10:21:20', 0, '0000-00-00 00:00:00'),
+(16, 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'i need', '123.0000', 1, 0, '2019-03-16 01:09:32', 0, '0000-00-00 00:00:00'),
+(17, 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'dasd', 'dasd', '1000.0000', 1, 0, '2019-04-18 03:44:51', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -847,7 +857,14 @@ INSERT INTO `order_products` (`order_id`, `product_id`, `price`, `quantity`, `to
 (11, 3, '1000.00000000', '1.00000000', '1000.00000000'),
 (12, 1, '123.00000000', '1.00000000', '123.00000000'),
 (12, 2, '456.00000000', '1.00000000', '456.00000000'),
-(12, 3, '1000.00000000', '1.00000000', '1000.00000000');
+(12, 3, '1000.00000000', '1.00000000', '1000.00000000'),
+(14, 1, '123.00000000', '1.00000000', '123.00000000'),
+(14, 3, '1000.00000000', '1.00000000', '1000.00000000'),
+(15, 1, '123.00000000', '1.00000000', '123.00000000'),
+(15, 3, '1000.00000000', '1.00000000', '1000.00000000'),
+(16, 1, '123.00000000', '1.00000000', '123.00000000'),
+(17, 1, '123.00000000', '1.00000000', '123.00000000'),
+(17, 3, '1000.00000000', '1.00000000', '1000.00000000');
 
 -- --------------------------------------------------------
 
@@ -872,7 +889,11 @@ INSERT INTO `order_totals` (`order_id`, `code`, `title`, `value`, `sort_order`) 
 (2, 'total', 'total', '456.0000', 0),
 (3, 'total', 'total', '456.0000', 0),
 (11, 'total', 'total', '456.0000', 0),
-(12, 'total', 'total', '456.0000', 0);
+(12, 'total', 'total', '456.0000', 0),
+(14, 'total', 'total', '1000.0000', 0),
+(15, 'total', 'total', '1000.0000', 0),
+(16, 'total', 'total', '123.0000', 0),
+(17, 'total', 'total', '1000.0000', 0);
 
 -- --------------------------------------------------------
 
@@ -1033,6 +1054,104 @@ CREATE TABLE `product_reviews` (
 INSERT INTO `product_reviews` (`id`, `product_id`, `customer_id`, `rating_id`, `name`, `text`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 1, 1, 2, 'nadim', 'nice product\n', 1, 0, '0000-00-00 00:00:00', 0, '2019-03-02 12:36:35'),
 (2, 1, 1, 5, 'nadim', 'excellent', 1, 0, '2019-02-09 09:09:42', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchases`
+--
+
+CREATE TABLE `purchases` (
+  `id` int(11) NOT NULL,
+  `purchase_type_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `contact` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `zone_id` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL,
+  `postcode` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `address` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `comment` text COLLATE utf8_unicode_ci NOT NULL,
+  `total` decimal(15,4) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_products`
+--
+
+CREATE TABLE `purchase_products` (
+  `purchase_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `price` decimal(15,8) NOT NULL,
+  `quantity` decimal(15,8) NOT NULL,
+  `total` decimal(15,8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_totals`
+--
+
+CREATE TABLE `purchase_totals` (
+  `purchase_id` int(11) NOT NULL,
+  `code` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` decimal(15,4) NOT NULL,
+  `sort_order` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_types`
+--
+
+CREATE TABLE `purchase_types` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `purchase_types`
+--
+
+INSERT INTO `purchase_types` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 'Default', 1, 0, '2019-05-01 05:50:14', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `p_carts`
+--
+
+CREATE TABLE `p_carts` (
+  `id` int(11) NOT NULL,
+  `token` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `option` text COLLATE utf8_unicode_ci NOT NULL,
+  `quantity` decimal(15,4) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1305,7 +1424,7 @@ CREATE TABLE `user_groups` (
 --
 
 INSERT INTO `user_groups` (`id`, `name`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'admin', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-08 05:16:26'),
+(1, 'admin', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-04-10 06:03:25'),
 (2, 'employee', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-01-28 10:30:25');
 
 -- --------------------------------------------------------
@@ -5674,6 +5793,42 @@ ALTER TABLE `product_reviews`
   ADD KEY `rating_id` (`rating_id`);
 
 --
+-- Indexes for table `purchases`
+--
+ALTER TABLE `purchases`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `country_id` (`country_id`),
+  ADD KEY `zone_id` (`zone_id`),
+  ADD KEY `city_id` (`city_id`),
+  ADD KEY `order_type_id` (`purchase_type_id`);
+
+--
+-- Indexes for table `purchase_products`
+--
+ALTER TABLE `purchase_products`
+  ADD UNIQUE KEY `order_id` (`purchase_id`,`product_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `purchase_totals`
+--
+ALTER TABLE `purchase_totals`
+  ADD PRIMARY KEY (`purchase_id`);
+
+--
+-- Indexes for table `purchase_types`
+--
+ALTER TABLE `purchase_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `p_carts`
+--
+ALTER TABLE `p_carts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- Indexes for table `ratings`
 --
 ALTER TABLE `ratings`
@@ -5789,7 +5944,7 @@ ALTER TABLE `banner_images`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -5837,7 +5992,7 @@ ALTER TABLE `customer_groups`
 -- AUTO_INCREMENT for table `customer_wishlists`
 --
 ALTER TABLE `customer_wishlists`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `informations`
@@ -5873,7 +6028,7 @@ ALTER TABLE `manufactures`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `order_types`
@@ -5898,6 +6053,24 @@ ALTER TABLE `product_images`
 --
 ALTER TABLE `product_reviews`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `purchases`
+--
+ALTER TABLE `purchases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `purchase_types`
+--
+ALTER TABLE `purchase_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `p_carts`
+--
+ALTER TABLE `p_carts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ratings`
@@ -6099,6 +6272,34 @@ ALTER TABLE `product_images`
 ALTER TABLE `product_reviews`
   ADD CONSTRAINT `product_reviews_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `product_reviews_ibfk_2` FOREIGN KEY (`rating_id`) REFERENCES `ratings` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `purchases`
+--
+ALTER TABLE `purchases`
+  ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`purchase_type_id`) REFERENCES `purchases` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `purchases_ibfk_3` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `purchases_ibfk_4` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `purchase_products`
+--
+ALTER TABLE `purchase_products`
+  ADD CONSTRAINT `purchase_products_ibfk_1` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `purchase_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `purchase_totals`
+--
+ALTER TABLE `purchase_totals`
+  ADD CONSTRAINT `purchase_totals_ibfk_1` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `p_carts`
+--
+ALTER TABLE `p_carts`
+  ADD CONSTRAINT `p_carts_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `related_products`

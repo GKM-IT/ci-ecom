@@ -21,7 +21,7 @@ class Carts_model extends CI_Model
         $this->db->select('t.*');
         $this->db->select('p.name as product_name');
         $this->db->select('p.price as price');
-        $this->db->select('p.image as product_image');
+        $this->db->select('p.image as product_image');        
         $this->db->from($this->table_view . ' t');
         $this->db->join('products p', 'p.id=t.product_id');
 
@@ -72,6 +72,8 @@ class Carts_model extends CI_Model
             endif;
         endif;
         $query = $this->db->get();
+//        print_r($this->db->last_query());
+        //        exit;
         return $query->result_array();
     }
 
@@ -90,15 +92,22 @@ class Carts_model extends CI_Model
 
     public function getById($id)
     {
-
+        
         $this->db->select('t.*');
         $this->db->select('p.name as product_name');
-        $this->db->select('p.image as product_image');
+        $this->db->select('p.image as product_image');        
         $this->db->from($this->table_view . ' t');
         $this->db->join('products p', 'p.id=t.product_id');
         $this->db->where('t.id', $id);
         $query = $this->db->get();
         return $query->row_array();
+    }
+
+    public function getProducts(){
+        return 0;
+    }
+    public function getCartTotal(){
+        return 0;
     }
 
     public function deleteById($id)
@@ -153,38 +162,6 @@ class Carts_model extends CI_Model
             $this->db->trans_commit();
             return true;
         endif;
-    }
-
-    public function getProducts($array = [])
-    {
-
-        $this->db->select('t.*');
-        $this->db->select('p.name as product_name');
-        $this->db->select('p.price as price');
-        $this->db->select('p.image as product_image');
-        $this->db->from($this->table_view . ' t');
-        $this->db->join('products p', 'p.id=t.product_id');
-
-        if ($array['token']):
-            $this->db->where('t.token', $array['token']);
-        endif;
-        if ($array['customer_id']):
-            $this->db->where('t.customer_id', $array['customer_id']);
-        endif;
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-
-    public function getCartTotal($array = [])
-    {
-        $total = 0;
-        $products = $this->getProducts($array);
-        if ($products):
-            foreach ($products as $value):
-                $total = ($value['price'] * $value['quantity']);
-            endforeach;
-        endif;
-        return $total;
     }
 
 }
