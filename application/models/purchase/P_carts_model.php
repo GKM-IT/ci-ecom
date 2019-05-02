@@ -101,14 +101,18 @@ class P_carts_model extends CI_Model
         return $query->row_array();
     }
 
-    public function getProducts(){
-        $this->db->from($this->table_view);
-        $this->db->where('product_id', $id);
-        $this->db->where('token', $this->input->post('token'));
+    public function getProducts($data)
+    {
+        $this->db->select('t.*');
+        $this->db->select('p.name as product_name');
+        $this->db->select('p.image as product_image');
+        $this->db->from('p_carts t');
+        $this->db->join('products p', 'p.id=t.product_id');
+        $this->db->where('t.token', $data['token']);
+        $this->db->where('t.customer_id', $data['customer_id']);
         $query = $this->db->get();
-        return $query->row_array();
+        return $query->result_array();
     }
-
     public function getCartTotal(){
         return 0;
     }
