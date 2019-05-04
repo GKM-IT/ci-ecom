@@ -115,6 +115,7 @@ class Carts_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+    
     public function getCartTotal(){
         return 0;
     }
