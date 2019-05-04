@@ -106,6 +106,7 @@ class Carts_model extends CI_Model
     public function getProducts($data)
     {
         $this->db->select('t.*');
+        $this->db->select('p.price as price');
         $this->db->select('p.name as product_name');
         $this->db->select('p.image as product_image');
         $this->db->from('carts t');
