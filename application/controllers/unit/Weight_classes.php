@@ -2,11 +2,12 @@
 
 use Restserver\Libraries\REST_Controller;
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
-class Weight_classes extends REST_Controller {
+class Weight_classes extends REST_Controller
+{
 
     private $data = [];
     private $error = [];
@@ -14,7 +15,8 @@ class Weight_classes extends REST_Controller {
     private $validations = [];
     private $datetime_format;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('unit/weight_classes_model');
         $this->load->library('form_validation');
@@ -22,7 +24,8 @@ class Weight_classes extends REST_Controller {
         $this->form_validation->set_error_delimiters('', '');
     }
 
-    public function index_post() {
+    public function index_post()
+    {
         $this->data = [];
         $this->data['data'] = [];
         $this->data['status'] = true;
@@ -31,12 +34,12 @@ class Weight_classes extends REST_Controller {
 
         $result = [];
         if ($list):
-            foreach ($list as $object) :
+            foreach ($list as $object):
                 $result[] = [
                     'id' => $object['id'],
                     'name' => $object['name'],
                     'unit' => $object['unit'],
-                    'value' => $object['value'],
+                    'value' => $this->settings_lib->number_format($object['value']),
                     'sort_order' => $object['sort_order'],
                     'status' => $object['status'],
                     'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
@@ -48,7 +51,6 @@ class Weight_classes extends REST_Controller {
             $this->data['status'] = false;
         endif;
 
-
         $this->data['recordsTotal'] = $this->weight_classes_model->countAll();
         $this->data['recordsFiltered'] = $this->weight_classes_model->countFiltered();
         $this->data['data'] = $result;
@@ -57,7 +59,8 @@ class Weight_classes extends REST_Controller {
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function delete_get($id) {
+    public function delete_get($id)
+    {
         $this->data = [];
         $this->data['data'] = [];
         $this->data['status'] = true;
@@ -79,7 +82,8 @@ class Weight_classes extends REST_Controller {
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function deleteAll_post() {
+    public function deleteAll_post()
+    {
         $this->data = [];
         $this->data['data'] = [];
         $this->data['status'] = true;
@@ -88,7 +92,7 @@ class Weight_classes extends REST_Controller {
 
         $result = [];
         if ($list):
-            foreach ($list as $id) :
+            foreach ($list as $id):
                 $object = $this->weight_classes_model->deleteById($id);
             endforeach;
             $this->data['status'] = true;
@@ -103,10 +107,10 @@ class Weight_classes extends REST_Controller {
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function detail_post() {
+    public function detail_post()
+    {
         $this->data = [];
         $this->data['data'] = [];
-
 
         $id = $this->post('id');
 
@@ -118,7 +122,7 @@ class Weight_classes extends REST_Controller {
                 'id' => $object['id'],
                 'name' => $object['name'],
                 'unit' => $object['unit'],
-                'value' => $object['value'],
+                'value' => $this->settings_lib->number_format($object['value']),
                 'sort_order' => $object['sort_order'],
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
@@ -137,7 +141,8 @@ class Weight_classes extends REST_Controller {
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function save_post() {
+    public function save_post()
+    {
         $this->validation();
 
         $this->data = [];
@@ -160,7 +165,8 @@ class Weight_classes extends REST_Controller {
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function validation() {
+    public function validation()
+    {
         $this->validations = array(
             'name' => 'required',
             'unit' => 'required',
@@ -169,9 +175,10 @@ class Weight_classes extends REST_Controller {
         $this->_validation();
     }
 
-    private function _validation() {
+    private function _validation()
+    {
         $this->data = [];
-        foreach ($this->validations as $key => $validation) :
+        foreach ($this->validations as $key => $validation):
             $field = '';
             if ($this->lang->line('text_' . $key)):
                 $field = $this->lang->line('text_' . $key);
@@ -181,17 +188,17 @@ class Weight_classes extends REST_Controller {
             $this->form_validation->set_rules($key, $field, $validation);
         endforeach;
 
-        if ($this->form_validation->run() == FALSE):
-            foreach ($this->validations as $key => $validation) :
+        if ($this->form_validation->run() == false):
+            foreach ($this->validations as $key => $validation):
                 if (form_error($key, '', '')):
                     $this->error[] = array(
                         'id' => $key,
-                        'text' => form_error($key, '', '')
+                        'text' => form_error($key, '', ''),
                     );
                 endif;
             endforeach;
 
-            $this->data['status'] = FALSE;
+            $this->data['status'] = false;
             $this->data['message'] = $this->lang->line('error_validation');
             $this->data['result'] = $this->error;
             echo json_encode($this->data);
