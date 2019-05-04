@@ -11,8 +11,7 @@ class Settings extends REST_Controller {
     private $data = [];
     private $error = [];
     private $filter = [];
-    private $validations = [];
-    private $datetime_format = 'Y-d-m h:i:s';
+    private $validations = [];    
 
     public function __construct() {
         parent::__construct();
@@ -37,7 +36,8 @@ class Settings extends REST_Controller {
 
     public function validation() {
         $this->validations = array(
-            'name' => 'required'            
+            'default_name' => 'required',
+            'default_email' => 'required|valid_email'
         );
         $this->_validation();
     }
