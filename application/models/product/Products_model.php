@@ -23,11 +23,11 @@ class Products_model extends CI_Model
         if ($this->input->post('categoryId')):
             $this->db->where('id IN(SELECT product_id FROM product_categories WHERE category_id=' . $this->input->post('categoryId') . ')');
         endif;
-        
+
         if ($this->input->post('name')):
             $this->db->where('name', $this->input->post('name'));
         endif;
-        
+
         $status = 1;
         if ($this->input->post('status') && $this->input->post('status') == 'false'):
             $status = 0;
@@ -217,7 +217,7 @@ class Products_model extends CI_Model
         $this->db->select('pa.*');
         $this->db->select('a.name AS attribute');
         $this->db->from('product_attributes pa');
-        $this->db->join('attributes a','a.id=pa.attribute_id');
+        $this->db->join('attributes a', 'a.id=pa.attribute_id');
         $this->db->where('pa.product_id', $id);
         $query = $this->db->get();
         $result = $query->result_array();
@@ -233,6 +233,57 @@ class Products_model extends CI_Model
         endif;
 
         return $data;
+    }
+
+    public function getTaxDetails($id, $total)
+    {
+        $array = [];
+        $product = $this->getById($id);
+        if ($product):
+            $this->db->from('tax_rates');
+            $this->db->where('tax_class_id', $product['tax_class_id']);
+            $query = $this->db->get()->result_array();
+            if ($query):
+                foreach ($query as $value):
+                    $totalTax = 0;
+                    if ($value['type'] == 'p'):
+                        $totalTax = ($total * $value['rate']) / 100;
+                    else:
+                        $totalTax = $total + $value['rate'];
+                    endif;
+
+                    $array[] = [
+                        'name' => $value['name'],
+                        'rate' => $this->settings_lib->number_format($value['rate']),
+                        'type' => $value['type'],
+                        'total' => $this->settings_lib->number_format($totalTax),
+                    ];
+                endforeach;
+            endif;
+        endif;
+        return $array;
+    }
+
+    public function getTotalTax($id, $total)
+    {
+        $totalTax = 0;
+        $product = $this->getById($id);
+        if ($product):
+            $this->db->from('tax_rates');
+            $this->db->where('tax_class_id', $product['tax_class_id']);
+            $query = $this->db->get()->result_array();
+
+            if ($query):
+                foreach ($query as $value):
+                    if ($value['type'] == 'p'):
+                        $totalTax += ($total * $value['rate']) / 100;
+                    else:
+                        $totalTax += $total + $value['rate'];
+                    endif;
+                endforeach;
+            endif;
+        endif;
+        return $totalTax;
     }
 
 }
