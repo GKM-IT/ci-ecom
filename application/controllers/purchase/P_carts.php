@@ -13,14 +13,14 @@ class P_carts extends REST_Controller
     private $error = [];
     private $filter = [];
     private $validations = [];
-    private $datetime_format = 'Y-d-m h:i:s';
+    private $datetime_format;
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('purchase/p_carts_model');
         $this->load->library('form_validation');
-
+        $this->datetime_format = $this->settings_lib->config('config', 'default_date_time_format');
         $this->form_validation->set_error_delimiters('', '');
     }
 
@@ -40,7 +40,7 @@ class P_carts extends REST_Controller
                     'token' => $object['token'],
                     'product_id' => $object['product_id'],
                     'product_name' => $object['product_name'],
-                    'price' => $object['price'],
+                    'price' => $this->settings_lib->number_format($object['price']),
                     'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
                     'status' => $object['status'],
                     'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
@@ -123,7 +123,7 @@ class P_carts extends REST_Controller
                 'id' => $object['id'],
                 'token' => $object['token'],
                 'product_id' => $object['product_id'],
-                'price' => $object['price'],
+                'price' => $this->settings_lib->number_format($object['price']),
                 'product_name' => $object['product_name'],
                 'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
                 'status' => $object['status'],

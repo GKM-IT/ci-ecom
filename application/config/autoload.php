@@ -63,6 +63,7 @@ $autoload['libraries'] = array(
     'encryption',
     'database',
     'session',
+    'settings_lib',
 );
 
 /*

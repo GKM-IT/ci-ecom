@@ -13,14 +13,14 @@ class Banners extends REST_Controller
     private $error = [];
     private $filter = [];
     private $validations = [];
-    private $datetime_format = 'Y-d-m h:i:s';
+    private $datetime_format;
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('common/banners_model');
         $this->load->library('form_validation');
-
+        $this->datetime_format = $this->settings_lib->config('config', 'default_date_time_format');
         $this->form_validation->set_error_delimiters('', '');
     }
 

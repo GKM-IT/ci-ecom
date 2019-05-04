@@ -1,11 +1,14 @@
 <?php
-class Settings_lib {
+class Settings_lib
+{
     private $ci;
-    public function __construct() {
-        $this->ci = & get_instance();
+    public function __construct()
+    {
+        $this->ci = &get_instance();
         $this->ci->load->database();
     }
-    public function config($code, $key) {
+    public function config($code, $key)
+    {
         $this->ci->db->select('*');
         $this->ci->db->from('settings');
         $this->ci->db->where('code', $code);
@@ -16,10 +19,11 @@ class Settings_lib {
             $result = $query->row();
             return $result->value;
         } else {
-            return FALSE;
+            return false;
         }
     }
-    public function dateToDay($from, $to) {
+    public function dateToDay($from, $to)
+    {
         $start = strtotime($from);
         $end = strtotime($to);
         $timeDiff = abs($end - $start);
@@ -27,36 +31,44 @@ class Settings_lib {
         $numberDays = intval($numberDays);
         return $numberDays;
     }
-    public function getHours($time1, $time2) {
+    public function getHours($time1, $time2)
+    {
         $start_date = new DateTime($time1);
         $since_start = $start_date->diff(new DateTime($time2));
         return $since_start->h . '.' . $since_start->i;
     }
-    public function number_format($param) {
-        return number_format((float) $param, $this->ci->settings_lib->config('config', 'decimal_format'), '.', '');
+    public function number_format($param)
+    {
+        return number_format((float) $param, $this->ci->settings_lib->config('config', 'default_decimal_place'), '.', '');
     }
-    public function nice_number($n) {
+    public function nice_number($n)
+    {
         if ($n):
             // first strip any formatting;
             $n = (0 + str_replace(",", "", $n));
             // is this a number?
-            if (!is_numeric($n))
+            if (!is_numeric($n)) {
                 return false;
+            }
+
             // now filter it;
-            if ($n > 1000000000000)
+            if ($n > 1000000000000) {
                 return round(($n / 1000000000000), 2) . ' T';
-            elseif ($n > 1000000000)
-                return round(($n / 1000000000), 2) . ' B';
-            elseif ($n > 1000000)
-                return round(($n / 1000000), 2) . ' M';
-            elseif ($n > 1000)
-                return round(($n / 1000), 2) . ' K';
-            return number_format($n);
+            } elseif ($n > 1000000000) {
+            return round(($n / 1000000000), 2) . ' B';
+        } elseif ($n > 1000000) {
+            return round(($n / 1000000), 2) . ' M';
+        } elseif ($n > 1000) {
+            return round(($n / 1000), 2) . ' K';
+        }
+
+        return number_format($n);
         else:
             return 0;
         endif;
     }
-    public function time_elapsed_string($datetime, $full = false) {
+    public function time_elapsed_string($datetime, $full = false)
+    {
         $now = new DateTime;
         $ago = new DateTime($datetime);
         $diff = $now->diff($ago);
@@ -78,12 +90,15 @@ class Settings_lib {
                 unset($string[$k]);
             }
         }
-        if (!$full)
+        if (!$full) {
             $string = array_slice($string, 0, 1);
+        }
+
         return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 
-    public function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000) {
+    public function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000)
+    {
         // convert from degrees to radians
         $latFrom = deg2rad($latitudeFrom);
         $lonFrom = deg2rad($longitudeFrom);
@@ -92,7 +107,7 @@ class Settings_lib {
         $latDelta = $latTo - $latFrom;
         $lonDelta = $lonTo - $lonFrom;
         $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
-                                cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+            cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
         return $angle * $earthRadius;
     }
 }
