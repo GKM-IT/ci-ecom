@@ -32,14 +32,21 @@ class Carts extends REST_Controller
         $this->data['status'] = true;
 
         $list = $this->carts_model->getTables();
+        $qtyFilterData = [];
+        if ($this->input->post('token')):
+            $qtyFilterData['token'] = $this->input->post('token');
+        endif;
+
+        $getCartTotalQty = $this->carts_model->getCartTotalQty($qtyFilterData);
 
         $result = [];
         if ($list):
             foreach ($list as $object):
                 $subTotal = ($object['price'] * $object['quantity']);
-                $totalTax = $this->products_model->getTotalTax($object['product_id'],$subTotal);
+                $totalTax = $this->products_model->getTotalTax($object['product_id'], $subTotal);
                 $total = $subTotal + $totalTax;
-                $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'],$subTotal);
+                $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $subTotal);
+
                 $result[] = [
                     'id' => $object['id'],
                     'token' => $object['token'],
@@ -65,6 +72,7 @@ class Carts extends REST_Controller
         $this->data['recordsTotal'] = $this->carts_model->countAll();
         $this->data['recordsFiltered'] = $this->carts_model->countFiltered();
         $this->data['data'] = $result;
+        $this->data['total_quantity'] = $this->settings_lib->number_format($getCartTotalQty);
         $this->data['message'] = $this->lang->line('text_loading');
 
         $this->set_response($this->data, REST_Controller::HTTP_OK);
@@ -130,9 +138,9 @@ class Carts extends REST_Controller
         $result = [];
         if ($object):
             $subTotal = ($object['price'] * $object['quantity']);
-            $totalTax = $this->products_model->getTotalTax($object['product_id'],$subTotal);
+            $totalTax = $this->products_model->getTotalTax($object['product_id'], $subTotal);
             $total = $subTotal + $totalTax;
-            $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'],$subTotal);
+            $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $subTotal);
             $result = [
                 'id' => $object['id'],
                 'token' => $object['token'],

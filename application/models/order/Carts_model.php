@@ -21,7 +21,7 @@ class Carts_model extends CI_Model
         $this->db->select('t.*');
         $this->db->select('p.name as product_name');
         $this->db->select('p.price as price');
-        $this->db->select('p.image as product_image');        
+        $this->db->select('p.image as product_image');
         $this->db->from($this->table_view . ' t');
         $this->db->join('products p', 'p.id=t.product_id');
 
@@ -92,11 +92,11 @@ class Carts_model extends CI_Model
 
     public function getById($id)
     {
-        
+
         $this->db->select('t.*');
         $this->db->select('p.price as price');
         $this->db->select('p.name as product_name');
-        $this->db->select('p.image as product_image');        
+        $this->db->select('p.image as product_image');
         $this->db->from($this->table_view . ' t');
         $this->db->join('products p', 'p.id=t.product_id');
         $this->db->where('t.id', $id);
@@ -117,8 +117,26 @@ class Carts_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
-    
-    public function getCartTotal(){
+
+    public function getCartTotalQty($data)
+    {
+        $quantity = 0;
+        $this->db->select_sum('quantity');
+        $this->db->from($this->table);
+
+        $this->db->where('token', $data['token']);
+        if (isset($data['customer_id'])):
+            $this->db->where('customer_id', $data['customer_id']);
+        endif;
+        $query = $this->db->get()->row_array();
+        if ($query):
+            $quantity = $query['quantity'];
+        endif;
+        return $quantity;
+    }
+
+    public function getCartTotal()
+    {
         return 0;
     }
 
