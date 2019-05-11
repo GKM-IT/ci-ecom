@@ -158,7 +158,7 @@ class Products_model extends CI_Model
             if ($categories):
                 foreach ($categories as $category):
                     $this->db->set('product_id', $id);
-                    $this->db->set('category_id', $category['id']);
+                    $this->db->set('category_id', $category['category_id']);
                     $this->db->insert('product_categories');
                 endforeach;
             endif;
@@ -175,6 +175,25 @@ class Products_model extends CI_Model
                     $this->db->set('attribute_id', $attribute['attribute_id']);
                     $this->db->set('text', $attribute['text']);
                     $this->db->insert('product_attributes');
+                endforeach;
+            endif;
+        endif;
+
+
+        $this->db->where('product_id', $id);
+        $this->db->delete('product_prices');
+
+        if ($this->input->post('prices')):
+            $prices = json2arr($this->input->post('prices'));
+            if ($prices):
+                foreach ($prices as $price):
+                    $this->db->set('product_id', $id);
+                    $this->db->set('customer_group_id', $price['customer_group_id']);
+                    $this->db->set('price', $price['price']);
+                    $this->db->set('start', $price['start']);
+                    $this->db->set('end', $price['end']);
+                    $this->db->set('status', $price['status']);
+                    $this->db->insert('product_prices');
                 endforeach;
             endif;
         endif;
