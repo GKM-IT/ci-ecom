@@ -66,8 +66,6 @@ class Customers_model extends CI_Model
             endif;
         endif;
         $query = $this->db->get();
-//        print_r($this->db->last_query());
-        //        exit;
         return $query->result_array();
     }
 
@@ -180,6 +178,36 @@ class Customers_model extends CI_Model
         $this->db->where('password', $this->input->post('password'));
         $query = $this->db->get();
         return $query->row_array();
-    }    
+    }
+
+    public function setToken($id)
+    {
+        $this->db->trans_start();
+
+        $token = random_string('alnum', 8);
+
+        $this->db->set('customer_id', $id);
+        $this->db->set('token', $token);
+
+        $query = $this->db->get_where('customer_sessions', ['customer_id' => $this->input->post('customer_id')])->row_array();
+        if ($query):
+            $this->db->where('id', $query['id']);
+            $this->db->update('customer_sessions');
+        else:
+            $this->db->insert('customer_sessions');
+        endif;
+
+        $this->db->set('token', $token);
+        $this->db->where('customer_id', $id);
+        $this->db->update('carts');
+
+        if ($this->db->trans_status() === false):
+            $this->db->trans_rollback();
+            return false;
+        else:
+            $this->db->trans_commit();
+            return $token;
+        endif;
+    }
 
 }

@@ -2,18 +2,20 @@
 
 use Restserver\Libraries\REST_Controller;
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
-class Customer_login extends REST_Controller {
+class Customer_login extends REST_Controller
+{
 
     private $data = [];
     private $error = [];
     private $validations = [];
     private $datetime_format;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('customer/customers_model');
         $this->load->library('form_validation');
@@ -21,7 +23,8 @@ class Customer_login extends REST_Controller {
         $this->form_validation->set_error_delimiters('', '');
     }
 
-    public function index_post() {
+    public function index_post()
+    {
         $this->validation();
 
         $this->data = [];
@@ -32,13 +35,14 @@ class Customer_login extends REST_Controller {
 
         $result = [];
         if ($object):
+            $token = $this->customers_model->setToken($object['id']);
             $this->data['message'] = sprintf($this->lang->line('success_login'), $this->lang->line('text_customer'));
             $result = [
                 'id' => $object['id'],
                 'name' => $object['name'],
                 'email' => $object['email'],
                 'contact' => $object['contact'],
-                'token' => random_string('alnum', 8),
+                'token' => $token,
                 'status' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
                 'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
@@ -53,16 +57,18 @@ class Customer_login extends REST_Controller {
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function validate_username($field_value) {
-        if (!$this->customers_model->checkusername($field_value) && $field_value) :
+    public function validate_username($field_value)
+    {
+        if (!$this->customers_model->checkusername($field_value) && $field_value):
             $this->form_validation->set_message('validate_username', sprintf($this->lang->line('error_not_found'), '{field}'));
-            return FALSE;
-        else :
-            return TRUE;
+            return false;
+        else:
+            return true;
         endif;
     }
 
-    private function validation() {
+    private function validation()
+    {
         $this->validations = array(
             'username' => 'required|callback_validate_username',
             'password' => 'required',
@@ -70,9 +76,10 @@ class Customer_login extends REST_Controller {
         $this->_validation();
     }
 
-    private function _validation() {
+    private function _validation()
+    {
         $this->data = [];
-        foreach ($this->validations as $key => $validation) :
+        foreach ($this->validations as $key => $validation):
             $field = '';
             if ($this->lang->line('text_' . $key)):
                 $field = $this->lang->line('text_' . $key);
@@ -82,17 +89,17 @@ class Customer_login extends REST_Controller {
             $this->form_validation->set_rules($key, $field, $validation);
         endforeach;
 
-        if ($this->form_validation->run() == FALSE):
-            foreach ($this->validations as $key => $validation) :
+        if ($this->form_validation->run() == false):
+            foreach ($this->validations as $key => $validation):
                 if (form_error($key, '', '')):
                     $this->error[] = array(
                         'id' => $key,
-                        'text' => form_error($key, '', '')
+                        'text' => form_error($key, '', ''),
                     );
                 endif;
             endforeach;
 
-            $this->data['status'] = FALSE;
+            $this->data['status'] = false;
             $this->data['message'] = $this->lang->line('error_validation');
             $this->data['result'] = $this->error;
             echo json_encode($this->data);
