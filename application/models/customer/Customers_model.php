@@ -186,16 +186,12 @@ class Customers_model extends CI_Model
 
         $token = random_string('alnum', 8);
 
+        $this->db->where('customer_id', $id);
+        $this->db->delete('customer_sessions');
+
         $this->db->set('customer_id', $id);
         $this->db->set('token', $token);
-
-        $query = $this->db->get_where('customer_sessions', ['customer_id' => $this->input->post('customer_id')])->row_array();
-        if ($query):
-            $this->db->where('id', $query['id']);
-            $this->db->update('customer_sessions');
-        else:
-            $this->db->insert('customer_sessions');
-        endif;
+        $this->db->insert('customer_sessions');
 
         $this->db->set('token', $token);
         $this->db->where('customer_id', $id);
