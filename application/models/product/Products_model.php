@@ -179,7 +179,6 @@ class Products_model extends CI_Model
             endif;
         endif;
 
-
         $this->db->where('product_id', $id);
         $this->db->delete('product_prices');
 
@@ -194,6 +193,20 @@ class Products_model extends CI_Model
                     $this->db->set('end', $price['end']);
                     $this->db->set('status', $price['status']);
                     $this->db->insert('product_prices');
+                endforeach;
+            endif;
+        endif;
+
+        $this->db->where('product_id', $id);
+        $this->db->delete('related_products');
+
+        if ($this->input->post('related_products')):
+            $related_products = json2arr($this->input->post('related_products'));
+            if ($related_products):
+                foreach ($related_products as $related_product):
+                    $this->db->set('product_id', $id);
+                    $this->db->set('related_id', $related_product['related_id']);
+                    $this->db->insert('related_products');
                 endforeach;
             endif;
         endif;
