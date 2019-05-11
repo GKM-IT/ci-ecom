@@ -18,18 +18,26 @@ class Customer_addresses_model extends CI_Model
 
     private function _getTablesQuery()
     {
-        $this->db->from($this->table_view);
+        $this->db->select('t.*');
+        $this->db->select('c.name as country');
+        $this->db->select('z.name as zone');
+        $this->db->select('ct.name as city');
+        $this->db->from($this->table_view . ' t');
+        $this->db->join('countries c', 'c.id=t.country_id');
+        $this->db->join('zones z', 'z.id=t.zone_id');
+        $this->db->join('cities ct', 'ct.id=t.city_id');
+
         if ($this->input->post('customer_id')):
-            $this->db->where('customer_id', $this->input->post('customer_id'));
+            $this->db->where('t.customer_id', $this->input->post('customer_id'));
         endif;
         if ($this->input->post('name')):
-            $this->db->where('name', $this->input->post('name'));
+            $this->db->where('t.name', $this->input->post('name'));
         endif;
         $status = 1;
         if ($this->input->post('status') && $this->input->post('status') == 'false'):
             $status = 0;
         endif;
-        $this->db->where('status', $status);
+        $this->db->where('t.status', $status);
         $i = 0;
         foreach ($this->column_search as $item):
             if (isset($_POST['length'])):
@@ -89,8 +97,15 @@ class Customer_addresses_model extends CI_Model
 
     public function getById($id)
     {
-        $this->db->from($this->table_view);
-        $this->db->where('id', $id);
+        $this->db->select('t.*');
+        $this->db->select('c.name as country');
+        $this->db->select('z.name as zone');
+        $this->db->select('ct.name as city');
+        $this->db->from($this->table_view . ' t');
+        $this->db->join('countries c', 'c.id=t.country_id');
+        $this->db->join('zones z', 'z.id=t.zone_id');
+        $this->db->join('cities ct', 'ct.id=t.city_id');
+        $this->db->where('t.id', $id);
         $query = $this->db->get();
         return $query->row_array();
     }
@@ -118,12 +133,9 @@ class Customer_addresses_model extends CI_Model
         $this->db->set('contact', $this->input->post('contact'));
         $this->db->set('country_id', $this->input->post('country_id'));
         $this->db->set('zone_id', $this->input->post('zone_id'));
-        $this->db->set('name', $this->input->post('name'));
-        $this->db->set('name', $this->input->post('name'));
-        $this->db->set('name', $this->input->post('name'));
-        $this->db->set('name', $this->input->post('name'));
-        $this->db->set('name', $this->input->post('name'));
-        $this->db->set('name', $this->input->post('name'));
+        $this->db->set('city_id', $this->input->post('city_id'));
+        $this->db->set('postcode', $this->input->post('postcode'));
+        $this->db->set('address', $this->input->post('address'));
         $this->db->set('status', $this->input->post('status'));
 
         if ($this->input->post('id')):
