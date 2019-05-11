@@ -40,6 +40,8 @@ CREATE TABLE `customer_sessions` (
 -- Dumping data for table `customer_sessions`
 --
 
+INSERT INTO `customer_sessions` (`id`, `customer_id`, `token`, `created_at`, `updated_at`) VALUES
+(3, 1, 'SwLOWa6y', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables

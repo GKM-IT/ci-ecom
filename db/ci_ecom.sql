@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 01, 2019 at 06:19 PM
+-- Generation Time: May 11, 2019 at 09:46 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -151,18 +151,18 @@ CREATE TABLE `carts` (
 
 INSERT INTO `carts` (`id`, `token`, `customer_id`, `product_id`, `option`, `quantity`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, '', 0, 1, '', '10.0000', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(2, '1', 1, 1, '', '1.0000', 1, 0, '2019-03-07 05:52:22', 0, '0000-00-00 00:00:00'),
-(4, 'jMAL84af', 1, 1, '', '1.0000', 1, 0, '2019-03-09 11:19:37', 0, '0000-00-00 00:00:00'),
-(5, 'jMAL84af', 1, 3, '', '1.0000', 1, 0, '2019-03-09 11:19:41', 0, '0000-00-00 00:00:00'),
-(6, 'jMAL84af', 1, 2, '', '1.0000', 1, 0, '2019-03-09 11:19:47', 0, '0000-00-00 00:00:00'),
-(7, 'ifrYKT5D', 1, 1, '', '1.0000', 1, 0, '2019-03-09 01:18:33', 0, '0000-00-00 00:00:00'),
-(8, 'ifrYKT5D', 1, 3, '', '1.0000', 1, 0, '2019-03-09 01:18:37', 0, '0000-00-00 00:00:00'),
-(9, 'ifrYKT5D', 1, 2, '', '1.0000', 1, 0, '2019-03-09 01:18:41', 0, '0000-00-00 00:00:00'),
-(10, 'F6M5Rb27', 1, 1, '', '1.0000', 1, 0, '2019-03-14 05:23:05', 0, '0000-00-00 00:00:00'),
-(11, 'F6M5Rb27', 1, 3, '', '1.0000', 1, 0, '2019-03-14 05:23:33', 0, '0000-00-00 00:00:00'),
-(12, 'Aq9JnhsT', 1, 1, '', '1.0000', 1, 0, '2019-03-16 01:09:12', 0, '0000-00-00 00:00:00'),
-(13, 'wOZF73xD', 1, 1, '', '1.0000', 1, 0, '2019-04-18 03:44:04', 0, '0000-00-00 00:00:00'),
-(14, 'wOZF73xD', 1, 3, '', '1.0000', 1, 0, '2019-04-18 03:44:11', 0, '0000-00-00 00:00:00');
+(2, 'SwLOWa6y', 1, 1, '', '1.0000', 1, 0, '2019-03-07 05:52:22', 0, '0000-00-00 00:00:00'),
+(4, 'SwLOWa6y', 1, 1, '', '1.0000', 1, 0, '2019-03-09 11:19:37', 0, '0000-00-00 00:00:00'),
+(5, 'SwLOWa6y', 1, 3, '', '1.0000', 1, 0, '2019-03-09 11:19:41', 0, '0000-00-00 00:00:00'),
+(6, 'SwLOWa6y', 1, 2, '', '1.0000', 1, 0, '2019-03-09 11:19:47', 0, '0000-00-00 00:00:00'),
+(7, 'SwLOWa6y', 1, 1, '', '1.0000', 1, 0, '2019-03-09 01:18:33', 0, '0000-00-00 00:00:00'),
+(8, 'SwLOWa6y', 1, 3, '', '1.0000', 1, 0, '2019-03-09 01:18:37', 0, '0000-00-00 00:00:00'),
+(9, 'SwLOWa6y', 1, 2, '', '1.0000', 1, 0, '2019-03-09 01:18:41', 0, '0000-00-00 00:00:00'),
+(10, 'SwLOWa6y', 1, 1, '', '1.0000', 1, 0, '2019-03-14 05:23:05', 0, '0000-00-00 00:00:00'),
+(11, 'SwLOWa6y', 1, 3, '', '1.0000', 1, 0, '2019-03-14 05:23:33', 0, '0000-00-00 00:00:00'),
+(12, 'SwLOWa6y', 1, 1, '', '1.0000', 1, 0, '2019-03-16 01:09:12', 0, '0000-00-00 00:00:00'),
+(13, 'SwLOWa6y', 1, 1, '', '1.0000', 1, 0, '2019-04-18 03:44:04', 0, '0000-00-00 00:00:00'),
+(14, 'SwLOWa6y', 1, 3, '', '2.0000', 1, 0, '2019-04-18 03:44:11', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -359,7 +359,7 @@ INSERT INTO `countries` (`id`, `name`, `iso_code_2`, `iso_code_3`, `address_form
 (113, 'South Korea', 'KR', 'KOR', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (114, 'Kuwait', 'KW', 'KWT', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (115, 'Kyrgyzstan', 'KG', 'KGZ', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(116, 'Lao Peoples Democratic Republic', 'LA', 'LAO', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(116, 'Lao People\'s Democratic Republic', 'LA', 'LAO', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (117, 'Latvia', 'LV', 'LVA', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (118, 'Lebanon', 'LB', 'LBN', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (119, 'Lesotho', 'LS', 'LSO', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
@@ -612,6 +612,27 @@ INSERT INTO `customer_groups` (`id`, `name`, `image`, `status`, `created_by`, `c
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `customer_sessions`
+--
+
+CREATE TABLE `customer_sessions` (
+  `id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `customer_sessions`
+--
+
+INSERT INTO `customer_sessions` (`id`, `customer_id`, `token`, `created_at`, `updated_at`) VALUES
+(3, 1, 'SwLOWa6y', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customer_wishlists`
 --
 
@@ -816,7 +837,7 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`id`, `order_type_id`, `customer_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `comment`, `total`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 03:11:01', 0, '2019-03-13 06:02:19'),
 (2, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 03:20:22', 0, '2019-03-13 06:02:35'),
-(3, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-10 04:51:58', 0, '2019-03-13 06:02:41'),
+(3, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '0.0000', 1, 0, '2019-03-10 04:51:58', 0, '2019-05-04 09:12:00'),
 (11, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-13 05:57:56', 0, '0000-00-00 00:00:00'),
 (12, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', 1, 0, '2019-03-13 06:01:34', 0, '0000-00-00 00:00:00'),
 (14, 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'dasd', '1000.0000', 1, 0, '2019-03-14 05:59:53', 0, '0000-00-00 00:00:00'),
@@ -849,9 +870,6 @@ INSERT INTO `order_products` (`order_id`, `product_id`, `price`, `quantity`, `to
 (2, 1, '123.00000000', '1.00000000', '123.00000000'),
 (2, 2, '456.00000000', '1.00000000', '456.00000000'),
 (2, 3, '1000.00000000', '1.00000000', '1000.00000000'),
-(3, 1, '123.00000000', '1.00000000', '123.00000000'),
-(3, 2, '456.00000000', '1.00000000', '456.00000000'),
-(3, 3, '1000.00000000', '1.00000000', '1000.00000000'),
 (11, 1, '123.00000000', '1.00000000', '123.00000000'),
 (11, 2, '456.00000000', '1.00000000', '456.00000000'),
 (11, 3, '1000.00000000', '1.00000000', '1000.00000000'),
@@ -887,7 +905,7 @@ CREATE TABLE `order_totals` (
 INSERT INTO `order_totals` (`order_id`, `code`, `title`, `value`, `sort_order`) VALUES
 (1, 'total', 'total', '456.0000', 0),
 (2, 'total', 'total', '456.0000', 0),
-(3, 'total', 'total', '456.0000', 0),
+(3, 'total', 'total', '0.0000', 0),
 (11, 'total', 'total', '456.0000', 0),
 (12, 'total', 'total', '456.0000', 0),
 (14, 'total', 'total', '1000.0000', 0),
@@ -1082,6 +1100,13 @@ CREATE TABLE `purchases` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `purchases`
+--
+
+INSERT INTO `purchases` (`id`, `purchase_type_id`, `customer_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `comment`, `total`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '0.0000', 1, 0, '2019-05-04 09:33:35', 0, '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -1096,6 +1121,13 @@ CREATE TABLE `purchase_products` (
   `total` decimal(15,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `purchase_products`
+--
+
+INSERT INTO `purchase_products` (`purchase_id`, `product_id`, `price`, `quantity`, `total`) VALUES
+(1, 1, '123.00000000', '1.00000000', '123.00000000');
+
 -- --------------------------------------------------------
 
 --
@@ -1109,6 +1141,13 @@ CREATE TABLE `purchase_totals` (
   `value` decimal(15,4) NOT NULL,
   `sort_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `purchase_totals`
+--
+
+INSERT INTO `purchase_totals` (`purchase_id`, `code`, `title`, `value`, `sort_order`) VALUES
+(1, 'total', 'total', '123.0000', 0);
 
 -- --------------------------------------------------------
 
@@ -1152,6 +1191,13 @@ CREATE TABLE `p_carts` (
   `updated_by` int(11) NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `p_carts`
+--
+
+INSERT INTO `p_carts` (`id`, `token`, `customer_id`, `product_id`, `option`, `quantity`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, '1', 1, 1, '', '1.0000', 1, 0, '2019-05-04 09:29:24', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1200,27 +1246,26 @@ CREATE TABLE `related_products` (
 --
 
 CREATE TABLE `settings` (
-  `id` int(11) NOT NULL,
   `code` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `key` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `value` text COLLATE utf8_unicode_ci NOT NULL,
-  `serialized` tinyint(1) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `created_by` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_by` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL
+  `serialized` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`id`, `code`, `key`, `value`, `serialized`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'config', 'default_country_id', '99', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(2, 'config', 'default_zone_id', '1501', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(3, 'config', 'default_city_id', '1', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(4, 'config', 'default_address', 'udaipur, rajasthan (IND)', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+INSERT INTO `settings` (`code`, `key`, `value`, `serialized`) VALUES
+('config', 'default_address', 'udaipur, rajasthan (IND)', 0),
+('config', 'default_city_id', '1', 0),
+('config', 'default_country_id', '99', 0),
+('config', 'default_date_format', 'Y-d-m', 0),
+('config', 'default_date_time_format', 'Y-d-m h:i A', 0),
+('config', 'default_decimal_place', '2', 0),
+('config', 'default_email', 'ecom@gmail.com', 0),
+('config', 'default_name', 'ecom', 0),
+('config', 'default_zone_id', '1501', 0);
 
 -- --------------------------------------------------------
 
@@ -1327,22 +1372,6 @@ CREATE TABLE `tax_rates` (
 INSERT INTO `tax_rates` (`id`, `tax_class_id`, `name`, `rate`, `type`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 1, 'SGST', '10.0000', 'p', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:13:17'),
 (2, 1, 'CGST', '8.0000', 'P', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tokens`
---
-
-CREATE TABLE `tokens` (
-  `id` int(11) NOT NULL,
-  `token` text COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `created_by` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_by` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -5684,6 +5713,13 @@ ALTER TABLE `customer_groups`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `customer_sessions`
+--
+ALTER TABLE `customer_sessions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customer_id` (`customer_id`);
+
+--
 -- Indexes for table `customer_wishlists`
 --
 ALTER TABLE `customer_wishlists`
@@ -5845,7 +5881,8 @@ ALTER TABLE `related_products`
 -- Indexes for table `settings`
 --
 ALTER TABLE `settings`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`key`),
+  ADD UNIQUE KEY `code` (`code`,`key`);
 
 --
 -- Indexes for table `stocks`
@@ -5873,12 +5910,6 @@ ALTER TABLE `tax_classes`
 ALTER TABLE `tax_rates`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tax_class_id` (`tax_class_id`);
-
---
--- Indexes for table `tokens`
---
-ALTER TABLE `tokens`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `types`
@@ -5989,6 +6020,12 @@ ALTER TABLE `customer_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `customer_sessions`
+--
+ALTER TABLE `customer_sessions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `customer_wishlists`
 --
 ALTER TABLE `customer_wishlists`
@@ -6058,7 +6095,7 @@ ALTER TABLE `product_reviews`
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `purchase_types`
@@ -6070,19 +6107,13 @@ ALTER TABLE `purchase_types`
 -- AUTO_INCREMENT for table `p_carts`
 --
 ALTER TABLE `p_carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ratings`
 --
 ALTER TABLE `ratings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `settings`
---
-ALTER TABLE `settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `stocks`
@@ -6107,12 +6138,6 @@ ALTER TABLE `tax_classes`
 --
 ALTER TABLE `tax_rates`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `tokens`
---
-ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `types`
@@ -6199,6 +6224,12 @@ ALTER TABLE `customer_addresses`
   ADD CONSTRAINT `customer_addresses_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `customer_addresses_ibfk_3` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `customer_addresses_ibfk_4` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `customer_sessions`
+--
+ALTER TABLE `customer_sessions`
+  ADD CONSTRAINT `customer_sessions_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `customer_wishlists`
