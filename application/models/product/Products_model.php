@@ -5,8 +5,8 @@ class Products_model extends CI_Model
 
     private $table = 'products';
     private $table_view = 'products';
-    private $column_order = array(null, 'name', 'code', 'model', 'sku', 'updated_at', null);
-    private $column_search = array('name', 'code', 'model', 'sku', 'updated_at');
+    private $column_order = array(null, 't.name', 't.code', 't.model', 't.sku', 't.updated_at', null);
+    private $column_search = array('t.name', 't.code', 't.model', 't.sku', 't.updated_at');
     private $order = array('updated_at' => 'desc');
     private $currectDatetime = '';
 
@@ -18,21 +18,32 @@ class Products_model extends CI_Model
 
     private function _getTablesQuery()
     {
-        $this->db->from($this->table_view);
+        $this->db->select('t.*');
+        $this->db->select('tp.name as type');
+        $this->db->select('m.name as manufacture');
+        $this->db->select('wc.name as weight_class');
+        $this->db->select('wc.unit as weight_unit');
+        $this->db->select('lc.name as length_class');
+        $this->db->select('lc.unit as length_unit');
+        $this->db->from($this->table_view . ' t');
+        $this->db->join('types tp', 'tp.id=t.type_id');
+        $this->db->join('manufactures m', 'm.id=t.manufacturer_id');
+        $this->db->join('weight_classes wc', 'wc.id=t.weight_class_id');
+        $this->db->join('length_classes lc', 'lc.id=t.length_class_id');
 
         if ($this->input->post('category_id')):
-            $this->db->where('id IN(SELECT product_id FROM product_categories WHERE category_id=' . $this->input->post('category_id') . ')');
+            $this->db->where('t.id IN(SELECT product_id FROM product_categories WHERE category_id=' . $this->input->post('category_id') . ')');
         endif;
 
         if ($this->input->post('manufacturer_id')):
-            $this->db->where('manufacturer_id', $this->input->post('manufacturer_id'));
+            $this->db->where('t.manufacturer_id', $this->input->post('manufacturer_id'));
         endif;
 
         $status = 1;
         if ($this->input->post('status') && $this->input->post('status') == 'false'):
             $status = 0;
         endif;
-        $this->db->where('status', $status);
+        $this->db->where('t.status', $status);
         $i = 0;
         foreach ($this->column_search as $item):
             if (isset($_POST['length'])):
@@ -92,8 +103,19 @@ class Products_model extends CI_Model
 
     public function getById($id)
     {
-        $this->db->from($this->table_view);
-        $this->db->where('id', $id);
+        $this->db->select('t.*');
+        $this->db->select('tp.name as type');
+        $this->db->select('m.name as manufacture');
+        $this->db->select('wc.name as weight_class');
+        $this->db->select('wc.unit as weight_unit');
+        $this->db->select('lc.name as length_class');
+        $this->db->select('lc.unit as length_unit');
+        $this->db->from($this->table_view . ' t');
+        $this->db->join('types tp', 'tp.id=t.type_id');
+        $this->db->join('manufactures m', 'm.id=t.manufacturer_id');
+        $this->db->join('weight_classes wc', 'wc.id=t.weight_class_id');
+        $this->db->join('length_classes lc', 'lc.id=t.length_class_id');
+        $this->db->where('t.id', $id);
         $query = $this->db->get();
         return $query->row_array();
     }
