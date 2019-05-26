@@ -6,7 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
-class Customer_wishlists extends REST_Controller
+class Employee_attendances extends REST_Controller
 {
 
     private $data = [];
@@ -18,7 +18,7 @@ class Customer_wishlists extends REST_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('customer/customer_wishlists_model');
+        $this->load->model('employee/employee_attendances_model');
         $this->load->library('form_validation');
         $this->datetime_format = $this->settings_lib->config('config', 'default_date_time_format');
         $this->form_validation->set_error_delimiters('', '');
@@ -30,11 +30,12 @@ class Customer_wishlists extends REST_Controller
         if ($object):
             $result = [
                 'id' => $object['id'],
-                'customer_id' => $object['customer_id'],
-                'customer_name' => $object['customer_name'],
-                'product_id' => $object['product_id'],
-                'product_name' => $object['product_name'],
-                'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
+                'date' => $object['date'],
+                'employee_id' => $object['employee_id'],
+                'employee' => $object['employee'],
+                'location_id' => $object['location_id'],
+                'location' => $object['location'],
+                'type' => $object['type'],
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
@@ -58,7 +59,7 @@ class Customer_wishlists extends REST_Controller
 
         $this->data['data'] = [];
 
-        $list = $this->customer_wishlists_model->getTables();
+        $list = $this->employee_attendances_model->getTables();
 
         $result = [];
         if ($list):
@@ -69,8 +70,8 @@ class Customer_wishlists extends REST_Controller
             $this->data['status'] = false;
         endif;
 
-        $this->data['recordsTotal'] = $this->customer_wishlists_model->countAll();
-        $this->data['recordsFiltered'] = $this->customer_wishlists_model->countFiltered();
+        $this->data['recordsTotal'] = $this->employee_attendances_model->countAll();
+        $this->data['recordsFiltered'] = $this->employee_attendances_model->countFiltered();
         $this->data['data'] = $result;
         $this->data['message'] = $this->lang->line('text_loading');
 
@@ -83,16 +84,16 @@ class Customer_wishlists extends REST_Controller
         $this->data['data'] = [];
         $this->data['status'] = true;
 
-        $object = $this->customer_wishlists_model->deleteById($id);
+        $object = $this->employee_attendances_model->deleteById($id);
 
         $result = [];
         if ($object):
             $this->data['status'] = true;
-            $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_customer_group'));
+            $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_employee_group'));
             $result = $object;
         else:
             $this->data['status'] = false;
-            $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_customer_group'));
+            $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_employee_group'));
         endif;
 
         $this->data['data'] = $result;
@@ -105,7 +106,7 @@ class Customer_wishlists extends REST_Controller
         $this->data = [];
         $this->data['data'] = [];
         $id = $this->post('id');
-        $object = $this->customer_wishlists_model->getById($id);
+        $object = $this->employee_attendances_model->getById($id);
 
         $result = [];
         if ($object):
@@ -114,7 +115,7 @@ class Customer_wishlists extends REST_Controller
             $this->data['message'] = $this->lang->line('text_loading');
         else:
             $this->data['status'] = false;
-            $this->data['error'] = sprintf($this->lang->line('error_not_found'), $this->lang->line('text_customer_group'));
+            $this->data['error'] = sprintf($this->lang->line('error_not_found'), $this->lang->line('text_employee_group'));
         endif;
 
         $this->data['data'] = $result;
@@ -129,16 +130,16 @@ class Customer_wishlists extends REST_Controller
         $this->data = [];
         $this->data['data'] = [];
 
-        $object = $this->customer_wishlists_model->save();
+        $object = $this->employee_attendances_model->save();
 
         $result = [];
         if ($object):
             $this->data['status'] = true;
-            $this->data['message'] = sprintf($this->lang->line('success_save'), $this->lang->line('text_customer_group'));
+            $this->data['message'] = sprintf($this->lang->line('success_save'), $this->lang->line('text_employee_group'));
             $result = $object;
         else:
             $this->data['status'] = false;
-            $this->data['error'] = sprintf($this->lang->line('error_save'), $this->lang->line('text_customer_group'));
+            $this->data['error'] = sprintf($this->lang->line('error_save'), $this->lang->line('text_employee_group'));
         endif;
 
         $this->data['data'] = $result;
@@ -146,21 +147,13 @@ class Customer_wishlists extends REST_Controller
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function validate_wishlist($field_value)
-    {
-        if ($this->customer_wishlists_model->checkWishlist($field_value)):
-            $this->form_validation->set_message('validate_wishlist', sprintf($this->lang->line('error_already_exists'), '{field}'));
-            return false;
-        else:
-            return true;
-        endif;
-    }
-
     public function validation()
     {
         $this->validations = array(
-            'customer_id' => 'required',
-            'product_id' => 'required|callback_validate_wishlist',
+            'location_id' => 'required',
+            'date' => 'required',
+            'employee_id' => 'required',
+            'type' => 'required',
         );
         $this->_validation();
     }
@@ -189,13 +182,7 @@ class Customer_wishlists extends REST_Controller
             endforeach;
 
             $this->data['status'] = false;
-
-            if (validation_errors()) {
-                $this->data['message'] = validation_errors();
-            } else {
-                $this->data['message'] = $this->lang->line('error_validation');
-            }
-
+            $this->data['message'] = $this->lang->line('error_validation');
             $this->data['result'] = $this->error;
             echo json_encode($this->data);
             exit;

@@ -24,6 +24,26 @@ class P_carts extends REST_Controller
         $this->form_validation->set_error_delimiters('', '');
     }
 
+    private function getData($object)
+    {
+        $result = [];
+        if ($object):
+            $result = [
+                'id' => $object['id'],
+                'token' => $object['token'],
+                'product_id' => $object['product_id'],
+                'product_name' => $object['product_name'],
+                'price' => $this->settings_lib->number_format($object['price']),
+                'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
+                'status' => $object['status'],
+                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
+                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
+                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
+            ];
+        endif;
+        return $result;
+    }
+
     public function index_post()
     {
         $this->data = [];
@@ -35,18 +55,7 @@ class P_carts extends REST_Controller
         $result = [];
         if ($list):
             foreach ($list as $object):
-                $result[] = [
-                    'id' => $object['id'],
-                    'token' => $object['token'],
-                    'product_id' => $object['product_id'],
-                    'product_name' => $object['product_name'],
-                    'price' => $this->settings_lib->number_format($object['price']),
-                    'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
-                    'status' => $object['status'],
-                    'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                    'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                    'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
-                ];
+                $result[] = $this->getData($object);
             endforeach;
         else:
             $this->data['status'] = false;
@@ -119,18 +128,7 @@ class P_carts extends REST_Controller
 
         $result = [];
         if ($object):
-            $result = [
-                'id' => $object['id'],
-                'token' => $object['token'],
-                'product_id' => $object['product_id'],
-                'price' => $this->settings_lib->number_format($object['price']),
-                'product_name' => $object['product_name'],
-                'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
-                'status' => $object['status'],
-                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
-            ];
+            $result = $this->getData($object);
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
         else:

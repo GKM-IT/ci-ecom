@@ -24,6 +24,26 @@ class Customer_addresses extends REST_Controller
         $this->form_validation->set_error_delimiters('', '');
     }
 
+    private function getData($object)
+    {
+        $result = [];
+        if ($object):
+            $result = [
+                'id' => $object['id'],
+                'name' => $object['name'],
+                'contact' => $object['contact'],
+                'country' => $object['country'],
+                'zone' => $object['zone'],
+                'city' => $object['city'],
+                'status' => $object['status'],
+                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
+                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
+                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
+            ];
+        endif;
+        return $result;
+    }
+
     public function index_post()
     {
         $this->data = [];
@@ -43,18 +63,7 @@ class Customer_addresses extends REST_Controller
         $result = [];
         if ($list):
             foreach ($list as $object):
-                $result[] = [
-                    'id' => $object['id'],
-                    'name' => $object['name'],
-                    'contact' => $object['contact'],
-                    'country' => $object['country'],
-                    'zone' => $object['zone'],
-                    'city' => $object['city'],
-                    'status' => $object['status'],
-                    'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                    'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                    'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
-                ];
+                $result[] = $this->getData($object);
             endforeach;
         else:
             $this->data['status'] = false;
@@ -100,18 +109,7 @@ class Customer_addresses extends REST_Controller
 
         $result = [];
         if ($object):
-            $result = [
-                'id' => $object['id'],
-                'name' => $object['name'],
-                'contact' => $object['contact'],
-                'country' => $object['country'],
-                'zone' => $object['zone'],
-                'city' => $object['city'],
-                'status' => $object['status'],
-                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
-            ];
+            $result = $this->getData($object);
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
         else:

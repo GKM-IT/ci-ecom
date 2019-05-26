@@ -23,6 +23,24 @@ class Customer_login extends REST_Controller
         $this->form_validation->set_error_delimiters('', '');
     }
 
+    private function getData($object)
+    {
+        $result = [];
+        if ($object):
+            $result = [
+                'id' => $object['id'],
+                'name' => $object['name'],
+                'email' => $object['email'],
+                'contact' => $object['contact'],
+                'token' => $token,
+                'status' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
+                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
+                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
+            ];
+        endif;
+        return $result;
+    }
+
     public function index_post()
     {
         $this->validation();
@@ -37,16 +55,7 @@ class Customer_login extends REST_Controller
         if ($object):
             $token = $this->customers_model->setToken($object['id']);
             $this->data['message'] = sprintf($this->lang->line('success_login'), $this->lang->line('text_customer'));
-            $result = [
-                'id' => $object['id'],
-                'name' => $object['name'],
-                'email' => $object['email'],
-                'contact' => $object['contact'],
-                'token' => $token,
-                'status' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
-            ];
+            $result = $this->getData($object);
         else:
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_login'), $this->lang->line('text_customer'));

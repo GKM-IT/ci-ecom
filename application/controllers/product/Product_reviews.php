@@ -25,6 +25,29 @@ class Product_reviews extends REST_Controller
         $this->form_validation->set_error_delimiters('', '');
     }
 
+    private function getData($object)
+    {
+        $result = [];
+        if ($object):
+            $result = [
+                'id' => $object['id'],
+                'product_id' => $object['product_id'],
+                // 'product' => $object['product'],
+                'customer_id' => $object['customer_id'],
+                // 'customer' => $object['customer'],
+                'rating_id' => $object['rating_id'],
+                // 'rating' => $object['rating'],
+                'name' => $object['name'],
+                'text' => $object['text'],
+                'status' => $object['status'],
+                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
+                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
+                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
+            ];
+        endif;
+        return $result;
+    }
+
     public function index_post()
     {
         $this->data = [];
@@ -36,21 +59,7 @@ class Product_reviews extends REST_Controller
         $result = [];
         if ($list):
             foreach ($list as $object):
-                $result[] = [
-                    'id' => $object['id'],
-                    'product_id' => $object['product_id'],
-                    // 'product' => $object['product'],
-                    'customer_id' => $object['customer_id'],
-                    // 'customer' => $object['customer'],
-                    'rating_id' => $object['rating_id'],
-                    // 'rating' => $object['rating'],
-                    'name' => $object['name'],
-                    'text' => $object['text'],
-                    'status' => $object['status'],
-                    'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                    'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                    'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
-                ];
+                $result[] = $this->getData($object);
             endforeach;
         else:
             $this->data['status'] = false;
@@ -123,20 +132,7 @@ class Product_reviews extends REST_Controller
 
         $result = [];
         if ($object):
-            $result= [
-                'product_id' => $object['product_id'],
-                // 'product' => $object['product'],                
-                'customer_id' => $object['customer_id'],
-                // 'customer' => $object['customer'],
-                'rating_id' => $object['rating_id'],
-                // 'rating' => $object['rating'],
-                'name' => $object['name'],
-                'text' => $object['text'],
-                'status' => $object['status'],
-                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
-            ];
+            $result = $this->getData($object);
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
         else:

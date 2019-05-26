@@ -24,6 +24,32 @@ class Purchases extends REST_Controller
         $this->form_validation->set_error_delimiters('', '');
     }
 
+    private function getData($object)
+    {
+        $result = [];
+        if ($object):
+            $result = [
+                'id' => $object['id'],
+                'purchase_type' => $object['purchase_type'],
+                'name' => $object['name'],
+                'email' => $object['email'],
+                'contact' => $object['contact'],
+                'country' => $object['country'],
+                'zone' => $object['zone'],
+                'city' => $object['city'],
+                'postcode' => $object['postcode'],
+                'address' => $object['address'],
+                'comment' => $object['comment'],
+                'total' => $this->settings_lib->number_format($object['total']),
+                'status' => $object['status'],
+                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
+                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
+                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
+            ];
+        endif;
+        return $result;
+    }
+
     public function index_post()
     {
         $this->data = [];
@@ -35,24 +61,7 @@ class Purchases extends REST_Controller
         $result = [];
         if ($list):
             foreach ($list as $object):
-                $result[] = [
-                    'id' => $object['id'],
-                    'purchase_type' => $object['purchase_type'],
-                    'name' => $object['name'],
-                    'email' => $object['email'],
-                    'contact' => $object['contact'],
-                    'country' => $object['country'],
-                    'zone' => $object['zone'],
-                    'city' => $object['city'],
-                    'postcode' => $object['postcode'],
-                    'address' => $object['address'],
-                    'comment' => $object['comment'],
-                    'total' => $this->settings_lib->number_format($object['total']),
-                    'status' => $object['status'],
-                    'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                    'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                    'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
-                ];
+                $result[] = $this->getData($object);
             endforeach;
         else:
             $this->data['status'] = false;
@@ -142,25 +151,8 @@ class Purchases extends REST_Controller
                 endforeach;
             endif;
 
-            $result = [
-                'id' => $object['id'],
-                'purchase_type' => $object['purchase_type'],
-                'name' => $object['name'],
-                'email' => $object['email'],
-                'contact' => $object['contact'],
-                'country' => $object['country'],
-                'zone' => $object['zone'],
-                'city' => $object['city'],
-                'postcode' => $object['postcode'],
-                'address' => $object['address'],
-                'comment' => $object['comment'],
-                'total' => $this->settings_lib->number_format($object['total']),
-                'status' => $object['status'],
-                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                'products' => $productsData,
-                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
-            ];
+            $result = $this->getData($object);
+            $result['products'] = $productsData;
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
         else:

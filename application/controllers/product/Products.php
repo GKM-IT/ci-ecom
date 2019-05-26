@@ -24,6 +24,48 @@ class Products extends REST_Controller
         $this->form_validation->set_error_delimiters('', '');
     }
 
+    private function getData($object)
+    {
+        $result = [];
+        if ($object):
+            $result = [
+                'id' => $object['id'],
+                'type_id' => $object['type_id'],
+                'type' => $object['type'],
+                'manufacturer_id' => $object['manufacturer_id'],
+                'manufacture' => $object['manufacture'],
+                'code' => $object['code'],
+                'model' => $object['model'],
+                'sku' => $object['sku'],
+                'name' => $object['name'],
+                'price' => $this->settings_lib->number_format($object['price']),
+                'image' => $object['image'],
+                'image_thumb' => base_url($object['image']),
+                'description' => $object['description'],
+                'tax_class_id' => $object['tax_class_id'],
+                'length_class_id' => $object['length_class_id'],
+                'length_class' => $object['length_class'],
+                'length_unit' => $object['length_unit'],
+                'length' => $this->settings_lib->number_format($object['length']),
+                'width' => $this->settings_lib->number_format($object['width']),
+                'height' => $this->settings_lib->number_format($object['height']),
+                'weight_class_id' => $object['weight_class_id'],
+                'weight_class' => $object['weight_class'],
+                'weight_unit' => $object['weight_unit'],
+                'weight' => $this->settings_lib->number_format($object['weight']),
+                'viewed' => $object['viewed'],
+                'minimum' => $object['minimum'],
+                'shipping' => $object['shipping'],
+                'inventory' => $object['inventory'],
+                'status' => $object['status'],
+                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
+                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
+                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
+            ];
+        endif;
+        return $result;
+    }
+
     public function index_post()
     {
         $this->data = [];
@@ -35,40 +77,7 @@ class Products extends REST_Controller
         $result = [];
         if ($list):
             foreach ($list as $object):
-                $result[] = [
-                    'id' => $object['id'],
-                    'type_id' => $object['type_id'],
-                    'type' => $object['type'],
-                    'manufacturer_id' => $object['manufacturer_id'],
-                    'manufacture' => $object['manufacture'],
-                    'code' => $object['code'],
-                    'model' => $object['model'],
-                    'sku' => $object['sku'],
-                    'name' => $object['name'],
-                    'price' => $this->settings_lib->number_format($object['price']),
-                    'image' => $object['image'],
-                    'image_thumb' => base_url($object['image']),
-                    'description' => $object['description'],
-                    'tax_class_id' => $object['tax_class_id'],
-                    'length_class_id' => $object['length_class_id'],
-                    'length_class' => $object['length_class'],
-                    'length_unit' => $object['length_unit'],
-                    'length' => $this->settings_lib->number_format($object['length']),
-                    'width' => $this->settings_lib->number_format($object['width']),
-                    'height' => $this->settings_lib->number_format($object['height']),
-                    'weight_class_id' => $object['weight_class_id'],
-                    'weight_class' => $object['weight_class'],
-                    'weight_unit' => $object['weight_unit'],
-                    'weight' => $this->settings_lib->number_format($object['weight']),
-                    'viewed' => $object['viewed'],
-                    'minimum' => $object['minimum'],
-                    'shipping' => $object['shipping'],
-                    'inventory' => $object['inventory'],
-                    'status' => $object['status'],
-                    'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                    'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                    'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
-                ];
+                $result[] = $this->getData($object);
             endforeach;
         else:
             $this->data['status'] = false;
@@ -141,47 +150,11 @@ class Products extends REST_Controller
 
         $result = [];
         if ($object):
-
             $categories = $this->products_model->getCategories($id);
             $attributes = $this->products_model->getAttributes($id);
-
-            $result = [
-                'id' => $object['id'],
-                'type_id' => $object['type_id'],
-                'type' => $object['type'],
-                'manufacturer_id' => $object['manufacturer_id'],
-                'manufacture' => $object['manufacture'],
-                'code' => $object['code'],
-                'model' => $object['model'],
-                'sku' => $object['sku'],
-                'name' => $object['name'],
-                'price' => $this->settings_lib->number_format($object['price']),
-                'image' => $object['image'],
-                'image_thumb' => base_url($object['image']),
-                'description' => $object['description'],
-                'text' => $object['text'],
-                'tax_class_id' => $object['tax_class_id'],
-                'length_class_id' => $object['length_class_id'],
-                'length_class' => $object['length_class'],
-                'length_unit' => $object['length_unit'],
-                'length' => $this->settings_lib->number_format($object['length']),
-                'width' => $this->settings_lib->number_format($object['width']),
-                'height' => $this->settings_lib->number_format($object['height']),
-                'weight_class_id' => $object['weight_class_id'],
-                'weight_class' => $object['weight_class'],
-                'weight_unit' => $object['weight_unit'],
-                'weight' => $this->settings_lib->number_format($object['weight']),
-                'viewed' => $object['viewed'],
-                'minimum' => $object['minimum'],
-                'shipping' => $object['shipping'],
-                'inventory' => $object['inventory'],
-                'attributes' => $attributes,
-                'categories' => $categories,
-                'status' => $object['status'],
-                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
-            ];
+            $result = $this->getData($object);
+            $result['categories'] = $categories;
+            $result['attributes'] = $attributes;
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
         else:
