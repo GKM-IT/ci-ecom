@@ -32,6 +32,7 @@ class User_login extends REST_Controller
                 'name' => $object['name'],
                 'email' => $object['email'],
                 'contact' => $object['contact'],
+                'token' => $object['token'],
                 'status' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
                 'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
@@ -52,6 +53,8 @@ class User_login extends REST_Controller
 
         $result = [];
         if ($object):
+            $token = $this->users_model->setToken($object['id']);
+            $object['token'] = $token;
             $this->data['message'] = sprintf($this->lang->line('success_login'), $this->lang->line('text_user'));
             $result = $this->getData($object);
         else:

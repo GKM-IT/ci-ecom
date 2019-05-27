@@ -32,7 +32,7 @@ class Customer_login extends REST_Controller
                 'name' => $object['name'],
                 'email' => $object['email'],
                 'contact' => $object['contact'],
-                'token' => $token,
+                'token' => $object['token'],
                 'status' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
                 'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
@@ -54,6 +54,7 @@ class Customer_login extends REST_Controller
         $result = [];
         if ($object):
             $token = $this->customers_model->setToken($object['id']);
+            $object['token'] = $token;
             $this->data['message'] = sprintf($this->lang->line('success_login'), $this->lang->line('text_customer'));
             $result = $this->getData($object);
         else:
