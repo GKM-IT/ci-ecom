@@ -34,8 +34,8 @@ class Purchases_model extends CI_Model
         if ($this->input->post('purchase_type_id')):
             $this->db->where('t.purchase_type_id', $this->input->post('purchase_type_id'));
         endif;
-        if ($this->input->post('customer_id')):
-            $this->db->where('t.customer_id', $this->input->post('customer_id'));
+        if ($this->input->post('vendor_id')):
+            $this->db->where('t.vendor_id', $this->input->post('vendor_id'));
         endif;
         if ($this->input->post('name')):
             $this->db->where('t.name', $this->input->post('name'));
@@ -112,8 +112,6 @@ class Purchases_model extends CI_Model
             endif;
         endif;
         $query = $this->db->get();
-//        print_r($this->db->last_query());
-        //        exit;
         return $query->result_array();
     }
 
@@ -147,8 +145,8 @@ class Purchases_model extends CI_Model
         if ($this->input->post('purchase_type_id')):
             $this->db->where('t.purchase_type_id', $this->input->post('purchase_type_id'));
         endif;
-        if ($this->input->post('customer_id')):
-            $this->db->where('t.customer_id', $this->input->post('customer_id'));
+        if ($this->input->post('vendor_id')):
+            $this->db->where('t.vendor_id', $this->input->post('vendor_id'));
         endif;
         if ($this->input->post('name')):
             $this->db->where('t.name', $this->input->post('name'));
@@ -215,7 +213,7 @@ class Purchases_model extends CI_Model
         } else {
             $this->db->set('purchase_type_id', 1);
         }
-        $this->db->set('customer_id', $this->input->post('customer_id'));
+        $this->db->set('vendor_id', $this->input->post('vendor_id'));
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('email', $this->input->post('email'));
         $this->db->set('contact', $this->input->post('contact'));
@@ -227,8 +225,14 @@ class Purchases_model extends CI_Model
         $this->db->set('comment', $this->input->post('comment'));
         $this->db->set('status', $this->input->post('status'));
 
+        if ($this->input->post('purchase_status_id')):
+            $this->db->set('purchase_status_id', $this->input->post('purchase_status_id'));
+        else:
+            $this->db->set('purchase_status_id', 1);
+        endif;
+
         $filter['token'] = $this->input->post('token');
-        $filter['customer_id'] = $this->input->post('customer_id');
+        $filter['user_id'] = $this->input->post('user_id');
         $total = $this->p_carts_model->getCartTotal($filter);
         $this->db->set('total', $total);
 
@@ -274,7 +278,7 @@ class Purchases_model extends CI_Model
 
         $filter = [];
         $filter['token'] = $this->input->post('token');
-        $filter['customer_id'] = $this->input->post('customer_id');
+        $filter['user_id'] = $this->input->post('user_id');
         $products = $this->p_carts_model->getProducts($filter);
         // print_r($products);
         // exit;
@@ -300,7 +304,7 @@ class Purchases_model extends CI_Model
         $total = 0;
         $filter = [];
         $filter['token'] = $this->input->post('token');
-        $filter['customer_id'] = $this->input->post('customer_id');
+        $filter['user_id'] = $this->input->post('user_id');
         $products = $this->p_carts_model->getProducts($filter);
         if ($products):
             foreach ($products as $value):

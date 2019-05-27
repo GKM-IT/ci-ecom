@@ -109,7 +109,7 @@ class P_carts_model extends CI_Model
         $this->db->from('p_carts t');
         $this->db->join('products p', 'p.id=t.product_id');
         $this->db->where('t.token', $data['token']);
-        $this->db->where('t.customer_id', $data['customer_id']);
+        $this->db->where('t.user_id', $data['user_id']);
         $query = $this->db->get();
         return $query->result_array();
     }
