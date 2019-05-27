@@ -31,9 +31,7 @@ class Vendors extends REST_Controller
             $result = [
                 'id' => $object['id'],
                 'group_id' => $object['group_id'],
-                'group' => $object['group'],
-                'location_id' => $object['location_id'],
-                'location' => $object['location'],
+                'group' => $object['group'],                
                 'name' => $object['name'],
                 'email' => $object['email'],
                 'contact' => $object['contact'],
@@ -144,8 +142,7 @@ class Vendors extends REST_Controller
 
     public function validation()
     {
-        $this->validations = array(
-            'location_id' => 'required',
+        $this->validations = array(            
             'group_id' => 'required',
             'name' => 'required',
             'email' => 'required|valid_email|callback_validate_email',

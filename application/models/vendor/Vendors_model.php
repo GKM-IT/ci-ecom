@@ -5,8 +5,8 @@ class Vendors_model extends CI_Model
 
     private $table = 'vendors';
     private $table_view = 'vendors';
-    private $column_order = array(null, 'eg.name', 'l.name', 'e.name', 'e.email', 'e.contact', 't.updated_at', null);
-    private $column_search = array('eg.name', 'l.name', 'e.name', 'e.email', 'e.contact', 't.updated_at');
+    private $column_order = array(null, 'eg.name', 'e.name', 'e.email', 'e.contact', 't.updated_at', null);
+    private $column_search = array('eg.name', 'e.name', 'e.email', 'e.contact', 't.updated_at');
     private $order = array('t.updated_at' => 'desc');
     private $currectDatetime = '';
 
@@ -19,11 +19,9 @@ class Vendors_model extends CI_Model
     private function _getTablesQuery()
     {
         $this->db->select('t.*');
-        $this->db->select('eg.name as group');
-        $this->db->select('l.name as location');
+        $this->db->select('eg.name as group');        
         $this->db->from($this->table_view . ' t');
-        $this->db->join('vendor_groups eg', 'eg.id=t.group_id');
-        $this->db->join('locations l', 'l.id=t.location_id');
+        $this->db->join('vendor_groups eg', 'eg.id=t.group_id');        
         if ($this->input->post('name')):
             $this->db->where('t.name', $this->input->post('name'));
         endif;
@@ -92,11 +90,9 @@ class Vendors_model extends CI_Model
     public function getById($id)
     {
         $this->db->select('t.*');
-        $this->db->select('eg.name as group');
-        $this->db->select('l.name as location');
+        $this->db->select('eg.name as group');        
         $this->db->from($this->table_view . ' t');
-        $this->db->join('vendor_groups eg', 'eg.id=t.group_id');
-        $this->db->join('locations l', 'l.id=t.location_id');
+        $this->db->join('vendor_groups eg', 'eg.id=t.group_id');        
         $this->db->where('t.id', $id);
         $query = $this->db->get();
         return $query->row_array();
@@ -141,8 +137,7 @@ class Vendors_model extends CI_Model
 
     public function save()
     {
-        $this->db->trans_start();
-        $this->db->set('location_id', $this->input->post('location_id'));
+        $this->db->trans_start();        
         $this->db->set('group_id', $this->input->post('group_id'));
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('email', $this->input->post('email'));
