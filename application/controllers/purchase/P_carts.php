@@ -33,8 +33,11 @@ class P_carts extends REST_Controller
                 'token' => $object['token'],
                 'product_id' => $object['product_id'],
                 'product_name' => $object['product_name'],
-                'price' => $this->settings_lib->number_format($object['price']),
                 'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
+                'price' => $this->settings_lib->number_format($object['price']),
+                'quantity' => $this->settings_lib->number_format($object['quantity']),
+                'tax' => $this->settings_lib->number_format($object['tax']),
+                'total' => $this->settings_lib->number_format($this->p_carts_model->getFinalTotal($object)),
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
@@ -61,9 +64,14 @@ class P_carts extends REST_Controller
             $this->data['status'] = false;
         endif;
 
+        $total = $this->p_carts_model->getCartTotal();
+        $totalQty = $this->p_carts_model->getCartTotalQty();
+
         $this->data['recordsTotal'] = $this->p_carts_model->countAll();
         $this->data['recordsFiltered'] = $this->p_carts_model->countFiltered();
         $this->data['data'] = $result;
+        $this->data['total'] = $this->settings_lib->number_format($total);
+        $this->data['totalQty'] = $this->settings_lib->number_format($totalQty);
         $this->data['message'] = $this->lang->line('text_loading');
 
         $this->set_response($this->data, REST_Controller::HTTP_OK);
@@ -180,6 +188,7 @@ class P_carts extends REST_Controller
         $this->validations = array(
             'token' => 'required',
             'product_id' => 'required|callback_validate_product',
+            'price' => 'required',
             'quantity' => 'required',
         );
         $this->_validation();

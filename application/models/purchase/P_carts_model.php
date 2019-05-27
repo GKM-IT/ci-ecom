@@ -21,7 +21,7 @@ class P_carts_model extends CI_Model
         $this->db->select('t.*');
         $this->db->select('p.name as product_name');
         $this->db->select('p.price as price');
-        $this->db->select('p.image as product_image');        
+        $this->db->select('p.image as product_image');
         $this->db->from($this->table_view . ' t');
         $this->db->join('products p', 'p.id=t.product_id');
 
@@ -90,10 +90,10 @@ class P_carts_model extends CI_Model
     }
 
     public function getById($id)
-    {        
+    {
         $this->db->select('t.*');
         $this->db->select('p.name as product_name');
-        $this->db->select('p.image as product_image');        
+        $this->db->select('p.image as product_image');
         $this->db->from($this->table_view . ' t');
         $this->db->join('products p', 'p.id=t.product_id');
         $this->db->where('t.id', $id);
@@ -104,8 +104,7 @@ class P_carts_model extends CI_Model
     public function getProducts($data)
     {
         $this->db->select('t.*');
-        $this->db->select('p.price as price');
-        $this->db->select('p.name as product_name');        
+        $this->db->select('p.name as product_name');
         $this->db->select('p.image as product_image');
         $this->db->from('p_carts t');
         $this->db->join('products p', 'p.id=t.product_id');
@@ -114,8 +113,39 @@ class P_carts_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
-    public function getCartTotal(){
-        return 0;
+
+    public function getCartTotalQty()
+    {
+        $total = 0;
+        $this->db->select_sum('t.quantity', 'quantity');
+        $this->db->from('p_carts t');
+        $this->db->where('t.token', $this->input->post('token'));
+        $query = $this->db->get()->row_array();
+        if ($query['quantity']):
+            $total = $query['quantity'];
+        endif;
+        return $total;
+    }
+
+    public function getCartTotal()
+    {
+        $total = 0;
+        $this->db->select('t.*');
+        $this->db->from('p_carts t');
+        $this->db->where('t.token', $this->input->post('token'));
+        $query = $this->db->get()->result_array();
+        if ($query):
+            foreach ($query as $value):
+                $total += $this->getFinalTotal($value);
+            endforeach;
+        endif;
+        return $total;
+    }
+
+    public function getFinalTotal($object)
+    {
+        $total = ($object['price'] * $object['quantity']) + $object['tax'];
+        return $total;
     }
 
     public function deleteById($id)
@@ -147,9 +177,11 @@ class P_carts_model extends CI_Model
         $this->db->trans_start();
 
         $this->db->set('token', $this->input->post('token'));
-        $this->db->set('customer_id', $this->input->post('customer_id'));
+        $this->db->set('user_id', $this->input->post('user_id'));
         $this->db->set('product_id', $this->input->post('product_id'));
+        $this->db->set('price', $this->input->post('price'));
         $this->db->set('quantity', $this->input->post('quantity'));
+        $this->db->set('tax', $this->input->post('tax'));
         $this->db->set('status', $this->input->post('status'));
 
         if ($this->input->post('id')):
