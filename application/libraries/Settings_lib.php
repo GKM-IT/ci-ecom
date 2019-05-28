@@ -110,4 +110,11 @@ class Settings_lib
             cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
         return $angle * $earthRadius;
     }
+
+    public function discount($price, $discount)
+    {
+        $total = 0;
+        $total = (($discount / $price) * 100);
+        return $this->number_format($total) . '%';
+    }
 }

@@ -13,11 +13,18 @@ class Products_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('customer/customers_model');
         $this->currectDatetime = date('Y-m-d h:i:s');
     }
 
     private function _getTablesQuery()
     {
+        if ($this->input->post('customer_id')):
+            $customer = $this->customers_model->getById($this->input->post('customer_id'));
+            $this->db->select('(SELECT pp.price FROM product_prices pp WHERE pp.product_id=t.id AND pp.start <= date(now()) AND pp.end >= date(now()) AND pp.status=1 AND pp.customer_group_id=' . $customer['group_id'] . ' LIMIT 1) AS special_price');
+        else:
+            $this->db->select('0 AS special_price');
+        endif;
         $this->db->select('t.*');
         $this->db->select('tp.name as type');
         $this->db->select('m.name as manufacture');
@@ -83,8 +90,8 @@ class Products_model extends CI_Model
             endif;
         endif;
         $query = $this->db->get();
-//        print_r($this->db->last_query());
-        //        exit;
+        // print_r($this->db->last_query());
+        // exit;
         return $query->result_array();
     }
 
@@ -103,6 +110,12 @@ class Products_model extends CI_Model
 
     public function getById($id)
     {
+        if ($this->input->post('customer_id')):
+            $customer = $this->customers_model->getById($this->input->post('customer_id'));
+            $this->db->select('(SELECT pp.price FROM product_prices pp WHERE pp.product_id=t.id AND pp.start <= date(now()) AND pp.end >= date(now()) AND pp.status=1 AND pp.customer_group_id=' . $customer['group_id'] . ' LIMIT 1) AS special_price');
+        else:
+            $this->db->select('0 AS special_price');
+        endif;
         $this->db->select('t.*');
         $this->db->select('tp.name as type');
         $this->db->select('m.name as manufacture');

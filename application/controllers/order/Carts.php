@@ -29,10 +29,25 @@ class Carts extends REST_Controller
     {
         $result = [];
         if ($object):
-            $subTotal = ($object['price'] * $object['quantity']);
-            $totalTax = $this->products_model->getTotalTax($object['product_id'], $subTotal);
-            $total = $subTotal + $totalTax;
-            $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $subTotal);
+
+            if ($object['special_price']):
+                $subTotal = ($object['special_price'] * $object['quantity']);
+                $priceSubTotal = ($object['price'] * $object['quantity']);
+                $tax = $this->products_model->getTotalTax($object['id'], $subTotal);
+                $special_price = $this->settings_lib->number_format($subTotal);
+                $total = $subTotal + $tax;
+                $discount = $this->settings_lib->discount($priceSubTotal + $tax, $subTotal + $tax);
+                $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $total);
+            else:
+                $subTotal = ($object['price'] * $object['quantity']);
+                $discount = '';
+                $special_price = false;
+                $tax = $this->products_model->getTotalTax($object['id'], $subTotal);
+                $total = $subTotal + $tax;
+                $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $total);
+            endif;
+
+            
 
             $result = [
                 'id' => $object['id'],
@@ -41,9 +56,11 @@ class Carts extends REST_Controller
                 'product_name' => $object['product_name'],
                 'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
                 'price' => $this->settings_lib->number_format($object['price']),
+                'special_price' => $this->settings_lib->number_format($object['special_price']),                
+                'discount' => $discount,                
                 'quantity' => $this->settings_lib->number_format($object['quantity']),
                 'sub_total' => $this->settings_lib->number_format($subTotal),
-                'total_tax' => $this->settings_lib->number_format($totalTax),
+                'total_tax' => $this->settings_lib->number_format($tax),
                 'total' => $this->settings_lib->number_format($total),
                 'tax_details' => $totalTaxDetails,
                 'status' => $object['status'],

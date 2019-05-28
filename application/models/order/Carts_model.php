@@ -18,6 +18,12 @@ class Carts_model extends CI_Model
 
     private function _getTablesQuery()
     {
+        if ($this->input->post('customer_id')):
+            $customer = $this->customers_model->getById($this->input->post('customer_id'));
+            $this->db->select('(SELECT pp.price FROM product_prices pp WHERE pp.product_id=t.id AND pp.start <= date(now()) AND pp.end >= date(now()) AND pp.status=1 AND pp.customer_group_id=' . $customer['group_id'] . ' LIMIT 1) AS special_price');
+        else:
+            $this->db->select('0 AS special_price');
+        endif;
         $this->db->select('t.*');
         $this->db->select('p.name as product_name');
         $this->db->select('p.price as price');
@@ -93,6 +99,12 @@ class Carts_model extends CI_Model
     public function getById($id)
     {
 
+        if ($this->input->post('customer_id')):
+            $customer = $this->customers_model->getById($this->input->post('customer_id'));
+            $this->db->select('(SELECT pp.price FROM product_prices pp WHERE pp.product_id=t.id AND pp.start <= date(now()) AND pp.end >= date(now()) AND pp.status=1 AND pp.customer_group_id=' . $customer['group_id'] . ' LIMIT 1) AS special_price');
+        else:
+            $this->db->select('0 AS special_price');
+        endif;
         $this->db->select('t.*');
         $this->db->select('p.price as price');
         $this->db->select('p.name as product_name');

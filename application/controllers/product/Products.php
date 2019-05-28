@@ -28,6 +28,17 @@ class Products extends REST_Controller
     {
         $result = [];
         if ($object):
+            if ($object['special_price']):
+                $tax = $this->products_model->getTotalTax($object['id'], $object['special_price']);                
+                $special_price = $this->settings_lib->number_format($object['special_price']);
+                $final_price = $this->settings_lib->number_format($object['special_price'] + $tax);
+                $discount = $this->settings_lib->discount($object['price'] + $tax, $object['special_price'] + $tax);
+            else:
+                $discount = '';
+                $special_price = false;
+                $tax = $this->products_model->getTotalTax($object['id'], $object['price']);
+                $final_price = $this->settings_lib->number_format($object['price'] + $tax);
+            endif;
             $result = [
                 'id' => $object['id'],
                 'type_id' => $object['type_id'],
@@ -39,6 +50,10 @@ class Products extends REST_Controller
                 'sku' => $object['sku'],
                 'name' => $object['name'],
                 'price' => $this->settings_lib->number_format($object['price']),
+                'special_price' => $special_price,
+                'tax' => $this->settings_lib->number_format($tax),
+                'final_price' => $final_price,
+                'discount' => $discount,
                 'image' => $object['image'],
                 'image_thumb' => base_url($object['image']),
                 'description' => $object['description'],
