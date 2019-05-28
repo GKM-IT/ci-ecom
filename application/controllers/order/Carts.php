@@ -56,7 +56,7 @@ class Carts extends REST_Controller
                 'product_name' => $object['product_name'],
                 'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
                 'price' => $this->settings_lib->number_format($object['price']),
-                'special_price' => $this->settings_lib->number_format($object['special_price']),                
+                'special_price' => $special_price,                
                 'discount' => $discount,                
                 'quantity' => $this->settings_lib->number_format($object['quantity']),
                 'sub_total' => $this->settings_lib->number_format($subTotal),
