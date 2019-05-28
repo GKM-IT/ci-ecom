@@ -71,7 +71,7 @@ class P_carts extends REST_Controller
         $this->data['recordsFiltered'] = $this->p_carts_model->countFiltered();
         $this->data['data'] = $result;
         $this->data['total'] = $this->settings_lib->number_format($total);
-        $this->data['totalQty'] = $this->settings_lib->number_format($totalQty);
+        $this->data['total_quantity'] = $this->settings_lib->number_format($totalQty);
         $this->data['message'] = $this->lang->line('text_loading');
 
         $this->set_response($this->data, REST_Controller::HTTP_OK);

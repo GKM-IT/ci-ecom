@@ -198,6 +198,7 @@ class Carts extends REST_Controller
         $this->validations = array(
             'token' => 'required',
             'product_id' => 'required|callback_validate_product',
+            'price_type' => 'required',
             'quantity' => 'required',
         );
         $this->_validation();
