@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 24, 2019 at 01:22 PM
+-- Generation Time: May 28, 2019 at 02:09 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -136,6 +136,7 @@ CREATE TABLE `carts` (
   `token` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `customer_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
+  `price_type` enum('FIXED','WEIGHT','LENGTH','HOUR') COLLATE utf8_unicode_ci NOT NULL,
   `option` text COLLATE utf8_unicode_ci NOT NULL,
   `quantity` decimal(15,4) NOT NULL,
   `status` tinyint(1) NOT NULL,
@@ -149,8 +150,9 @@ CREATE TABLE `carts` (
 -- Dumping data for table `carts`
 --
 
-INSERT INTO `carts` (`id`, `token`, `customer_id`, `product_id`, `option`, `quantity`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'SwLOWa6y', 1, 1, '', '1.0000', 1, 0, '2019-05-11 09:49:27', 0, '0000-00-00 00:00:00');
+INSERT INTO `carts` (`id`, `token`, `customer_id`, `product_id`, `price_type`, `option`, `quantity`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 'SwLOWa6y', 1, 1, 'FIXED', '', '1.0000', 1, 0, '2019-05-11 09:49:27', 0, '0000-00-00 00:00:00'),
+(2, 'SwLOWa6y', 1, 2, 'HOUR', '', '1.0000', 1, 0, '2019-05-28 12:17:45', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -660,6 +662,7 @@ INSERT INTO `customer_wishlists` (`id`, `customer_id`, `product_id`, `status`, `
 CREATE TABLE `employees` (
   `id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
+  `location_id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(96) COLLATE utf8_unicode_ci NOT NULL,
   `contact` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
@@ -676,8 +679,35 @@ CREATE TABLE `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`id`, `group_id`, `name`, `email`, `contact`, `password`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'Ali', 'ali@gmail.com', '1234567890', '123', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-23 06:06:04');
+INSERT INTO `employees` (`id`, `group_id`, `location_id`, `name`, `email`, `contact`, `password`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 1, 1, 'Ali', 'ali@gmail.com', '1234567890', '123', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-23 06:06:04'),
+(2, 1, 1, 'Ali Hamed', 'ali@gmail.com', '1234567890', '123', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-23 06:06:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_attendances`
+--
+
+CREATE TABLE `employee_attendances` (
+  `id` int(11) NOT NULL,
+  `location_id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `type` enum('IN','OUT') COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `employee_attendances`
+--
+
+INSERT INTO `employee_attendances` (`id`, `location_id`, `date`, `employee_id`, `type`, `status`, `created_at`, `updated_at`) VALUES
+(3, 1, '2019-05-24', 1, 'IN', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 1, '2019-05-24', 1, 'IN', 1, '2019-05-26 09:45:20', '0000-00-00 00:00:00'),
+(5, 1, '2019-05-24', 1, 'OUT', 1, '2019-05-26 09:49:53', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -703,6 +733,29 @@ CREATE TABLE `employee_groups` (
 INSERT INTO `employee_groups` (`id`, `name`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 'Employee A', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-23 06:03:31'),
 (2, 'Employee B', '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employee_orders`
+--
+
+CREATE TABLE `employee_orders` (
+  `id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `remark` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `employee_orders`
+--
+
+INSERT INTO `employee_orders` (`id`, `employee_id`, `order_id`, `remark`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'delivery', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -841,8 +894,8 @@ CREATE TABLE `locations` (
 --
 
 INSERT INTO `locations` (`id`, `name`, `contact_person`, `contact`, `email`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'nadim', '', '7737033665', 'nadim@gmail.com', 99, 1501, 1, '313001', 'udaipur', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-25 01:13:26'),
-(2, 'a', '', 'a', 'a', 99, 1501, 1, '1', '1', 1, 1, 0, '2019-01-31 10:24:38', 0, '2019-02-09 07:18:43');
+(1, 'Location A', 'nadim', '7737033665', 'nadim@gmail.com', 99, 1501, 1, '313001', 'udaipur', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-25 01:13:26'),
+(2, 'Location B', '', 'a', 'a', 99, 1501, 1, '1', '1', 1, 1, 0, '2019-01-31 10:24:38', 0, '2019-02-09 07:18:43');
 
 -- --------------------------------------------------------
 
@@ -908,7 +961,7 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`id`, `order_type_id`, `customer_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `comment`, `total`, `total_tax`, `order_status_id`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-10 03:11:01', 0, '2019-03-13 06:02:19'),
 (2, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-10 03:20:22', 0, '2019-03-13 06:02:35'),
-(3, 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '0.0000', '0.0000', 1, 1, 0, '2019-03-10 04:51:58', 0, '2019-05-04 09:12:00'),
+(3, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '850.5000', '126.3600', 1, 1, 0, '2019-03-10 04:51:58', 0, '2019-05-28 02:04:12'),
 (11, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-13 05:57:56', 0, '0000-00-00 00:00:00'),
 (12, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-13 06:01:34', 0, '0000-00-00 00:00:00'),
 (14, 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'dasd', '1000.0000', '0.0000', 1, 1, 0, '2019-03-14 05:59:53', 0, '0000-00-00 00:00:00'),
@@ -927,6 +980,7 @@ CREATE TABLE `order_products` (
   `product_id` int(11) NOT NULL,
   `price` decimal(15,8) NOT NULL,
   `quantity` decimal(15,8) NOT NULL,
+  `tax` decimal(15,8) NOT NULL,
   `total` decimal(15,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -934,26 +988,28 @@ CREATE TABLE `order_products` (
 -- Dumping data for table `order_products`
 --
 
-INSERT INTO `order_products` (`order_id`, `product_id`, `price`, `quantity`, `total`) VALUES
-(1, 1, '123.00000000', '1.00000000', '123.00000000'),
-(1, 2, '456.00000000', '1.00000000', '456.00000000'),
-(1, 3, '1000.00000000', '1.00000000', '1000.00000000'),
-(2, 1, '123.00000000', '1.00000000', '123.00000000'),
-(2, 2, '456.00000000', '1.00000000', '456.00000000'),
-(2, 3, '1000.00000000', '1.00000000', '1000.00000000'),
-(11, 1, '123.00000000', '1.00000000', '123.00000000'),
-(11, 2, '456.00000000', '1.00000000', '456.00000000'),
-(11, 3, '1000.00000000', '1.00000000', '1000.00000000'),
-(12, 1, '123.00000000', '1.00000000', '123.00000000'),
-(12, 2, '456.00000000', '1.00000000', '456.00000000'),
-(12, 3, '1000.00000000', '1.00000000', '1000.00000000'),
-(14, 1, '123.00000000', '1.00000000', '123.00000000'),
-(14, 3, '1000.00000000', '1.00000000', '1000.00000000'),
-(15, 1, '123.00000000', '1.00000000', '123.00000000'),
-(15, 3, '1000.00000000', '1.00000000', '1000.00000000'),
-(16, 1, '123.00000000', '1.00000000', '123.00000000'),
-(17, 1, '123.00000000', '1.00000000', '123.00000000'),
-(17, 3, '1000.00000000', '1.00000000', '1000.00000000');
+INSERT INTO `order_products` (`order_id`, `product_id`, `price`, `quantity`, `tax`, `total`) VALUES
+(1, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
+(1, 2, '456.00000000', '1.00000000', '0.00000000', '456.00000000'),
+(1, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
+(2, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
+(2, 2, '456.00000000', '1.00000000', '0.00000000', '456.00000000'),
+(2, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
+(3, 1, '123.00000000', '1.00000000', '22.14000000', '145.14000000'),
+(3, 2, '456.00000000', '1.00000000', '82.08000000', '538.08000000'),
+(11, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
+(11, 2, '456.00000000', '1.00000000', '0.00000000', '456.00000000'),
+(11, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
+(12, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
+(12, 2, '456.00000000', '1.00000000', '0.00000000', '456.00000000'),
+(12, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
+(14, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
+(14, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
+(15, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
+(15, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
+(16, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
+(17, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
+(17, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000');
 
 -- --------------------------------------------------------
 
@@ -976,7 +1032,7 @@ CREATE TABLE `order_statuses` (
 --
 
 INSERT INTO `order_statuses` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'pending', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 'Pending', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-27 09:35:43'),
 (2, 'processed', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -998,15 +1054,8 @@ CREATE TABLE `order_totals` (
 --
 
 INSERT INTO `order_totals` (`order_id`, `code`, `title`, `value`, `sort_order`) VALUES
-(1, 'total', 'total', '456.0000', 0),
-(2, 'total', 'total', '456.0000', 0),
-(3, 'total', 'total', '0.0000', 0),
-(11, 'total', 'total', '456.0000', 0),
-(12, 'total', 'total', '456.0000', 0),
-(14, 'total', 'total', '1000.0000', 0),
-(15, 'total', 'total', '1000.0000', 0),
-(16, 'total', 'total', '123.0000', 0),
-(17, 'total', 'total', '1000.0000', 0);
+(3, 'total', 'Total', '850.5000', 0),
+(3, 'total_tax', 'Total Tax', '126.3600', 0);
 
 -- --------------------------------------------------------
 
@@ -1047,6 +1096,7 @@ CREATE TABLE `products` (
   `model` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `sku` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `price_type` enum('FIXED','WEIGHT','LENGTH','HOUR') COLLATE utf8_unicode_ci NOT NULL,
   `price` decimal(15,8) NOT NULL,
   `image` text COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1073,15 +1123,15 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `type_id`, `manufacturer_id`, `code`, `model`, `sku`, `name`, `price`, `image`, `description`, `text`, `tax_class_id`, `length_class_id`, `length`, `width`, `height`, `weight_class_id`, `weight`, `viewed`, `minimum`, `shipping`, `inventory`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 1, '123', '123', '123', 'chain 123', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-05-11 01:27:40'),
-(2, 3, 1, 'c456', 'c456', 'c456', 'chain', '456.00000000', 'upload/products/product6.jpg', '', '', 1, 1, '0.00000000', '0.00000000', '0.00000000', 1, '0.00000000', 0, 2, 0, 0, 1, 0, '2019-02-02 01:44:38', 0, '2019-02-08 07:10:05'),
-(3, 3, 1, '123', '123', '123', 'ring', '1000.00000000', 'upload/products/product7.jpg', 'hii', '<p><img src=\"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUTExMWFhUXGBsbFxcYGBgeHRkaGBgYGh0aHRoaHSggGxomHhoaIjEhJSkrLi4vGB8zODMuNygtLisBCgoKDg0OGxAQGy8mICUuLS0yLSstLS8wNysyLS0uLS0vLS0tLS0rLTUtLS8tLS8tLS0tNS4tLS0vMC0tLS0rLf/AABEIAHkBnwMBIgACEQEDEQH/xAAcAAEAAgMBAQEAAAAAAAAAAAAABQYDBAcCAQj/xABJEAACAQMCAwUFBAYGBwkBAAABAgMABBESIQUxQQYTIlFhBzJxgZEUI0KxUnKhwdHwFTNigrLhJDRDRJKiwxYlU1SDhMLT8Rf/xAAaAQEAAwEBAQAAAAAAAAAAAAAAAQIDBAUG/8QAMhEAAgIBAgMGBAUFAQAAAAAAAAECEQMSIQQxQVFhcYGR8BMiocEFFCMy0UJSseHxM//aAAwDAQACEQMRAD8A5HSlKqailKUApSlAKUpQClKUApSlAKUpQClKUBc+xnZE3NpfTPbyuUgJtWUSYaUFwQunaQggDTvUxY+zZUt7wzyQNILeKSBu+KCIvrJMgJGF2G7DBwcda+ezjhcv9HcSmkJjt5LcqkpOQChk1kIp1ZHlgZq4cYa2UiKZpv8AT4bS0GhF8JGSDqLfiEp6baSd6kqcd7WcAaxuWtncSMqq2pQQDrXPImoqErnxAkehA/MGpbtpB3d/cx948miVlDyNqYgeZ/gBULUEkzb3FgPfguT+rPGP2GI1IwXXBfx2/EPlNCfzUVIcE4JZ2q20nEEeaa6KGG1UkBIncKJpcEE5/CmRnkepW78aS0g4pa8M/o+zlSZR3mm3CMmsuAVYMTsFLHPTkaEFGgfs8feTiK/3oj/hzW2sXZk7Ga+UnzH8ENV/2h8Fis7+a3hOY10kAnJTWgbQSdzjPXfBGfOpKIX/AA/h06S2QSG9Kr3sgGtfCdtOdQyASNQGDk+lASf9HdmT/vt0vxjkP/Rry/Z7s+3u8VmX4xn98Yrn1tA0jqiKWdiFVVGSxJwAB51aP/5nxbKg2TDV17yHA+JEmw+NCTeueyfCf9nxtB+vAx/wkVHTdlrQe7xi0b4pMPyVqrE0ZVmU4ypIOCCMg4OCNiNuYqc4L2Lv7uLvre1eSPJGrVGoJGxxrYFsHbbO4IoDzNwCIZxxGzb4Gf8AdCa0nsIxzuoT+os5/OJazcd7OXNn3f2mLujIGKqWQthSASQpOBvtnnUUqkkAAkk4AG5JPIAdT6UBnuIox7shf4IQPnqI/I1r1YbnsRfxwPcS2zRRIoYtIVU4JAACk6tRJGxAqv0ApSlCRSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgL77PppHseLRamZVtPAmSQC5kzpXoSccuZroFpPE960c+gJEbVLdnYANe26vqROrY16WI5EY5kVxXhvaC5gTRDKUTUH0hU3Zd1ZiVy+DuNWQCBjkMat/fyzsGlcuQAq5xhQN8ADYb5JxzJJOSc0siiQ7X8MuYLuUXahZpGaU4YEN3jMdS4Puk5xnB2qEkGQR6VJ3U0lwVee4DuFCDvGYsFXOAW0+p5kmtS6tmjOGx6Ebg/A9arqTdGjxTUdTWx11eGQ33GeH3cE8ckTosjRBvHD9mQYVl6DXo5431VF9pvaT3d7cva2kCzhmi+1OWdysZKZVTgLnT8PMGqz2V7dTcPTTb29pqOdUrxuZGBbOkusg8I2wB5ConjvGBcspFtbwadWe4Rl1lsElyzMWIxt5ZNWMaNdOKTCcXOovOJBJqYBtTg5BIOx36fSune2yWYQ2ds2uTukElxLgkd6/gQswGFyRLgbc8DlXKYJSjK45qwYZ5ZUgjPpkVZe2Hb274gAspRIxv3cQIVmH4mySWPkCcD9tC1Gl2Jt7p72E2SBp0bWuoeBQNi0h6R4OCee+Bvir5xrjtzcyTcN4a7SyMHkupQ5UNj3ordXY93CMgDBy2eZGWNL7MdtbqwjZLbul1uGd2j1O2AAEJJ9wbkADOWO+9TPFPavezRle7to5GUqZo427zS2xClnOnbrv6YoQyggjGeldX4dxibhvDrd77wlCxs7ZS6SPq1HNywb+pBJITGTgZzyrmnCb4280cypG5jbUqyLqQkcsqCM4O435gVd7f2w8Q0lZktp1PR4iP8ACwBHxHzoHZXO2cV736zX28k8ayqdQI7ts6QoBIUDcaenrnNWLsPaC14dd8XKhpYz3NrkAhHcqplweoLgf3W86qPaHjs15N305XVpCqqLpREXOERd8KMnqeZqa7L+0G6sbZ7aFYmVmLqZFLFGOMkDUAeQIyNjnnyoK2Lf2xF3HwK1t5TNLcTu08+rW7rGh7w6uZVU1Qg9B6VySrj2h9pd/dwC3dkRNIDmMENLtvrYsdjzKjAPXI2qm0JR9pSlCRSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFfUUkgAZJOAB1J2AoqkkAbk7AeprofZbsrFETPLMrldIQxnKq5z+LOGxtzA9OW2WXKsatlJzUVuUOWwlUkGNsg6TsTuMbZG3UfWtqLgM7EgJyGS2dhnoT57chmrZcSBpSjuyZBUMpBGcjGRnG4yOYr6+tVyqHQuSWY4YnddOOu+r6GuP8AOTa2SMHnZRLmEoxUkHHUcj1rHUlxSzYkyr4lPMjHhI6EAk7DG9Rtd0JXFM6Iu0WHs1wu2lAeX7XlZFDd1brJEASMa3LjTnfIxy866Be8C4V9q4pCqHvFgVkiWGP7vEeS1susF36nZdzzrQ9krD7FdAyPGGurVdUbFTlnVQuobhWJCsR0Y1LWt1cRwzz3t9DbyTXMixsFXMTQztFMgYxNrQoDpB38KjIya0ByTia2wK/ZpJZBg6jKiIQdsY0O2fnisMU3hKncc1z0I6fOp/2hXwmujIs0EkZyIhADiNA3hVsouXPvE77k74rVurFGtY3jUAog7xhzZmfcH1GoD+7WOWSVX1ZeOV4/Pb1I5LiHHihOepWRh9AQa2YJLL8cV1/dmi/fD++ouvhNalSyQT8JHvQX5/8AVg/cgrfg4nwNefD7xz11XAH+BhVStrWST+rR3/UVm/IVLQdj7991tZPmUX/EwqrklzZOlvkWePtVwNRtwZm/XkB/aWNfT244UPc4FAf1mT/62qBj7BcQOR3GMc/Ghx130selfX7BXwODGufLWM/Sq/Gh/cvUt8KT6MmpPaBY/h4FZD4hD/0a15O38HTgvDB8YVP/AMRUNc9i75OcB+TL+8io+fglynvQSDHPCk/4c1KyRfJoh42uaJ2Xtxn3eGcKX/2an99ZRc3UsQlFjw9EbOnFpCpYDbK6gds7c6pzDBwdj5Hn9Ktlj2kBj0O+gYGQVLDIx4lABwdvTnjfAqmaeSKWhHVwWHBkk1mlX0+r9sgbriLMSDFAp66YI1x9FrRNS8tqbhnmyI0ZiBkbnAHQHyxnfrWSW9hihEcIJk/HJ5n08gN8fyaPL0St++pxzcVJqO+5CUpStiRSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpVs7Lez27vY++XRFD0eTV4h5ooBLLnbOw8s4NCG6KnSt3jfCpbWd4JgA6HfG4IIyGB6gg5rVgj1MFyBk8zyH0qA2krPFKtfDexokYBrgLnkwTUp9C2saT8RWfjHs2vYBnuyy9GUgg/QkqfQ/WqqcWrROBrP8A+bsptfKzXVq8baZFKnyIxWKrBprZlv7L8BaPu72TQUUgouvBLjDKTy2HkDz286nJ7pm1tCgSOXOT4cMcFd+oIBOCcmq52UjnmHchvuhkqMAnWceBR0yd98AZzUyLF1tjJ3kezEd3v4h5j55+nOvJ4nW5vc4s16j7xSSZ9ECqrAKoxCrgZYbAnTud8k8t+dR7XbKoiYHLofE2rbQxGlOhO/qdjjnvLdir5lleRmGlAoXJ3G5Jxn8IHWqt2lv1lc7eHLFR5LkkD9tTjhqdGaVsz3MwSELjGpickYzyH7qrs5XPhzj1r3GRjB/ZWFsdK7sMNNnVhjR0j2byRpw67klkEccd3ZyO7BiAscsbnZQSSdOBtzIrB7T+Jo0FrCMh2kuLtlPNEupXeJWHRirZI5jbzFUaDiEqRtEkjLG5VnQHwsUOVJHUggGirNczba5ppW9WZ2P88+gHkK6LNqMVsUDqZASgPiAOCR5Z6fGrFwq1vbxWitICkRbLaPCg2Aw0jHxcuQ39KuvZn2axQr318VdwM90DmNAP0z+M/s6b86nrTijTS9yjrDEAVC4QA7bDcHGTjYcgwrhzcTC6St/Q6sPByypyeyRUOGezONT/AKVcZYAExxAgDPQyEb7+QFTXD+DW8CMwtoEwdMbkNK5Y783PMDB8skCp+yspZNLkOkSBgQVB6Y1AAjY+npU93tukSzeAxg4BVGyCeuMEg+fw3OK87JxGbJyfly8/BeB1qGLD0t+9vFlXs+zUpbVLMWXT92FBVj/ZYMTjmT6dAKlLPgFu+oSRAsRk6nYnO2+RpAHT3a8HijF5CvdooGSzhmyDjSQF23z0Bx13BA24b5dKnBKsdOTgYZRuknII2RzGx1DArkg8sZW6fvw995vknmqrfl69PfgV2azt2nRV7wIwIVF/S/CRvtkEnG2yjlyrMvB4ZSY4WKu3IsoIOkBiuVIzkEeWx51LScMR4lLvo8WwVwRnkygkcuY5chyrLbWUaDUiPG41AMGDNhuowSFGN8dMVrqVKVc9697EviLj8rf+/fMj17JS6B3d1JEu3hGSucb4BbYen7TWjxHhd5qTW7yJsdWQFySBp0DU2ceQK88ldzUlJ2ijUqijvSpHi16WONzuOmxyWwNuVTE/aFAUHdsZNwqHHPkPGuVwfMZ251pialD5uZk3xEGnX0X/AH1ObxtnV3saSxLzEigZGdtLeu+OfwrVu+yfD52Ai7yBiOWliCcA7aQy4+CjNdRuOHZIZ9I0gEvqOrbcgE4C/HnitPvUiUiSaScS7oN3GNt1CLlVH61arJLH1oZMmLN/Rv3e/wCDjPFOwNygLQlbhF28Bww3/QJ/I7+VQ8HZu6YZMLIM4+8BQ7c8K3iIHmB1r9AxGBWQQiNXX8JfTkMdwxBJZhuQN8Hy51r9qLfCiVpQApBxI2BnPn89ts7ddq2XHz0crZzx4fG8qTtJ+v3OV8U9nbQ2ffd6Hm095pTdCgGSAcZLAb/IjHWqJX6A4VMZ45EQqwUahq5HIOwOOWR8Rn1GeL8R7OzxvKFgl7uNmw2k40KTg6uRGnfNdfC5nkTsx4nD8KVERUxwTghmVpGyI054xk8up2A3AqHqUseJhITGfMkeud/zrbM56fk5k8GsLy/rcvuYeJ2SofATj1x9cjmK0azTz6uQxWGrQvTuZZ3BzbgqQpSlXMhSgFbk/CLhJHhaCXvExrQIxZdQBGQoOMgg0Bp0rYmsJkGp4ZUXzaN1H1IxXiztXldY41Lu5CqqjJJPQUBipWynD5jL3AiczFtHd6Tr1eWnnn/9rDPCyMyOpVlJDKRggg4II6EGgPFK8lx5itmKxkaN5VRjHHp7xwNk1nC5PTJoDBSlKAUpSgFKUoCe7D8MS4vI0lwUUF2U/j0cl+BJGR5Bq7vfdpYbdUEitPK+pYrdMZbT55IULyOW8wFBPP8ANaOVIKkgjkQSCPgRyq4+zvtF3Nwyyh3M2PH4nZSgY5PMlcE5O+Bz2FRKTUXSIUNUlZre0P7TJcm4nt3gWRR3alw4VVHuhgBjBydJG2T0qsRxliFUEsSAABkknYAAczXZe0XBn4s0EEMsMegNJIdRO0jAKQi7sxOSc4Hi5mta64Bb8AXv3DXNwQBGxUKgLZBxudPLc5JwdsZqkZtx1UaShplpZB8Tu0sYLaKUOLxY8sqFWQAuzKJAx98gndfyxWwntamj2SMONOMMWAztuTzIG+w058659xK+eeV5pDl3Ysx/cPIAYAHkK1qRxpO+pzywQc9aVe+pv8Z4vJcyF5MbknAzgegySQByArQpSr1RtKTk7bsmezPERA0j69LaMITk8zvsAd8efma3opTNjQzHPvk/2fToAKrFbNpfSRhgjYDDBrny4Nb1LmYzxatyzTWf3HhZSWY78mCjYZ8s8+Z51X7gBRv73IVtcMvgVIdzldxk8x8TzI3+taXFJMsP551lihKM3FmUINSpmqZDjG3yA/dXmlK7aOlKj1FEzMFUFmYhVUcyScAD1JOK7x2R7KRcLt+9lw1zIBrboud+6Q9FHU9SCeQAFB9jnC1lvGmYZFumV9JJMqp+Sh/niugdtLt3ljt1YDC9423PmMD12G/rXFxWZr5UdPD4tclZ54txK41HuncIMZKggF26gZ3XAwAdhk53r7LfwFcyGKNygJIRAXwcALqBGRg+gNRdlDcMQusKq5393PqXOQCeueeM1LQ8IWGCNXm1NI504IIcE6iST5DywNq8fW3bZ7LhihUX9PuZ3siqRPDLrh1ACNz7u2AhVfDsAeWBtU8uqTB1BYx7xx5cwOmK0uE2FsC0aPl9nYA4Bydvd8Jb4ZrXhRFldA4bx8icYUnDAqunvN9skn4Vjkw65qUv29l833nLkknsr27unvqZuMP3fK4QBhlfCzMfjgEBfl86+cFFsMxxynLt4kce8SCccgPXlnas0/CdUgIeTSDq6FdgRpG2pGGRzB25ekPLP3jyJ3M0UiHUZ2MedhkdBlfIDfz3raGKOJ/LFImCjkhpTffyXhtW/luTl7IsQZe+XwjeNDGNWrbQUIJ3BG+cnzrUuppnPdl0RQu6qBq8tLEkjGMZwOuKw8TVpArFEfGkK7xqSDgeLLDPPO/LcedSQIwWHjIA74qFG6gA4zsD13zyxV5Nz2i9jOP6a1SpshDwCDSNU0pYg4GV288ahsv4RvW08iQQowkjQg5QAjJ5bs2PqcAelee0XCnuYzGkmMjwS6CxUZycqBjcDAbO3QZrl8/ALqJmKtK5zgsneEczzyuCOvXGatGMa2ZvGbyJa231o69wvjwfPfSacYCkkKsgkJ0ncbtscY2I3FRfaeYNNEXLGNRjPrqGrI5HKDHzqt8D4ZLJaTzTssCeER6+QK5LPhuQJO2OpOK3Z5RJaXFwHBj1xqMr4fulwzYI8WRgbc+VW+f9r9SILDHJrXhXY+76mW5voT3uAAWcdzhcbZG2kbbge7pPP6aXFSpgVJ2bUh3w2rYnIXbOAACK99mrCCe2keRUTcHW3PQJQdvLxZRd98YGa1Z75VE/3ZOo/dxLgkAZAzn3eecb5Iqk8bOyOaF1Ho+vkiR7L8aJyVYCNF0KuMYJ074wM9TnP5mq57QO1ssTyWqxppeIZc5yRIpBwBt5j5VN8CuFjhRO5ZWYsW2zjpqY774G3xqpe1RAXgkA/C6H+6QQPqXrr4N6cldp5vHpStpED2f4F9ot76UE6raJHUDrl/F9ERvmRUFV/wDYvdKL54HwVuIHTB6lcPj/AIQ9U7jnDTbXE1u3+ydl+Kg+E/NcH51655RpVnsbR5pFijGWc4H8T6Abn4UubN48a1I1DbPqAcehweX+dbnA+K/Zy7AeNlCq22VGcnGeWdvpVJtqLaW5DbrYkOOcJggiOklnL6FZjudO7tpGwHIDntn0quVnvLtpDljy5DyrBVcUZKPzPciCaW5bPZxad5PIdNg+lPcvWIBy2S0YAOWUKcnoG9a69eq44kZEktlRQJnS2LNeXKLGqqsiDYx6jseWAB1Ncv8AZFEguLm4lkEcUNs4dyfdMzKinHXYN+zzrqJtpWumKW8b2zWRRLu3Effu5VV0B9fu8yuRgEDetkSype0fv4uGypNNPOZ7pXUtDKiwoMsI8vt72wAqC9mEPhkZrVGCurRztw+5uTqA3VXhI0acK3nl6n+1vA5IuDzoFvjiaOVjeSQswVdjpMcjDTy8PMk7CoD2dRXTQlYrCadDIfvRezW8a7LkEIQpI5kjff0oOh1HvSE+2BFFyzd20v8ARl53hj0g6e6Dd6BsPGTp2xjNcq9p8QAiK2yIrMxeZbC4tSXIOEZpie8yNTbfo1fW47YH/u8S/fjx/wCu3IiMxyph+16tZx5EYz0zsKF7SIrlY41msZLde82ka9luFc6W2UOxAOMnOM7Y60BauwSBrGxgEMTd/b8QZiyKWLxT6U8R5e+foPKt7hnCpxZXSngtrGzGLTAJVKTYbJLsHwNA3G9VvsP2ntu4srPSvfhLuNppZDGkKzyFz0KyFlAwNt1xkZqX4L2ls4LC8jt4e9srUwRtqHiuO/cpNIeWcg+EHHujkCMAcz7aWMsNyRLax2hZFYQxsGULuuQQTzKttUHU12s4TBbzAWtwk8Ei64yD4kVicJIOjj67bgVC1BIpSlCRW3wnhslzMkEQ1SOcAcviSegA3rUq7di+0sMHcppWNtZJlxnGVYDVtnGT9PhUBGHjfs8ubcDLLI5GQqAnVvghT1b0IB8s71cvZ1Z23D4+9nkC3Ux0A81iGM93qGyvghm1EdAM43z9uePrJbxxho2l16gY3U4GDk7E6c5A3O+/lXPbMXrDuhbGQK+okK506guwZWCgEAHHX1qql89I6snDpcMsrTTfdt4tvlfRdzP0Pwexs9LTW6RNqJOpQhAYKEOnTyJAGQPM+dfnz2l8WuZb+4jnldlilYRxk+FF/DhRtnSR4uZzzrt3Zy7jgt1CxsiE6gCADl99xk79Pl0rnPtX4bBNcR3CK6M40yHw4YrgKfPVp2+CjyrWUaVnnSzKPzSZyyldA4R2FgmtJ5tc3eRasDPgOF1DOIT682FUa8gCnbl8c1nqV0dGKPxcPxo/tujBSlKsQKUpQClKUB7ghZzpUEnyH87Css9jIgyy7ehB/I1L9mLjuwzKcPqGG22xgjIPMHxfOnHZyzF2fLtgnYDoNsLtXO8zU9NHqYeBxSw6pSepptdmzrs+68OpbvYlMNV2nUrGw+Xeg/mPrV57RcN7wsUbRKAGRtzsAQykdRgD+efJfZjxNYOIIG2SZWhOeQLkFP8AmVR/erud/FgBl2I3B/YR8xXFxaccmo5cL2orPZa4OpO8woA7tlfowXw6hjB1HGCfOvfGLXunz3Y7o4YKACvLxEYIDMGyck5OoeZrFx647gm5iUMhwsqkA46gkHmBsPpWlxftN3sIWERk7AruoxjcaORONsVzOCcfM78WT9RS7qJKD/SAO71aV5nQsSL6nzO3PJ5cqnWtIFWBHlAC51DOe8bwH3jvjO/rmqpwyBlOsERlkKqrsZUySN9KHO4884JPPpvf0vJG8a3KxOoOr7tk188axG5yQNvL+GairqrLZlKW8HSVvpf+/Imr7iuHY96sYGnWvMrn10lc8vxdc5230HvJCe9hnjeJUBZZGjIz4iVOhfeHI+LnkDlWS+4iLgAG2fY4B33B65XntvzxWtbm0RyuhIcYVAXUZJH6C8j+tvUSyTbdb/QrDGopNx8tmSaQlSGZWjiI+8CPkI230X+B5Ut2ijWTS5EWpuRwSTuQG54DE7Dr6bV9W+fWHUqDIcHZiMjOfEExj9bTVTbiQWV4HULp3VCmd2J5b4GMDcjPQVg46r0Wn27V/HfyLY8Ly8/f3vvLdFHq+6w6qVGlvERgY8J6YOAOeTzrFxKAqqhI0EmfCzhirEdfBjJ+PKoy148SRHOVaPOC2SMbEghlwTuMY3zUteSCSIiN9mDAHWox01YZTnrzB/bUuCSqyk8c8Ukq/j1+xg4jw6K9jEciyqQxG2Qqtt4txupGQCMgZ6Voca7PF4Y7ckRxhxpjJwH0KdK6lzpBOWJOWPxrUguREyrFdoVjy0xUAswQcsL4fPOkZ57Vh4l2qdwqwh8sx5EKWUAEt10DJ+W9bw1bdwWGbdR5d/Qhu0E/caYIzqdTqfwgKrYwrY5bLgIvJBv7zZGjweJi4G/i5Z+J5/MGpLiUAGZriVSxGQqjkP0dX48egx61u8AmhkCumcKwGfMZbO3zx8q1nKTW5fTGGydmOGz0Nj9Jwdv0cZ/fVe9qkelYR5sx+igH+fWrzxiFUZZD1226kf5Zrl3tG4p31yqDlEunb9JsFvoAo+INacJFyyp9hzcTNfD8SD4DxQ2tzDcLuYnDY815MPmpI+ddZ7U9kxccSF2mGia3WUDGdcikKpK82QIVcgbkJp/FXGK6JwzjjtwkS944lsG7uMqOk2FTJxjCjIwcjwJ8/ZR5bIrtwwjxF+NiSc7kIGOST1LSA79e7Zh/WGqhW3xbiUlxK80py74z5bAAADoAAK144WYEqpIXGogE41HAz5ZOwoSjxSss1rIgy8bqPNlYfmKxopKswGVXGphuFycDJ5DJ23oSA5AIBIB2IBO4BBwfMZAO/UCkblfdJX4Ej8qyW1rJJnu43fHPQrNjPLOkHFHtXGrKMNBAfKkaS2dIbI2JwcZ54oQeXncjBdiPIsSP2mvSXUgQxiRxGxyyB2CscYyVBwTjbcVki4dM2yQyt4Q3hjdvC3utsOR3weuK15VKkhgVIOCGGCD5EHkaA846VkedyqqXYqvuqWJC5xnSCcLyHLyrzKhU6WBDYBwdjhgGBx5EEH4Gva27nGFbdWYbHdU1amHmq6Wyemk+VAYqyJO4VkDsFbGpQxCtjcalBwcHlnlXhBq5b/Df8q9GJuek/Q0JPNKyrayEAiNyDyIVt/htWOVCvvAr+sCPzoD5SvsiFdOoY1DUufxAkjI8xkEfKvlAKzWSqZEDe6XUN8Cwz+ysNSnZrgkt5cJDFjUSNzyA86hlZOkdWmsg/AnIUD7Pcalx0GQD8sSE/Kqvwe8ZBlV1YOkry2OWBHqMPt11AVdO092OH2bWGVlaUNrOCukuM5G5zjC/H0rnnDZSGx1PL9YEMv1IA+DGuWUtE01zR9L+CcHln+EvDlXPl6L7o6VFxDVw2OfOAoDHmRgMUPLcjGTVW4zcG5g1KrsAco3hUZGxOGIY7ZHI1K8D4fL9naFAzRzISq+8ul+RwDqBBJXn+Hc+VGMsiDuWypjJUr5EEgg+uc1txMpVF3tXTtOH8L/DMHFyyY59H17P5NrhPbRrPvVWFZNWBh9tJGd9gGwc42PQVTLq7L8wBjkPL61J8XiGNf4ht8Qah5GyaY6kkzm4rhXwE5cLB/Ls/Hqru/8Ap5pSlanGKUpQClKUB7ilK8q+O5PM15qX7LW8Ek+idSysp0gMV8YIPMf2dVUm1FOTXIt8WUY1exEA/L4V2nsl20+024Dkd+gxKp/GMY71fjgZ8j6YrmPaTgwgbKZ0E7Z/z3+tRFtcNGwdGKsvIjp/PlWUlHPC0RiyVujvwjjm1aG3IwynnyOQR1FVDivY2VTriI5kcuQO/wC7nVe4b2tVsCbwMPxjOD6+amrjY9ppAPeWVPX9zDf65rzpYp43sejHIpLYrkdzdW3hOdI5HTqH1G4+lbidqy6DWqyDlpIBx8fKp+XjdvICHjKE8yMEevLf9lR8vBLKdsK6ZPLfB+hwao5J/uXoaruZqTcftm2ePQc7mMld/MjOlj8QazQtYk6o53U431aTvjAOdsY8h9awX/s/YDMcrDY+Z5b1FDsVc4OJeWOnn8qL4TXOi6y5Y8mXiXiMbJhb1Y2xuQsZBIHvEBQcnbk1VniEOuZA95Gw8QMo7zIGxwV5keQ1Y3+sQex93/4v8/Svn/Yi5zhphtz9Ou229XjHGv6v8kY82XG7iv8ABY55uHxkFpGdlGFYny9FxjeoduP22WLI75GMM22B8VyOXnWqnYYn3pmPwz8+v85rPb9lbeNlMjjGRksQNuvOmjCt7ZPxsz5sx3Pa2HOIrcP562ZgfTQmlMfWg4xezALGiQr5IgUfQc/jmph5eHwnwkOR+guf28v21qSdphnEMQAzsXPX4D+NWTv9sfUo3f7pH217PO57yZix6lt/8uvM5qatOIwwApHhyQQccuZ3J6nYcqp/E+Nuf62TI/RG3/KPzNQV5xtyCE8AxueuPj0q0eGnk5mc80IbFp7R9qiMgNqkAwPJB5/H0+tUNmySTuTuT5k86uFjwyOPSmA0uMykjOk4yQPLA+pBz0qP4lbq4OwVsZXA5jfqBg8sV0YskIPTFeZXLwuSUdbe/Z76kAqkkAAkk4AAySTsAAOZJ2xXXeD8KWB14K+NdxZyvOfKeXBQZ/sCIAfDPWqL7POJ29tfRzXI8ChtLdI5CMK5HkNx6agelSt72jU8dS6VwyCWMalOQVwFO45jLGu08xlHdCpKsMMpIYeRBwR9auPYcj7PdagNIIZgUjy+IZ8JHK6nEocpIFzsIyRvnPn2scH+z8SlIGEm+9XyyxIf/nBP94VTyxxpycZzjpnzxyzsN/ShPMuPaW+Tu7KIG6GFWXE0ikZaaVSz+EMZMIADnAXYDc5s/EOOMpkkDG4iXXqkt5Je8eQ3V40UGpfwrGQckaVByNWpAeV3Fw8japHZ2/Sdix+rEmvVtdyR57uR0zz0Oy5+OkjNBRe+xdtN9ru45g7SsMOwE7YIDSEFo9skhVOrBI1KOZB89rZNVpPhSpBiDLiRdLNc3j6fGNQ8LKQDuAVqhd62CNTYY5YZPiPmfM89z516Nw+gR637sHITU2gE9QucA+uOtBR1lWhlGhULr3VoNfdQhP6m5KOwMf3aMRp8QwmteQyKqZnI4ldMJkhQyFnEgjVnGciJBcKNLE7aiFCjc9Aai87ldJdiuFGksSMJnSMZxhcnHlk4rzI5Y5YknzJydhgbn0AHyoKL77QL55EP3tvGdEWuBWt21gxxMHQplgQzYKkjKqGUsNWJrgHEYlWKOKZ4i1vEVjZGbCosxZ9QBUM5yzbDdRjOcVyh3JOWJJ23JydgABk9AAB8AKypeSDIEjjK6Dh2GU/QODun9nlQUWG9v43vpp0vZUiPiLx96sjjb7qIZ36AFyqgDONsVudreLibI+0XMRNvAyQmR3idHgjbuiRhteSx1vqDZOSp50uvckhbGok4AAyScBRgDfoAAAOgFBRZuyfG5US61yTvGlqMRieVMYubVRoIJ0EAnGBjoQRkV44RcFr9ZEkuZ9A1Kzle8CgZZZGeTSsYDMrNqUb5GM1XEkIzgkahhsEjIyDg+YyAcHqAeleKCjqXae6R7VkhnmnzAGIVgSsavL4tLsC8ROzOAxAjGdOd+XV9dicZJOBgZOcDfYZ5Dc7epr5QCrb7Pu0P2KR5ViEkmDjUcKBjGdtzzO23PnVSre4Tzb9X94qKsrNJrcv9nM3E77VcuELjB7vwgaI9satX6NV7tTam2lZCdgxCt5qDsTjr/nUj2O/1qP8AW/ca8e1T+tT5/wCN6rLFF70d+H8T4rElCM9uVM1+G9v7mFDFC+jUd20qSCeZUkZXJ5jzJIxWLhl8puA8+ZMnLZx4ieZOeZ+PpVSFSZqVBGM+LzOTkpU32betVfmSHbiWIz4hxo57DAzgZwDuBnOMgVXKyXHvVjqxghSlKEilKUApSlAK9RSFSGU4IOQfIivNKgE3xLjnfxaWGGHlyO4JOedQlKVSGOMFUSsYqPIV7hmZTlWKn0JH5V4pVyxL2/aGVdmw49dj9R/CtoceRveUj6Gq9Ssnhg+hrHNNdSyrxwD3JWX4Fh+VZ7XtHKv+8v8AOQ/vNVOlV/LQL/mJF1/7US/+Zbbl4h8axT9ppSP9ab/j/hVPpVVwsB+ZkTUnFiecrn4sxrWN8o5A1HUrVYooo88jfk4kei/WteS8c9cfDb/OsFKsoRXQq8knzYr4RX2lXKFot+JB1dvCGKgEb5Ugb435N158/OtG+ukUHSckjAGc46ZPl54qDavornXDxTs65cbOUdNb9ooa+0roOQ6H7Qu0FtfWNpKJF+1R4WSPrunjP6upVIrnlfK+0ISoUpShIpSlAKUpQClKUApSlAKUpQClKUB//9k=\" style=\"width: 415px;\">hii</p>', 1, 1, '0.00000000', '0.00000000', '0.00000000', 1, '0.00000000', 0, 2, 0, 0, 1, 0, '2019-02-02 01:56:25', 0, '2019-02-23 01:46:51'),
-(4, 1, 1, '123', '123', '123', 'chain 123', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-02-26 04:48:21', 0, '0000-00-00 00:00:00'),
-(5, 1, 1, '123', '123', '123', 'chain 123', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-05-11 10:56:50', 0, '0000-00-00 00:00:00'),
-(6, 1, 1, '123', '123', '123', 'chain 123', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-05-11 12:53:59', 0, '0000-00-00 00:00:00'),
-(7, 1, 1, '123', '123', '123', 'chain 123', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-05-11 12:57:12', 0, '0000-00-00 00:00:00'),
-(8, 1, 1, '123', '123', '123', 'chain 123', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-05-11 01:00:13', 0, '0000-00-00 00:00:00');
+INSERT INTO `products` (`id`, `type_id`, `manufacturer_id`, `code`, `model`, `sku`, `name`, `price_type`, `price`, `image`, `description`, `text`, `tax_class_id`, `length_class_id`, `length`, `width`, `height`, `weight_class_id`, `weight`, `viewed`, `minimum`, `shipping`, `inventory`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 1, 1, '123', '123', '123', 'chain 123', 'FIXED', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-05-28 12:13:31'),
+(2, 3, 1, 'c456', 'c456', 'c456', 'chain', 'HOUR', '456.00000000', 'upload/products/product6.jpg', '', '', 1, 1, '0.00000000', '0.00000000', '0.00000000', 1, '0.00000000', 0, 2, 0, 0, 1, 0, '2019-02-02 01:44:38', 0, '2019-02-08 07:10:05'),
+(3, 3, 1, '123', '123', '123', 'ring', 'FIXED', '1000.00000000', 'upload/products/product7.jpg', 'hii', '<p><img src=\"data:image/jpeg;base64,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\" style=\"width: 415px;\">hii</p>', 1, 1, '0.00000000', '0.00000000', '0.00000000', 1, '0.00000000', 0, 2, 0, 0, 1, 0, '2019-02-02 01:56:25', 0, '2019-02-23 01:46:51'),
+(4, 1, 1, '123', '123', '123', 'chain 123', 'FIXED', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-02-26 04:48:21', 0, '0000-00-00 00:00:00'),
+(5, 1, 1, '123', '123', '123', 'chain 123', 'FIXED', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-05-11 10:56:50', 0, '0000-00-00 00:00:00'),
+(6, 1, 1, '123', '123', '123', 'chain 123', 'FIXED', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-05-11 12:53:59', 0, '0000-00-00 00:00:00'),
+(7, 1, 1, '123', '123', '123', 'chain 123', 'FIXED', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-05-11 12:57:12', 0, '0000-00-00 00:00:00'),
+(8, 1, 1, '123', '123', '123', 'chain 123', 'FIXED', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-05-11 01:00:13', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1167,8 +1217,8 @@ CREATE TABLE `product_prices` (
 --
 
 INSERT INTO `product_prices` (`id`, `product_id`, `customer_group_id`, `price`, `start`, `end`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(11, 1, 1, '100.0000', '2019-05-01', '2019-05-31', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(12, 1, 2, '200.0000', '2019-05-01', '2019-05-31', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+(13, 1, 1, '100.0000', '2019-05-01', '2019-05-31', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(14, 1, 2, '200.0000', '2019-05-01', '2019-05-31', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1207,7 +1257,7 @@ INSERT INTO `product_reviews` (`id`, `product_id`, `customer_id`, `rating_id`, `
 CREATE TABLE `purchases` (
   `id` int(11) NOT NULL,
   `purchase_type_id` int(11) NOT NULL,
-  `customer_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `contact` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
@@ -1230,8 +1280,9 @@ CREATE TABLE `purchases` (
 -- Dumping data for table `purchases`
 --
 
-INSERT INTO `purchases` (`id`, `purchase_type_id`, `customer_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `comment`, `total`, `purchase_status_id`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '0.0000', 1, 1, 0, '2019-05-04 09:33:35', 0, '0000-00-00 00:00:00');
+INSERT INTO `purchases` (`id`, `purchase_type_id`, `vendor_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `comment`, `total`, `purchase_status_id`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '0.0000', 1, 1, 0, '2019-05-04 09:33:35', 0, '0000-00-00 00:00:00'),
+(6, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '30.0000', 1, 1, 0, '2019-05-27 11:38:26', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1275,7 +1326,7 @@ CREATE TABLE `purchase_statuses` (
 --
 
 INSERT INTO `purchase_statuses` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'pending', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 'Pending', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-27 09:32:18'),
 (2, 'processed', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -1297,7 +1348,8 @@ CREATE TABLE `purchase_totals` (
 --
 
 INSERT INTO `purchase_totals` (`purchase_id`, `code`, `title`, `value`, `sort_order`) VALUES
-(1, 'total', 'total', '123.0000', 0);
+(1, 'total', 'total', '123.0000', 0),
+(6, 'total', 'total', '0.0000', 0);
 
 -- --------------------------------------------------------
 
@@ -1331,10 +1383,12 @@ INSERT INTO `purchase_types` (`id`, `name`, `status`, `created_by`, `created_at`
 CREATE TABLE `p_carts` (
   `id` int(11) NOT NULL,
   `token` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  `customer_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
+  `price` decimal(15,8) NOT NULL,
   `option` text COLLATE utf8_unicode_ci NOT NULL,
   `quantity` decimal(15,4) NOT NULL,
+  `tax` decimal(15,8) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `created_by` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
@@ -1346,8 +1400,9 @@ CREATE TABLE `p_carts` (
 -- Dumping data for table `p_carts`
 --
 
-INSERT INTO `p_carts` (`id`, `token`, `customer_id`, `product_id`, `option`, `quantity`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, '1', 1, 1, '', '1.0000', 1, 0, '2019-05-04 09:29:24', 0, '0000-00-00 00:00:00');
+INSERT INTO `p_carts` (`id`, `token`, `user_id`, `product_id`, `price`, `option`, `quantity`, `tax`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 'qsJE6XUF', 1, 1, '200.00000000', '', '1.0000', '12.00000000', 1, 0, '2019-05-04 09:29:24', 0, '0000-00-00 00:00:00'),
+(2, '1', 1, 1, '20.00000000', '', '1.0000', '10.00000000', 1, 0, '2019-05-27 10:16:37', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1443,6 +1498,7 @@ CREATE TABLE `stocks` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `location_id` int(11) NOT NULL,
+  `price` decimal(15,8) NOT NULL,
   `quantity` decimal(15,8) NOT NULL,
   `type` char(1) COLLATE utf8_unicode_ci NOT NULL,
   `reference` char(1) COLLATE utf8_unicode_ci NOT NULL,
@@ -1459,9 +1515,9 @@ CREATE TABLE `stocks` (
 -- Dumping data for table `stocks`
 --
 
-INSERT INTO `stocks` (`id`, `product_id`, `location_id`, `quantity`, `type`, `reference`, `reference_id`, `text`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 2, '10.00000000', 'i', '', 0, '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(2, 1, 2, '10.00000000', 'o', '', 0, '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+INSERT INTO `stocks` (`id`, `product_id`, `location_id`, `price`, `quantity`, `type`, `reference`, `reference_id`, `text`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 1, 2, '0.00000000', '10.00000000', 'i', '', 0, '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(2, 1, 2, '0.00000000', '10.00000000', 'o', '', 0, '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1592,7 +1648,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `group_id`, `name`, `email`, `contact`, `password`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', '123', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-01-28 10:09:13'),
+(1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', '202cb962ac59075b964b07152d234b70', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-01-28 10:09:13'),
 (2, 2, 'ali', 'ali@gmail.com', '123456', '123', '', 1, 0, '2019-01-28 09:49:43', 0, '2019-01-28 10:11:35'),
 (3, 2, 'sahil', 'sahil@gmail.co', '123456456', '123', '', 1, 0, '2019-01-30 11:21:59', 0, '0000-00-00 00:00:00'),
 (4, 1, 'nadim', 'nadim@gmail.com', '123456123', '123456', '', 1, 0, '2019-02-02 11:20:14', 0, '0000-00-00 00:00:00');
@@ -1635,6 +1691,65 @@ CREATE TABLE `user_sessions` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `user_sessions`
+--
+
+INSERT INTO `user_sessions` (`id`, `user_id`, `token`, `created_at`, `updated_at`) VALUES
+(2, 1, 'qsJE6XUF', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendors`
+--
+
+CREATE TABLE `vendors` (
+  `id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(96) COLLATE utf8_unicode_ci NOT NULL,
+  `contact` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `image` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `vendors`
+--
+
+INSERT INTO `vendors` (`id`, `group_id`, `name`, `email`, `contact`, `password`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 1, 'abc info ', 'abc@gmail.com', '1234567890', '', '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vendor_groups`
+--
+
+CREATE TABLE `vendor_groups` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `image` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `vendor_groups`
+--
+
+INSERT INTO `vendor_groups` (`id`, `name`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 'Employee A', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-27 08:25:58');
 
 -- --------------------------------------------------------
 
@@ -5912,13 +6027,30 @@ ALTER TABLE `customer_wishlists`
 --
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `group_id` (`group_id`);
+  ADD KEY `group_id` (`group_id`),
+  ADD KEY `location_id` (`location_id`);
+
+--
+-- Indexes for table `employee_attendances`
+--
+ALTER TABLE `employee_attendances`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customer_id` (`employee_id`),
+  ADD KEY `location_id` (`location_id`);
 
 --
 -- Indexes for table `employee_groups`
 --
 ALTER TABLE `employee_groups`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `employee_orders`
+--
+ALTER TABLE `employee_orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customer_id` (`employee_id`),
+  ADD KEY `order_id` (`order_id`);
 
 --
 -- Indexes for table `employee_sessions`
@@ -5988,7 +6120,7 @@ ALTER TABLE `order_statuses`
 -- Indexes for table `order_totals`
 --
 ALTER TABLE `order_totals`
-  ADD PRIMARY KEY (`order_id`);
+  ADD UNIQUE KEY `order_id` (`order_id`,`code`);
 
 --
 -- Indexes for table `order_types`
@@ -6160,6 +6292,19 @@ ALTER TABLE `user_sessions`
   ADD KEY `customer_id` (`user_id`);
 
 --
+-- Indexes for table `vendors`
+--
+ALTER TABLE `vendors`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `group_id` (`group_id`);
+
+--
+-- Indexes for table `vendor_groups`
+--
+ALTER TABLE `vendor_groups`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `weight_classes`
 --
 ALTER TABLE `weight_classes`
@@ -6204,7 +6349,7 @@ ALTER TABLE `banner_images`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -6264,13 +6409,25 @@ ALTER TABLE `customer_wishlists`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `employee_attendances`
+--
+ALTER TABLE `employee_attendances`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `employee_groups`
 --
 ALTER TABLE `employee_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `employee_orders`
+--
+ALTER TABLE `employee_orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `employee_sessions`
@@ -6342,7 +6499,7 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT for table `product_prices`
 --
 ALTER TABLE `product_prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `product_reviews`
@@ -6354,7 +6511,7 @@ ALTER TABLE `product_reviews`
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `purchase_statuses`
@@ -6372,7 +6529,7 @@ ALTER TABLE `purchase_types`
 -- AUTO_INCREMENT for table `p_carts`
 --
 ALTER TABLE `p_carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ratings`
@@ -6426,7 +6583,19 @@ ALTER TABLE `user_groups`
 -- AUTO_INCREMENT for table `user_sessions`
 --
 ALTER TABLE `user_sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `vendors`
+--
+ALTER TABLE `vendors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `vendor_groups`
+--
+ALTER TABLE `vendor_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `weight_classes`
@@ -6513,7 +6682,22 @@ ALTER TABLE `customer_wishlists`
 -- Constraints for table `employees`
 --
 ALTER TABLE `employees`
-  ADD CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `employee_groups` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `employee_groups` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `employees_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `employee_attendances`
+--
+ALTER TABLE `employee_attendances`
+  ADD CONSTRAINT `employee_attendances_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `employee_attendances_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `employee_orders`
+--
+ALTER TABLE `employee_orders`
+  ADD CONSTRAINT `employee_orders_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `employee_orders_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `employee_sessions`
@@ -6655,6 +6839,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `user_sessions`
   ADD CONSTRAINT `user_sessions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `vendors`
+--
+ALTER TABLE `vendors`
+  ADD CONSTRAINT `vendors_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `vendors` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `zones`
