@@ -90,7 +90,7 @@ class Countries extends REST_Controller
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function deleteAll_post()
+    public function delete_all_post()
     {
         $this->data = [];
         $this->data['data'] = [];
