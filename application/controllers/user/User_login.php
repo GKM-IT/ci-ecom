@@ -59,7 +59,7 @@ class User_login extends REST_Controller
             $result = $this->getData($object);
         else:
             $this->data['status'] = false;
-            $this->data['error'] = sprintf($this->lang->line('error_login'), $this->lang->line('text_user'));
+            $this->data['message'] = sprintf($this->lang->line('error_login'), $this->lang->line('text_user'));
         endif;
 
         $this->data['data'] = $result;

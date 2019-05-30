@@ -106,10 +106,8 @@ class Countries_model extends CI_Model
         else:
             $this->db->trans_commit();
             return true;
-        endif;        
+        endif;
     }
-
-    
 
     public function save()
     {
@@ -117,7 +115,11 @@ class Countries_model extends CI_Model
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('iso_code_2', $this->input->post('iso_code_2'));
         $this->db->set('iso_code_3', $this->input->post('iso_code_3'));
-        $this->db->set('status', $this->input->post('status'));
+        if ($this->input->post('status')):
+            $this->db->set('status', $this->input->post('status'));
+        else:
+            $this->db->set('status', 1);
+        endif;
 
         if ($this->input->post('id')):
             $this->db->set('updated_at', $this->currectDatetime);
