@@ -4,7 +4,6 @@ class Countries_model extends CI_Model
 {
 
     private $table = 'countries';
-    private $table_view = 'countries';
     private $column_search = array('name', 'iso_code_2', 'iso_code_3', 'updated_at');
     private $currectDatetime = '';
 
@@ -16,7 +15,7 @@ class Countries_model extends CI_Model
 
     private function _getTablesQuery()
     {
-        $this->db->from($this->table_view);
+        $this->db->from($this->table);
         if ($this->input->post('name')):
             $this->db->where('name', $this->input->post('name'));
         endif;
@@ -25,7 +24,6 @@ class Countries_model extends CI_Model
             $status = 0;
         endif;
         $this->db->where('status', $status);
-        $this->_getStatus();
         $this->_getSearch();
         $this->_getSort();
     }
@@ -84,13 +82,13 @@ class Countries_model extends CI_Model
 
     public function countAll()
     {
-        $this->db->from($this->table_view);
+        $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
     public function getById($id)
     {
-        $this->db->from($this->table_view);
+        $this->db->from($this->table);
         $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->row_array();
