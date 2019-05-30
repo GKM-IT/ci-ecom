@@ -1,20 +1,21 @@
 <?php
 
-class Countries_model extends CI_Model {
+class Countries_model extends CI_Model
+{
 
     private $table = 'countries';
     private $table_view = 'countries';
-    private $column_order = array(null, 'name', 'iso_code_2', 'iso_code_3', 'updated_at', null);
     private $column_search = array('name', 'iso_code_2', 'iso_code_3', 'updated_at');
-    private $order = array('updated_at' => 'desc');
     private $currectDatetime = '';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->currectDatetime = date('Y-m-d h:i:s');
     }
 
-    private function _getTablesQuery() {
+    private function _getTablesQuery()
+    {
         $this->db->from($this->table_view);
         if ($this->input->post('name')):
             $this->db->where('name', $this->input->post('name'));
@@ -24,34 +25,43 @@ class Countries_model extends CI_Model {
             $status = 0;
         endif;
         $this->db->where('status', $status);
+        $this->_getStatus();
+        $this->_getSearch();
+        $this->_getSort();
+    }
+
+    private function _getSearch()
+    {
         $i = 0;
-        foreach ($this->column_search as $item) :
-            if (isset($_POST['length'])) :
-                if (isset($_POST['search']['value'])) :
-                    if ($i === 0) :
-                        $this->db->group_start();
-                        $this->db->like($item, $_POST['search']['value']);
-                    else :
-                        $this->db->or_like($item, $_POST['search']['value']);
-                    endif;
-                    if (count($this->column_search) - 1 == $i):
-                        $this->db->group_end();
-                    endif;
+        foreach ($this->column_search as $item):
+            if ($this->input->post('search')):
+                if ($i === 0):
+                    $this->db->group_start();
+                    $this->db->like($item, $this->input->post('search'));
+                else:
+                    $this->db->or_like($item, $this->input->post('search'));
+                endif;
+                if (count($this->column_search) - 1 == $i):
+                    $this->db->group_end();
                 endif;
             endif;
             $i++;
         endforeach;
-        if (isset($_POST['order'])) :
-            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-        elseif (isset($this->order)) :
-            $order = $this->order;
-            $this->db->order_by(key($order), $order[key($order)]);
+    }
+
+    private function _getSort()
+    {
+        if ($this->input->post('sort_by')):
+            $this->db->order_by($this->input->post('sort_by'), $this->input->post('sort_dir'));
+        else:
+            $this->db->order_by('updated_at', 'desc');
         endif;
     }
 
-    public function getTables() {
+    public function getTables()
+    {
         $this->_getTablesQuery();
-        if ($this->input->post('length')) :
+        if ($this->input->post('length')):
             if ($this->input->post('length') != -1):
                 if ($this->input->post('start')):
                     $start = $this->input->post('start');
@@ -62,50 +72,53 @@ class Countries_model extends CI_Model {
             endif;
         endif;
         $query = $this->db->get();
-    //    print_r($this->db->last_query());
-    //    exit;
         return $query->result_array();
     }
 
-    public function countFiltered() {
+    public function countFiltered()
+    {
         $this->_getTablesQuery();
         $query = $this->db->get();
         return $query->num_rows();
     }
 
-    public function countAll() {
+    public function countAll()
+    {
         $this->db->from($this->table_view);
         return $this->db->count_all_results();
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
         $this->db->from($this->table_view);
         $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->row_array();
     }
 
-    public function deleteById($id) {
+    public function deleteById($id)
+    {
         $this->db->trans_start();
         $this->db->where('id', $id);
         $this->db->delete($this->table);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE) :
+        if ($this->db->trans_status() === false):
             $this->db->trans_rollback();
-            return FALSE;
-        else :
+            return false;
+        else:
             $this->db->trans_commit();
-            return TRUE;
+            return true;
         endif;
     }
 
-    public function save() {
+    public function save()
+    {
         $this->db->trans_start();
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('iso_code_2', $this->input->post('iso_code_2'));
         $this->db->set('iso_code_3', $this->input->post('iso_code_3'));
         $this->db->set('status', $this->input->post('status'));
-        
+
         if ($this->input->post('id')):
             $this->db->set('updated_at', $this->currectDatetime);
             $id = $this->input->post('id');
@@ -116,16 +129,13 @@ class Countries_model extends CI_Model {
             $this->db->insert($this->table);
             $id = $this->db->insert_id();
         endif;
-        
-//        print_r($this->db->last_query());
-//        exit;
-        
-        if ($this->db->trans_status() === FALSE) :
+
+        if ($this->db->trans_status() === false):
             $this->db->trans_rollback();
-            return FALSE;
-        else :
+            return false;
+        else:
             $this->db->trans_commit();
-            return TRUE;
+            return true;
         endif;
     }
 
