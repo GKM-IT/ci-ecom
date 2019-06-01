@@ -3,6 +3,7 @@ class Query_lib
 {
     private $ci;
     public $table;
+    public $table_view;
     public $column_search;
 
     public function __construct()
@@ -68,12 +69,28 @@ class Query_lib
         endif;
     }
 
-    public function find()
+    public function like()
     {
         if ($_POST['find']):
             foreach ($_POST['find'] as $key => $value):
                 $this->ci->db->like($key, $value);
             endforeach;
         endif;
+    }
+    public function where()
+    {
+        if ($_POST['where']):
+            foreach ($_POST['where'] as $key => $value):
+                $this->ci->db->where($key, $value);
+            endforeach;
+        endif;
+    }
+
+    public function getById($id)
+    {
+        $this->ci->db->from($this->table_view);
+        $this->ci->db->where('id', $id);
+        $query = $this->ci->db->get();
+        return $query->row_array();
     }
 }

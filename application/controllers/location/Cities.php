@@ -30,6 +30,10 @@ class Cities extends REST_Controller
         if ($object):
             $result = [
                 'id' => $object['id'],
+                'country_id' => $object['country_id'],
+                'country' => $object['country'],
+                'zone_id' => $object['zone_id'],
+                'zone' => $object['zone'],
                 'name' => $object['name'],
                 'code' => $object['code'],
                 'status' => $object['status'],

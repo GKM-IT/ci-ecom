@@ -30,6 +30,8 @@ class Zones extends REST_Controller
         if ($object):
             $result = [
                 'id' => $object['id'],
+                'country_id' => $object['country_id'],
+                'country' => $object['country'],
                 'name' => $object['name'],
                 'code' => $object['code'],
                 'status' => $object['status'],

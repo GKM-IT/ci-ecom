@@ -12,13 +12,15 @@ class Countries_model extends CI_Model
         parent::__construct();
         $this->currectDatetime = date('Y-m-d h:i:s');
         $this->query_lib->table = $this->table;
+        $this->query_lib->table_view = $this->table;
         $this->query_lib->column_search = $this->column_search;
     }
 
     private function _getTablesQuery()
     {
         $this->db->from($this->table);
-        $this->query_lib->find();        
+        $this->query_lib->where();
+        $this->query_lib->like();
         $this->query_lib->getSearch();
         $this->query_lib->getSort();
     }
@@ -48,10 +50,7 @@ class Countries_model extends CI_Model
 
     public function getById($id)
     {
-        $this->db->from($this->table);
-        $this->db->where('id', $id);
-        $query = $this->db->get();
-        return $query->row_array();
+        return $this->query_lib->getById($id);
     }
 
     public function deleteById($id)
