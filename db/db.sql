@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 28, 2019 at 02:09 PM
+-- Generation Time: Jun 01, 2019 at 09:57 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -49,6 +49,26 @@ INSERT INTO `attributes` (`id`, `group_id`, `name`, `image`, `sort_order`, `stat
 (1, 1, 'color', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 01:50:45'),
 (2, 2, 'Surface Finish', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 1, 'red', 'undefined', 0, 1, 0, '2019-02-02 02:35:21', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `attributes_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `attributes_view` (
+`id` int(11)
+,`group_id` int(11)
+,`name` varchar(32)
+,`image` text
+,`sort_order` int(11)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`group_name` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -103,6 +123,24 @@ INSERT INTO `banners` (`id`, `type_id`, `name`, `status`, `created_by`, `created
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `banners_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `banners_view` (
+`id` int(11)
+,`type_id` int(11)
+,`name` varchar(32)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`type` varchar(32)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `banner_images`
 --
 
@@ -124,6 +162,24 @@ CREATE TABLE `banner_images` (
 INSERT INTO `banner_images` (`id`, `banner_id`, `type`, `type_id`, `name`, `image`, `link`, `sort_order`) VALUES
 (15, 1, '', 0, 'dasd', 'upload/banners/banner6.jpg', 'dasd', 1),
 (16, 1, '', 0, 'hii', 'upload/banners/banner8.jpg', 'hiii', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `banner_images_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `banner_images_view` (
+`id` int(11)
+,`banner_id` int(11)
+,`type` varchar(64)
+,`type_id` int(11)
+,`name` varchar(32)
+,`image` text
+,`link` text
+,`sort_order` int(11)
+,`banner` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -157,6 +213,30 @@ INSERT INTO `carts` (`id`, `token`, `customer_id`, `product_id`, `price_type`, `
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `carts_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `carts_view` (
+`id` int(11)
+,`token` varchar(128)
+,`customer_id` int(11)
+,`product_id` int(11)
+,`price_type` enum('FIXED','WEIGHT','LENGTH','HOUR')
+,`option` text
+,`quantity` decimal(15,4)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`customer` varchar(32)
+,`product` varchar(32)
+,`price` decimal(15,8)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categories`
 --
 
@@ -182,6 +262,27 @@ INSERT INTO `categories` (`id`, `type_id`, `parent_id`, `name`, `image`, `sort_o
 (1, 1, 0, 'chain', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-23 09:10:39'),
 (2, 2, 0, 'ring', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-30 12:46:44'),
 (3, 3, 0, 'pendant ', '', 0, 1, 0, '2019-01-30 12:51:35', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `categories_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `categories_view` (
+`id` int(11)
+,`type_id` int(11)
+,`parent_id` int(11)
+,`name` varchar(32)
+,`image` text
+,`sort_order` int(11)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`type` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -213,6 +314,27 @@ INSERT INTO `cities` (`id`, `country_id`, `zone_id`, `name`, `code`, `status`, `
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `cities_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `cities_view` (
+`id` int(11)
+,`country_id` int(11)
+,`zone_id` int(11)
+,`name` varchar(128)
+,`code` varchar(32)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`country` varchar(128)
+,`zone` varchar(128)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `countries`
 --
 
@@ -235,8 +357,8 @@ CREATE TABLE `countries` (
 --
 
 INSERT INTO `countries` (`id`, `name`, `iso_code_2`, `iso_code_3`, `address_format`, `postcode_required`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Afghanistan', 'AF', 'AFG', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(2, 'Albania', 'AL', 'ALB', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(1, 'Afghanistan', 'AF', 'AFG', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-05-30 01:20:12'),
+(2, 'Albania', 'AL', 'ALB', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-05-30 02:51:39'),
 (3, 'Algeria', 'DZ', 'DZA', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (4, 'American Samoa', 'AS', 'ASM', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (5, 'Andorra', 'AD', 'AND', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
@@ -474,7 +596,7 @@ INSERT INTO `countries` (`id`, `name`, `iso_code_2`, `iso_code_3`, `address_form
 (239, 'Zimbabwe', 'ZW', 'ZWE', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (242, 'Montenegro', 'ME', 'MNE', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (243, 'Serbia', 'RS', 'SRB', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(244, 'Aaland Islands', 'AX', 'ALA', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(244, 'Aaland Islands 1', 'AX', 'ALA', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-05-30 01:20:18'),
 (245, 'Bonaire, Sint Eustatius and Saba', 'BQ', 'BES', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (246, 'Curacao', 'CW', 'CUW', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (247, 'Palestinian Territory, Occupied', 'PS', 'PSE', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
@@ -552,6 +674,28 @@ INSERT INTO `customers` (`id`, `group_id`, `name`, `email`, `contact`, `password
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `customers_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `customers_view` (
+`id` int(11)
+,`group_id` int(11)
+,`name` varchar(32)
+,`email` varchar(96)
+,`contact` varchar(15)
+,`password` varchar(40)
+,`image` text
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`group_name` varchar(32)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customer_addresses`
 --
 
@@ -579,6 +723,34 @@ CREATE TABLE `customer_addresses` (
 
 INSERT INTO `customer_addresses` (`id`, `customer_id`, `name`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `default`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 1, 'nadim', '7737033665', 99, 1501, 1, '313001', 'udaipur', 0, 1, 0, '2019-05-11 11:20:53', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `customer_addresses_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `customer_addresses_view` (
+`id` int(11)
+,`customer_id` int(11)
+,`name` varchar(32)
+,`contact` varchar(15)
+,`country_id` int(11)
+,`zone_id` int(11)
+,`city_id` int(11)
+,`postcode` varchar(10)
+,`address` varchar(128)
+,`default` tinyint(1)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`customer` varchar(32)
+,`country` varchar(128)
+,`zone` varchar(128)
+,`city` varchar(128)
+);
 
 -- --------------------------------------------------------
 
@@ -630,6 +802,21 @@ INSERT INTO `customer_sessions` (`id`, `customer_id`, `token`, `created_at`, `up
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `customer_sessions_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `customer_sessions_view` (
+`id` int(11)
+,`customer_id` int(11)
+,`token` varchar(255)
+,`created_at` datetime
+,`updated_at` datetime
+,`customer` varchar(32)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customer_wishlists`
 --
 
@@ -652,6 +839,25 @@ INSERT INTO `customer_wishlists` (`id`, `customer_id`, `product_id`, `status`, `
 (5, 1, 3, 1, 0, '2019-03-09 10:18:15', 0, '0000-00-00 00:00:00'),
 (8, 1, 2, 1, 0, '2019-03-09 10:49:40', 0, '0000-00-00 00:00:00'),
 (9, 1, 1, 1, 0, '2019-03-14 05:23:09', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `customer_wishlists_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `customer_wishlists_view` (
+`id` int(11)
+,`customer_id` int(11)
+,`product_id` int(11)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`customer` varchar(32)
+,`product` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -686,6 +892,30 @@ INSERT INTO `employees` (`id`, `group_id`, `location_id`, `name`, `email`, `cont
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `employees_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `employees_view` (
+`id` int(11)
+,`group_id` int(11)
+,`location_id` int(11)
+,`name` varchar(32)
+,`email` varchar(96)
+,`contact` varchar(15)
+,`password` varchar(40)
+,`image` text
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`group_name` varchar(32)
+,`location` varchar(32)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `employee_attendances`
 --
 
@@ -708,6 +938,25 @@ INSERT INTO `employee_attendances` (`id`, `location_id`, `date`, `employee_id`, 
 (3, 1, '2019-05-24', 1, 'IN', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (4, 1, '2019-05-24', 1, 'IN', 1, '2019-05-26 09:45:20', '0000-00-00 00:00:00'),
 (5, 1, '2019-05-24', 1, 'OUT', 1, '2019-05-26 09:49:53', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `employee_attendances_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `employee_attendances_view` (
+`id` int(11)
+,`location_id` int(11)
+,`date` date
+,`employee_id` int(11)
+,`type` enum('IN','OUT')
+,`status` tinyint(1)
+,`created_at` datetime
+,`updated_at` datetime
+,`location` varchar(32)
+,`employee` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -760,6 +1009,33 @@ INSERT INTO `employee_orders` (`id`, `employee_id`, `order_id`, `remark`, `statu
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `employee_orders_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `employee_orders_view` (
+`id` int(11)
+,`employee_id` int(11)
+,`order_id` int(11)
+,`remark` text
+,`status` tinyint(1)
+,`created_at` datetime
+,`updated_at` datetime
+,`employee` varchar(32)
+,`name` varchar(32)
+,`email` varchar(128)
+,`contact` varchar(15)
+,`postcode` varchar(10)
+,`address` varchar(128)
+,`comment` text
+,`total` decimal(15,4)
+,`total_tax` decimal(15,4)
+,`order_type` varchar(32)
+,`order_status` varchar(32)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `employee_sessions`
 --
 
@@ -777,6 +1053,21 @@ CREATE TABLE `employee_sessions` (
 
 INSERT INTO `employee_sessions` (`id`, `employee_id`, `token`, `created_at`, `updated_at`) VALUES
 (1, 1, '123', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `employee_sessions_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `employee_sessions_view` (
+`id` int(11)
+,`employee_id` int(11)
+,`token` varchar(255)
+,`created_at` datetime
+,`updated_at` datetime
+,`employee` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -815,6 +1106,7 @@ INSERT INTO `informations` (`id`, `name`, `description`, `text`, `image`, `sort_
 
 CREATE TABLE `inquiries` (
   `id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `contact` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
@@ -830,11 +1122,56 @@ CREATE TABLE `inquiries` (
 -- Dumping data for table `inquiries`
 --
 
-INSERT INTO `inquiries` (`id`, `name`, `email`, `contact`, `text`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'nadim', 'nadim@gmail.com', '7737033665', 'hii', 1, 0, '2019-03-03 03:07:15', 0, '0000-00-00 00:00:00'),
-(2, 'nadim', 'nadim@gmail.com', '748237948723', 'fsdfdsf', 1, 0, '2019-03-03 03:11:54', 0, '0000-00-00 00:00:00'),
-(3, 'nadim', 'nadi@dsd..fdsf', '423423f', 'sdfdsf', 1, 0, '2019-03-03 03:14:06', 0, '0000-00-00 00:00:00'),
-(4, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 'hi', 1, 0, '2019-03-05 07:30:32', 0, '0000-00-00 00:00:00');
+INSERT INTO `inquiries` (`id`, `type_id`, `name`, `email`, `contact`, `text`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 'hii', 1, 0, '2019-03-03 03:07:15', 0, '0000-00-00 00:00:00'),
+(2, 1, 'nadim', 'nadim@gmail.com', '748237948723', 'fsdfdsf', 1, 0, '2019-03-03 03:11:54', 0, '0000-00-00 00:00:00'),
+(3, 1, 'nadim', 'nadi@dsd..fdsf', '423423f', 'sdfdsf', 1, 0, '2019-03-03 03:14:06', 0, '0000-00-00 00:00:00'),
+(4, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 'hi', 1, 0, '2019-03-05 07:30:32', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `inquiries_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `inquiries_view` (
+`id` int(11)
+,`type_id` int(11)
+,`name` varchar(32)
+,`email` varchar(128)
+,`contact` varchar(15)
+,`text` text
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`type` varchar(32)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inquiry_types`
+--
+
+CREATE TABLE `inquiry_types` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `inquiry_types`
+--
+
+INSERT INTO `inquiry_types` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 'a', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(2, 'b', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -900,6 +1237,34 @@ INSERT INTO `locations` (`id`, `name`, `contact_person`, `contact`, `email`, `co
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `locations_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `locations_view` (
+`id` int(11)
+,`name` varchar(32)
+,`contact_person` varchar(100)
+,`contact` varchar(15)
+,`email` varchar(128)
+,`country_id` int(11)
+,`zone_id` int(11)
+,`city_id` int(11)
+,`postcode` varchar(10)
+,`address` varchar(128)
+,`sort_order` int(11)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`country` varchar(128)
+,`zone` varchar(128)
+,`city` varchar(128)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `manufactures`
 --
 
@@ -933,6 +1298,7 @@ INSERT INTO `manufactures` (`id`, `name`, `image`, `sort_order`, `status`, `crea
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
+  `invoice_no` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `order_type_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -958,16 +1324,51 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `order_type_id`, `customer_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `comment`, `total`, `total_tax`, `order_status_id`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-10 03:11:01', 0, '2019-03-13 06:02:19'),
-(2, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-10 03:20:22', 0, '2019-03-13 06:02:35'),
-(3, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '850.5000', '126.3600', 1, 1, 0, '2019-03-10 04:51:58', 0, '2019-05-28 02:04:12'),
-(11, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-13 05:57:56', 0, '0000-00-00 00:00:00'),
-(12, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-13 06:01:34', 0, '0000-00-00 00:00:00'),
-(14, 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'dasd', '1000.0000', '0.0000', 1, 1, 0, '2019-03-14 05:59:53', 0, '0000-00-00 00:00:00'),
-(15, 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'hihoiho', '1000.0000', '0.0000', 1, 1, 0, '2019-03-16 10:21:20', 0, '0000-00-00 00:00:00'),
-(16, 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'i need', '123.0000', '0.0000', 1, 1, 0, '2019-03-16 01:09:32', 0, '0000-00-00 00:00:00'),
-(17, 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'dasd', 'dasd', '1000.0000', '0.0000', 1, 1, 0, '2019-04-18 03:44:51', 0, '0000-00-00 00:00:00');
+INSERT INTO `orders` (`id`, `invoice_no`, `order_type_id`, `customer_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `comment`, `total`, `total_tax`, `order_status_id`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, '', 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-10 03:11:01', 0, '2019-03-13 06:02:19'),
+(2, '', 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-10 03:20:22', 0, '2019-03-13 06:02:35'),
+(3, '', 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '850.5000', '126.3600', 1, 1, 0, '2019-03-10 04:51:58', 0, '2019-05-28 02:04:12'),
+(11, '', 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-13 05:57:56', 0, '0000-00-00 00:00:00'),
+(12, '', 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-13 06:01:34', 0, '0000-00-00 00:00:00'),
+(14, '', 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'dasd', '1000.0000', '0.0000', 1, 1, 0, '2019-03-14 05:59:53', 0, '0000-00-00 00:00:00'),
+(15, '', 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'hihoiho', '1000.0000', '0.0000', 1, 1, 0, '2019-03-16 10:21:20', 0, '0000-00-00 00:00:00'),
+(16, '', 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'i need', '123.0000', '0.0000', 1, 1, 0, '2019-03-16 01:09:32', 0, '0000-00-00 00:00:00'),
+(17, '', 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'dasd', 'dasd', '1000.0000', '0.0000', 1, 1, 0, '2019-04-18 03:44:51', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `orders_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `orders_view` (
+`id` int(11)
+,`order_type_id` int(11)
+,`customer_id` int(11)
+,`name` varchar(32)
+,`email` varchar(128)
+,`contact` varchar(15)
+,`country_id` int(11)
+,`zone_id` int(11)
+,`city_id` int(11)
+,`postcode` varchar(10)
+,`address` varchar(128)
+,`comment` text
+,`total` decimal(15,4)
+,`total_tax` decimal(15,4)
+,`order_status_id` int(11)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`order_type` varchar(32)
+,`customer` varchar(32)
+,`country` varchar(128)
+,`zone` varchar(128)
+,`city` varchar(128)
+,`order_status` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -1010,6 +1411,22 @@ INSERT INTO `order_products` (`order_id`, `product_id`, `price`, `quantity`, `ta
 (16, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
 (17, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
 (17, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `order_products_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `order_products_view` (
+`order_id` int(11)
+,`product_id` int(11)
+,`price` decimal(15,8)
+,`quantity` decimal(15,8)
+,`tax` decimal(15,8)
+,`total` decimal(15,8)
+,`product` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -1136,6 +1553,50 @@ INSERT INTO `products` (`id`, `type_id`, `manufacturer_id`, `code`, `model`, `sk
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `products_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `products_view` (
+`id` int(11)
+,`type_id` int(11)
+,`manufacturer_id` int(11)
+,`code` varchar(64)
+,`model` varchar(64)
+,`sku` varchar(64)
+,`name` varchar(32)
+,`price_type` enum('FIXED','WEIGHT','LENGTH','HOUR')
+,`price` decimal(15,8)
+,`image` text
+,`description` varchar(255)
+,`text` text
+,`tax_class_id` int(11)
+,`length_class_id` int(11)
+,`length` decimal(15,8)
+,`width` decimal(15,8)
+,`height` decimal(15,8)
+,`weight_class_id` int(11)
+,`weight` decimal(15,8)
+,`viewed` int(11)
+,`minimum` int(11)
+,`shipping` tinyint(1)
+,`inventory` tinyint(1)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`type` varchar(32)
+,`manufacturer` varchar(32)
+,`tax_class` varchar(32)
+,`length_class` varchar(32)
+,`length_unit` varchar(4)
+,`weight_class` varchar(32)
+,`weight_unit` varchar(4)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product_attributes`
 --
 
@@ -1154,6 +1615,20 @@ INSERT INTO `product_attributes` (`product_id`, `attribute_id`, `text`) VALUES
 (1, 2, 'nil'),
 (3, 1, 'red'),
 (3, 2, 'nif');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `product_attributes_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `product_attributes_view` (
+`product_id` int(11)
+,`attribute_id` int(11)
+,`text` text
+,`product` varchar(32)
+,`attribute` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -1218,7 +1693,30 @@ CREATE TABLE `product_prices` (
 
 INSERT INTO `product_prices` (`id`, `product_id`, `customer_group_id`, `price`, `start`, `end`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (13, 1, 1, '100.0000', '2019-05-01', '2019-05-31', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(14, 1, 2, '200.0000', '2019-05-01', '2019-05-31', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+(14, 2, 1, '200.0000', '2019-05-01', '2019-05-28', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(15, 3, 1, '100.0000', '2019-05-01', '2019-05-31', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `product_prices_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `product_prices_view` (
+`id` int(11)
+,`product_id` int(11)
+,`customer_group_id` int(11)
+,`price` decimal(15,4)
+,`start` date
+,`end` date
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`product` varchar(32)
+,`customer_group` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -1247,6 +1745,30 @@ CREATE TABLE `product_reviews` (
 INSERT INTO `product_reviews` (`id`, `product_id`, `customer_id`, `rating_id`, `name`, `text`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 1, 1, 2, 'nadim', 'nice product', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-11 01:33:56'),
 (2, 1, 1, 5, 'nadim', 'excellent', 1, 0, '2019-02-09 09:09:42', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `product_reviews_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `product_reviews_view` (
+`id` int(11)
+,`product_id` int(11)
+,`customer_id` int(11)
+,`rating_id` int(11)
+,`name` varchar(32)
+,`text` text
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`product` varchar(32)
+,`customer` varchar(32)
+,`rating` varchar(32)
+,`rate` int(11)
+);
 
 -- --------------------------------------------------------
 
@@ -1287,6 +1809,40 @@ INSERT INTO `purchases` (`id`, `purchase_type_id`, `vendor_id`, `name`, `email`,
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `purchases_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `purchases_view` (
+`id` int(11)
+,`purchase_type_id` int(11)
+,`vendor_id` int(11)
+,`name` varchar(32)
+,`email` varchar(128)
+,`contact` varchar(15)
+,`country_id` int(11)
+,`zone_id` int(11)
+,`city_id` int(11)
+,`postcode` varchar(10)
+,`address` varchar(128)
+,`comment` text
+,`total` decimal(15,4)
+,`purchase_status_id` int(11)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`purchase_type` varchar(32)
+,`vendor` varchar(32)
+,`country` varchar(128)
+,`zone` varchar(128)
+,`city` varchar(128)
+,`purchase_status` varchar(32)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `purchase_products`
 --
 
@@ -1304,6 +1860,21 @@ CREATE TABLE `purchase_products` (
 
 INSERT INTO `purchase_products` (`purchase_id`, `product_id`, `price`, `quantity`, `total`) VALUES
 (1, 1, '123.00000000', '1.00000000', '123.00000000');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `purchase_products_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `purchase_products_view` (
+`purchase_id` int(11)
+,`product_id` int(11)
+,`price` decimal(15,8)
+,`quantity` decimal(15,8)
+,`total` decimal(15,8)
+,`product` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -1401,8 +1972,32 @@ CREATE TABLE `p_carts` (
 --
 
 INSERT INTO `p_carts` (`id`, `token`, `user_id`, `product_id`, `price`, `option`, `quantity`, `tax`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'qsJE6XUF', 1, 1, '200.00000000', '', '1.0000', '12.00000000', 1, 0, '2019-05-04 09:29:24', 0, '0000-00-00 00:00:00'),
-(2, '1', 1, 1, '20.00000000', '', '1.0000', '10.00000000', 1, 0, '2019-05-27 10:16:37', 0, '0000-00-00 00:00:00');
+(1, '3QRevbFO', 1, 1, '200.00000000', '', '1.0000', '12.00000000', 1, 0, '2019-05-04 09:29:24', 0, '0000-00-00 00:00:00'),
+(2, '3QRevbFO', 1, 1, '20.00000000', '', '1.0000', '10.00000000', 1, 0, '2019-05-27 10:16:37', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `p_carts_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `p_carts_view` (
+`id` int(11)
+,`token` varchar(128)
+,`user_id` int(11)
+,`product_id` int(11)
+,`price` decimal(15,8)
+,`option` text
+,`quantity` decimal(15,4)
+,`tax` decimal(15,8)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`user` varchar(32)
+,`product` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -1522,6 +2117,31 @@ INSERT INTO `stocks` (`id`, `product_id`, `location_id`, `price`, `quantity`, `t
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `stocks_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `stocks_view` (
+`id` int(11)
+,`product_id` int(11)
+,`location_id` int(11)
+,`price` decimal(15,8)
+,`quantity` decimal(15,8)
+,`type` char(1)
+,`reference` char(1)
+,`reference_id` int(11)
+,`text` text
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`product` varchar(32)
+,`location` varchar(32)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stock_statuses`
 --
 
@@ -1598,6 +2218,26 @@ INSERT INTO `tax_rates` (`id`, `tax_class_id`, `name`, `rate`, `type`, `status`,
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `tax_rates_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `tax_rates_view` (
+`id` int(11)
+,`tax_class_id` int(11)
+,`name` varchar(32)
+,`rate` decimal(15,4)
+,`type` char(1)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`tax_class` varchar(32)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `types`
 --
 
@@ -1656,6 +2296,28 @@ INSERT INTO `users` (`id`, `group_id`, `name`, `email`, `contact`, `password`, `
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `users_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `users_view` (
+`id` int(11)
+,`group_id` int(11)
+,`name` varchar(32)
+,`email` varchar(96)
+,`contact` varchar(15)
+,`password` varchar(40)
+,`image` text
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`group_name` varchar(32)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_groups`
 --
 
@@ -1697,7 +2359,22 @@ CREATE TABLE `user_sessions` (
 --
 
 INSERT INTO `user_sessions` (`id`, `user_id`, `token`, `created_at`, `updated_at`) VALUES
-(2, 1, 'qsJE6XUF', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(5, 1, '3QRevbFO', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `user_sessions_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `user_sessions_view` (
+`id` int(11)
+,`user_id` int(11)
+,`token` varchar(255)
+,`created_at` datetime
+,`updated_at` datetime
+,`user` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -1726,6 +2403,28 @@ CREATE TABLE `vendors` (
 
 INSERT INTO `vendors` (`id`, `group_id`, `name`, `email`, `contact`, `password`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 1, 'abc info ', 'abc@gmail.com', '1234567890', '', '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `vendors_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `vendors_view` (
+`id` int(11)
+,`group_id` int(11)
+,`name` varchar(32)
+,`email` varchar(96)
+,`contact` varchar(15)
+,`password` varchar(40)
+,`image` text
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`group_name` varchar(32)
+);
 
 -- --------------------------------------------------------
 
@@ -5919,6 +6618,304 @@ INSERT INTO `zones` (`id`, `country_id`, `name`, `code`, `status`, `created_by`,
 (4237, 105, 'Fermo', 'FM', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (4238, 105, 'Monza Brianza', 'MB', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `zones_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `zones_view` (
+`id` int(11)
+,`country_id` int(11)
+,`name` varchar(128)
+,`code` varchar(32)
+,`status` tinyint(1)
+,`created_by` int(11)
+,`created_at` datetime
+,`updated_by` int(11)
+,`updated_at` datetime
+,`country` varchar(128)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `attributes_view`
+--
+DROP TABLE IF EXISTS `attributes_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `attributes_view`  AS  select `a`.`id` AS `id`,`a`.`group_id` AS `group_id`,`a`.`name` AS `name`,`a`.`image` AS `image`,`a`.`sort_order` AS `sort_order`,`a`.`status` AS `status`,`a`.`created_by` AS `created_by`,`a`.`created_at` AS `created_at`,`a`.`updated_by` AS `updated_by`,`a`.`updated_at` AS `updated_at`,`ag`.`name` AS `group_name` from (`attributes` `a` left join `attribute_groups` `ag` on((`ag`.`id` = `a`.`group_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `banners_view`
+--
+DROP TABLE IF EXISTS `banners_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `banners_view`  AS  select `b`.`id` AS `id`,`b`.`type_id` AS `type_id`,`b`.`name` AS `name`,`b`.`status` AS `status`,`b`.`created_by` AS `created_by`,`b`.`created_at` AS `created_at`,`b`.`updated_by` AS `updated_by`,`b`.`updated_at` AS `updated_at`,`t`.`name` AS `type` from (`banners` `b` left join `types` `t` on((`t`.`id` = `b`.`type_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `banner_images_view`
+--
+DROP TABLE IF EXISTS `banner_images_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `banner_images_view`  AS  select `bi`.`id` AS `id`,`bi`.`banner_id` AS `banner_id`,`bi`.`type` AS `type`,`bi`.`type_id` AS `type_id`,`bi`.`name` AS `name`,`bi`.`image` AS `image`,`bi`.`link` AS `link`,`bi`.`sort_order` AS `sort_order`,`b`.`name` AS `banner` from (`banner_images` `bi` left join `banners` `b` on((`b`.`id` = `bi`.`banner_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `carts_view`
+--
+DROP TABLE IF EXISTS `carts_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `carts_view`  AS  select `ct`.`id` AS `id`,`ct`.`token` AS `token`,`ct`.`customer_id` AS `customer_id`,`ct`.`product_id` AS `product_id`,`ct`.`price_type` AS `price_type`,`ct`.`option` AS `option`,`ct`.`quantity` AS `quantity`,`ct`.`status` AS `status`,`ct`.`created_by` AS `created_by`,`ct`.`created_at` AS `created_at`,`ct`.`updated_by` AS `updated_by`,`ct`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`p`.`name` AS `product`,`p`.`price` AS `price` from ((`carts` `ct` left join `customers` `c` on((`c`.`id` = `ct`.`customer_id`))) left join `products` `p` on((`p`.`id` = `ct`.`product_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `categories_view`
+--
+DROP TABLE IF EXISTS `categories_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `categories_view`  AS  select `c`.`id` AS `id`,`c`.`type_id` AS `type_id`,`c`.`parent_id` AS `parent_id`,`c`.`name` AS `name`,`c`.`image` AS `image`,`c`.`sort_order` AS `sort_order`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`t`.`name` AS `type` from (`categories` `c` left join `types` `t` on((`t`.`id` = `c`.`type_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `cities_view`
+--
+DROP TABLE IF EXISTS `cities_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cities_view`  AS  select `c`.`id` AS `id`,`c`.`country_id` AS `country_id`,`c`.`zone_id` AS `zone_id`,`c`.`name` AS `name`,`c`.`code` AS `code`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`ct`.`name` AS `country`,`z`.`name` AS `zone` from ((`cities` `c` left join `countries` `ct` on((`ct`.`id` = `c`.`country_id`))) left join `zones` `z` on((`z`.`id` = `c`.`zone_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `customers_view`
+--
+DROP TABLE IF EXISTS `customers_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customers_view`  AS  select `c`.`id` AS `id`,`c`.`group_id` AS `group_id`,`c`.`name` AS `name`,`c`.`email` AS `email`,`c`.`contact` AS `contact`,`c`.`password` AS `password`,`c`.`image` AS `image`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`cg`.`name` AS `group_name` from (`customers` `c` left join `customer_groups` `cg` on((`cg`.`id` = `c`.`group_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `customer_addresses_view`
+--
+DROP TABLE IF EXISTS `customer_addresses_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customer_addresses_view`  AS  select `ca`.`id` AS `id`,`ca`.`customer_id` AS `customer_id`,`ca`.`name` AS `name`,`ca`.`contact` AS `contact`,`ca`.`country_id` AS `country_id`,`ca`.`zone_id` AS `zone_id`,`ca`.`city_id` AS `city_id`,`ca`.`postcode` AS `postcode`,`ca`.`address` AS `address`,`ca`.`default` AS `default`,`ca`.`status` AS `status`,`ca`.`created_by` AS `created_by`,`ca`.`created_at` AS `created_at`,`ca`.`updated_by` AS `updated_by`,`ca`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`ct`.`name` AS `country`,`z`.`name` AS `zone`,`cs`.`name` AS `city` from ((((`customer_addresses` `ca` left join `customers` `c` on((`c`.`id` = `ca`.`customer_id`))) left join `countries` `ct` on((`ct`.`id` = `ca`.`country_id`))) left join `zones` `z` on((`z`.`id` = `ca`.`zone_id`))) left join `cities` `cs` on((`cs`.`id` = `ca`.`city_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `customer_sessions_view`
+--
+DROP TABLE IF EXISTS `customer_sessions_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customer_sessions_view`  AS  select `cs`.`id` AS `id`,`cs`.`customer_id` AS `customer_id`,`cs`.`token` AS `token`,`cs`.`created_at` AS `created_at`,`cs`.`updated_at` AS `updated_at`,`c`.`name` AS `customer` from (`customer_sessions` `cs` left join `customers` `c` on((`c`.`id` = `cs`.`customer_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `customer_wishlists_view`
+--
+DROP TABLE IF EXISTS `customer_wishlists_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customer_wishlists_view`  AS  select `cw`.`id` AS `id`,`cw`.`customer_id` AS `customer_id`,`cw`.`product_id` AS `product_id`,`cw`.`status` AS `status`,`cw`.`created_by` AS `created_by`,`cw`.`created_at` AS `created_at`,`cw`.`updated_by` AS `updated_by`,`cw`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`p`.`name` AS `product` from ((`customer_wishlists` `cw` left join `customers` `c` on((`c`.`id` = `cw`.`customer_id`))) left join `products` `p` on((`p`.`id` = `cw`.`product_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `employees_view`
+--
+DROP TABLE IF EXISTS `employees_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `employees_view`  AS  select `e`.`id` AS `id`,`e`.`group_id` AS `group_id`,`e`.`location_id` AS `location_id`,`e`.`name` AS `name`,`e`.`email` AS `email`,`e`.`contact` AS `contact`,`e`.`password` AS `password`,`e`.`image` AS `image`,`e`.`status` AS `status`,`e`.`created_by` AS `created_by`,`e`.`created_at` AS `created_at`,`e`.`updated_by` AS `updated_by`,`e`.`updated_at` AS `updated_at`,`eg`.`name` AS `group_name`,`l`.`name` AS `location` from ((`employees` `e` left join `employee_groups` `eg` on((`eg`.`id` = `e`.`group_id`))) left join `locations` `l` on((`l`.`id` = `e`.`location_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `employee_attendances_view`
+--
+DROP TABLE IF EXISTS `employee_attendances_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `employee_attendances_view`  AS  select `et`.`id` AS `id`,`et`.`location_id` AS `location_id`,`et`.`date` AS `date`,`et`.`employee_id` AS `employee_id`,`et`.`type` AS `type`,`et`.`status` AS `status`,`et`.`created_at` AS `created_at`,`et`.`updated_at` AS `updated_at`,`l`.`name` AS `location`,`e`.`name` AS `employee` from ((`employee_attendances` `et` left join `locations` `l` on((`l`.`id` = `et`.`location_id`))) left join `employees` `e` on((`e`.`id` = `et`.`employee_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `employee_orders_view`
+--
+DROP TABLE IF EXISTS `employee_orders_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `employee_orders_view`  AS  select `eo`.`id` AS `id`,`eo`.`employee_id` AS `employee_id`,`eo`.`order_id` AS `order_id`,`eo`.`remark` AS `remark`,`eo`.`status` AS `status`,`eo`.`created_at` AS `created_at`,`eo`.`updated_at` AS `updated_at`,`e`.`name` AS `employee`,`o`.`name` AS `name`,`o`.`email` AS `email`,`o`.`contact` AS `contact`,`o`.`postcode` AS `postcode`,`o`.`address` AS `address`,`o`.`comment` AS `comment`,`o`.`total` AS `total`,`o`.`total_tax` AS `total_tax`,`ot`.`name` AS `order_type`,`os`.`name` AS `order_status` from ((((`employee_orders` `eo` left join `employees` `e` on((`e`.`id` = `eo`.`employee_id`))) left join `orders` `o` on((`o`.`id` = `eo`.`order_id`))) left join `order_types` `ot` on((`ot`.`id` = `o`.`order_type_id`))) left join `order_statuses` `os` on((`os`.`id` = `o`.`order_status_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `employee_sessions_view`
+--
+DROP TABLE IF EXISTS `employee_sessions_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `employee_sessions_view`  AS  select `es`.`id` AS `id`,`es`.`employee_id` AS `employee_id`,`es`.`token` AS `token`,`es`.`created_at` AS `created_at`,`es`.`updated_at` AS `updated_at`,`e`.`name` AS `employee` from (`employee_sessions` `es` left join `employees` `e` on((`e`.`id` = `es`.`employee_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `inquiries_view`
+--
+DROP TABLE IF EXISTS `inquiries_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `inquiries_view`  AS  select `i`.`id` AS `id`,`i`.`type_id` AS `type_id`,`i`.`name` AS `name`,`i`.`email` AS `email`,`i`.`contact` AS `contact`,`i`.`text` AS `text`,`i`.`status` AS `status`,`i`.`created_by` AS `created_by`,`i`.`created_at` AS `created_at`,`i`.`updated_by` AS `updated_by`,`i`.`updated_at` AS `updated_at`,`it`.`name` AS `type` from (`inquiries` `i` left join `inquiry_types` `it` on((`it`.`id` = `i`.`type_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `locations_view`
+--
+DROP TABLE IF EXISTS `locations_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `locations_view`  AS  select `l`.`id` AS `id`,`l`.`name` AS `name`,`l`.`contact_person` AS `contact_person`,`l`.`contact` AS `contact`,`l`.`email` AS `email`,`l`.`country_id` AS `country_id`,`l`.`zone_id` AS `zone_id`,`l`.`city_id` AS `city_id`,`l`.`postcode` AS `postcode`,`l`.`address` AS `address`,`l`.`sort_order` AS `sort_order`,`l`.`status` AS `status`,`l`.`created_by` AS `created_by`,`l`.`created_at` AS `created_at`,`l`.`updated_by` AS `updated_by`,`l`.`updated_at` AS `updated_at`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city` from (((`locations` `l` left join `countries` `c` on((`c`.`id` = `l`.`country_id`))) left join `zones` `z` on((`z`.`id` = `l`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `l`.`city_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `orders_view`
+--
+DROP TABLE IF EXISTS `orders_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `orders_view`  AS  select `o`.`id` AS `id`,`o`.`order_type_id` AS `order_type_id`,`o`.`customer_id` AS `customer_id`,`o`.`name` AS `name`,`o`.`email` AS `email`,`o`.`contact` AS `contact`,`o`.`country_id` AS `country_id`,`o`.`zone_id` AS `zone_id`,`o`.`city_id` AS `city_id`,`o`.`postcode` AS `postcode`,`o`.`address` AS `address`,`o`.`comment` AS `comment`,`o`.`total` AS `total`,`o`.`total_tax` AS `total_tax`,`o`.`order_status_id` AS `order_status_id`,`o`.`status` AS `status`,`o`.`created_by` AS `created_by`,`o`.`created_at` AS `created_at`,`o`.`updated_by` AS `updated_by`,`o`.`updated_at` AS `updated_at`,`ot`.`name` AS `order_type`,`cr`.`name` AS `customer`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city`,`os`.`name` AS `order_status` from ((((((`orders` `o` left join `order_types` `ot` on((`ot`.`id` = `o`.`order_type_id`))) left join `customers` `cr` on((`cr`.`id` = `o`.`customer_id`))) left join `countries` `c` on((`c`.`id` = `o`.`country_id`))) left join `zones` `z` on((`z`.`id` = `o`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `o`.`city_id`))) left join `order_statuses` `os` on((`os`.`id` = `o`.`order_status_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `order_products_view`
+--
+DROP TABLE IF EXISTS `order_products_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `order_products_view`  AS  select `op`.`order_id` AS `order_id`,`op`.`product_id` AS `product_id`,`op`.`price` AS `price`,`op`.`quantity` AS `quantity`,`op`.`tax` AS `tax`,`op`.`total` AS `total`,`p`.`name` AS `product` from (`order_products` `op` left join `products` `p` on((`p`.`id` = `op`.`product_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `products_view`
+--
+DROP TABLE IF EXISTS `products_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `products_view`  AS  select `p`.`id` AS `id`,`p`.`type_id` AS `type_id`,`p`.`manufacturer_id` AS `manufacturer_id`,`p`.`code` AS `code`,`p`.`model` AS `model`,`p`.`sku` AS `sku`,`p`.`name` AS `name`,`p`.`price_type` AS `price_type`,`p`.`price` AS `price`,`p`.`image` AS `image`,`p`.`description` AS `description`,`p`.`text` AS `text`,`p`.`tax_class_id` AS `tax_class_id`,`p`.`length_class_id` AS `length_class_id`,`p`.`length` AS `length`,`p`.`width` AS `width`,`p`.`height` AS `height`,`p`.`weight_class_id` AS `weight_class_id`,`p`.`weight` AS `weight`,`p`.`viewed` AS `viewed`,`p`.`minimum` AS `minimum`,`p`.`shipping` AS `shipping`,`p`.`inventory` AS `inventory`,`p`.`status` AS `status`,`p`.`created_by` AS `created_by`,`p`.`created_at` AS `created_at`,`p`.`updated_by` AS `updated_by`,`p`.`updated_at` AS `updated_at`,`t`.`name` AS `type`,`m`.`name` AS `manufacturer`,`tc`.`name` AS `tax_class`,`lc`.`name` AS `length_class`,`lc`.`unit` AS `length_unit`,`wc`.`name` AS `weight_class`,`wc`.`unit` AS `weight_unit` from (((((`products` `p` left join `types` `t` on((`t`.`id` = `p`.`type_id`))) left join `manufactures` `m` on((`m`.`id` = `p`.`manufacturer_id`))) left join `tax_classes` `tc` on((`tc`.`id` = `p`.`tax_class_id`))) left join `length_classes` `lc` on((`lc`.`id` = `p`.`length_class_id`))) left join `weight_classes` `wc` on((`wc`.`id` = `p`.`weight_class_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `product_attributes_view`
+--
+DROP TABLE IF EXISTS `product_attributes_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `product_attributes_view`  AS  select `pa`.`product_id` AS `product_id`,`pa`.`attribute_id` AS `attribute_id`,`pa`.`text` AS `text`,`p`.`name` AS `product`,`a`.`name` AS `attribute` from ((`product_attributes` `pa` left join `products` `p` on((`p`.`id` = `pa`.`product_id`))) left join `attributes` `a` on((`a`.`id` = `pa`.`attribute_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `product_prices_view`
+--
+DROP TABLE IF EXISTS `product_prices_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `product_prices_view`  AS  select `pp`.`id` AS `id`,`pp`.`product_id` AS `product_id`,`pp`.`customer_group_id` AS `customer_group_id`,`pp`.`price` AS `price`,`pp`.`start` AS `start`,`pp`.`end` AS `end`,`pp`.`status` AS `status`,`pp`.`created_by` AS `created_by`,`pp`.`created_at` AS `created_at`,`pp`.`updated_by` AS `updated_by`,`pp`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`cg`.`name` AS `customer_group` from ((`product_prices` `pp` left join `products` `p` on((`p`.`id` = `pp`.`product_id`))) left join `customer_groups` `cg` on((`cg`.`id` = `pp`.`customer_group_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `product_reviews_view`
+--
+DROP TABLE IF EXISTS `product_reviews_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `product_reviews_view`  AS  select `pr`.`id` AS `id`,`pr`.`product_id` AS `product_id`,`pr`.`customer_id` AS `customer_id`,`pr`.`rating_id` AS `rating_id`,`pr`.`name` AS `name`,`pr`.`text` AS `text`,`pr`.`status` AS `status`,`pr`.`created_by` AS `created_by`,`pr`.`created_at` AS `created_at`,`pr`.`updated_by` AS `updated_by`,`pr`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`c`.`name` AS `customer`,`r`.`name` AS `rating`,`r`.`sort_order` AS `rate` from (((`product_reviews` `pr` left join `products` `p` on((`p`.`id` = `pr`.`product_id`))) left join `customers` `c` on((`c`.`id` = `pr`.`customer_id`))) left join `ratings` `r` on((`r`.`id` = `pr`.`rating_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `purchases_view`
+--
+DROP TABLE IF EXISTS `purchases_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `purchases_view`  AS  select `p`.`id` AS `id`,`p`.`purchase_type_id` AS `purchase_type_id`,`p`.`vendor_id` AS `vendor_id`,`p`.`name` AS `name`,`p`.`email` AS `email`,`p`.`contact` AS `contact`,`p`.`country_id` AS `country_id`,`p`.`zone_id` AS `zone_id`,`p`.`city_id` AS `city_id`,`p`.`postcode` AS `postcode`,`p`.`address` AS `address`,`p`.`comment` AS `comment`,`p`.`total` AS `total`,`p`.`purchase_status_id` AS `purchase_status_id`,`p`.`status` AS `status`,`p`.`created_by` AS `created_by`,`p`.`created_at` AS `created_at`,`p`.`updated_by` AS `updated_by`,`p`.`updated_at` AS `updated_at`,`pt`.`name` AS `purchase_type`,`v`.`name` AS `vendor`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city`,`ps`.`name` AS `purchase_status` from ((((((`purchases` `p` left join `purchase_types` `pt` on((`pt`.`id` = `p`.`purchase_type_id`))) left join `vendors` `v` on((`v`.`id` = `p`.`vendor_id`))) left join `countries` `c` on((`c`.`id` = `p`.`country_id`))) left join `zones` `z` on((`z`.`id` = `p`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `p`.`city_id`))) left join `purchase_statuses` `ps` on((`ps`.`id` = `p`.`purchase_status_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `purchase_products_view`
+--
+DROP TABLE IF EXISTS `purchase_products_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `purchase_products_view`  AS  select `pp`.`purchase_id` AS `purchase_id`,`pp`.`product_id` AS `product_id`,`pp`.`price` AS `price`,`pp`.`quantity` AS `quantity`,`pp`.`total` AS `total`,`p`.`name` AS `product` from (`purchase_products` `pp` left join `products` `p` on((`p`.`id` = `pp`.`product_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `p_carts_view`
+--
+DROP TABLE IF EXISTS `p_carts_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `p_carts_view`  AS  select `pc`.`id` AS `id`,`pc`.`token` AS `token`,`pc`.`user_id` AS `user_id`,`pc`.`product_id` AS `product_id`,`pc`.`price` AS `price`,`pc`.`option` AS `option`,`pc`.`quantity` AS `quantity`,`pc`.`tax` AS `tax`,`pc`.`status` AS `status`,`pc`.`created_by` AS `created_by`,`pc`.`created_at` AS `created_at`,`pc`.`updated_by` AS `updated_by`,`pc`.`updated_at` AS `updated_at`,`u`.`name` AS `user`,`p`.`name` AS `product` from ((`p_carts` `pc` left join `users` `u` on((`u`.`id` = `pc`.`user_id`))) left join `products` `p` on((`p`.`id` = `pc`.`product_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `stocks_view`
+--
+DROP TABLE IF EXISTS `stocks_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `stocks_view`  AS  select `s`.`id` AS `id`,`s`.`product_id` AS `product_id`,`s`.`location_id` AS `location_id`,`s`.`price` AS `price`,`s`.`quantity` AS `quantity`,`s`.`type` AS `type`,`s`.`reference` AS `reference`,`s`.`reference_id` AS `reference_id`,`s`.`text` AS `text`,`s`.`status` AS `status`,`s`.`created_by` AS `created_by`,`s`.`created_at` AS `created_at`,`s`.`updated_by` AS `updated_by`,`s`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`l`.`name` AS `location` from ((`stocks` `s` left join `products` `p` on((`p`.`id` = `s`.`product_id`))) left join `locations` `l` on((`l`.`id` = `s`.`location_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `tax_rates_view`
+--
+DROP TABLE IF EXISTS `tax_rates_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `tax_rates_view`  AS  select `tr`.`id` AS `id`,`tr`.`tax_class_id` AS `tax_class_id`,`tr`.`name` AS `name`,`tr`.`rate` AS `rate`,`tr`.`type` AS `type`,`tr`.`status` AS `status`,`tr`.`created_by` AS `created_by`,`tr`.`created_at` AS `created_at`,`tr`.`updated_by` AS `updated_by`,`tr`.`updated_at` AS `updated_at`,`tc`.`name` AS `tax_class` from (`tax_rates` `tr` left join `tax_classes` `tc` on((`tc`.`id` = `tr`.`tax_class_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `users_view`
+--
+DROP TABLE IF EXISTS `users_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `users_view`  AS  select `u`.`id` AS `id`,`u`.`group_id` AS `group_id`,`u`.`name` AS `name`,`u`.`email` AS `email`,`u`.`contact` AS `contact`,`u`.`password` AS `password`,`u`.`image` AS `image`,`u`.`status` AS `status`,`u`.`created_by` AS `created_by`,`u`.`created_at` AS `created_at`,`u`.`updated_by` AS `updated_by`,`u`.`updated_at` AS `updated_at`,`ug`.`name` AS `group_name` from (`users` `u` left join `user_groups` `ug` on((`ug`.`id` = `u`.`group_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `user_sessions_view`
+--
+DROP TABLE IF EXISTS `user_sessions_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_sessions_view`  AS  select `us`.`id` AS `id`,`us`.`user_id` AS `user_id`,`us`.`token` AS `token`,`us`.`created_at` AS `created_at`,`us`.`updated_at` AS `updated_at`,`u`.`name` AS `user` from (`user_sessions` `us` left join `users` `u` on((`u`.`id` = `us`.`user_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vendors_view`
+--
+DROP TABLE IF EXISTS `vendors_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vendors_view`  AS  select `v`.`id` AS `id`,`v`.`group_id` AS `group_id`,`v`.`name` AS `name`,`v`.`email` AS `email`,`v`.`contact` AS `contact`,`v`.`password` AS `password`,`v`.`image` AS `image`,`v`.`status` AS `status`,`v`.`created_by` AS `created_by`,`v`.`created_at` AS `created_at`,`v`.`updated_by` AS `updated_by`,`v`.`updated_at` AS `updated_at`,`vg`.`name` AS `group_name` from (`vendors` `v` left join `vendor_groups` `vg` on((`vg`.`id` = `v`.`group_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `zones_view`
+--
+DROP TABLE IF EXISTS `zones_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `zones_view`  AS  select `z`.`id` AS `id`,`z`.`country_id` AS `country_id`,`z`.`name` AS `name`,`z`.`code` AS `code`,`z`.`status` AS `status`,`z`.`created_by` AS `created_by`,`z`.`created_at` AS `created_at`,`z`.`updated_by` AS `updated_by`,`z`.`updated_at` AS `updated_at`,`c`.`name` AS `country` from (`zones` `z` left join `countries` `c` on((`c`.`id` = `z`.`country_id`))) ;
+
 --
 -- Indexes for dumped tables
 --
@@ -6069,6 +7066,13 @@ ALTER TABLE `informations`
 -- Indexes for table `inquiries`
 --
 ALTER TABLE `inquiries`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `type_id` (`type_id`);
+
+--
+-- Indexes for table `inquiry_types`
+--
+ALTER TABLE `inquiry_types`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -6448,6 +7452,12 @@ ALTER TABLE `inquiries`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `inquiry_types`
+--
+ALTER TABLE `inquiry_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `length_classes`
 --
 ALTER TABLE `length_classes`
@@ -6499,7 +7509,7 @@ ALTER TABLE `product_images`
 -- AUTO_INCREMENT for table `product_prices`
 --
 ALTER TABLE `product_prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `product_reviews`
@@ -6583,7 +7593,7 @@ ALTER TABLE `user_groups`
 -- AUTO_INCREMENT for table `user_sessions`
 --
 ALTER TABLE `user_sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `vendors`
@@ -6704,6 +7714,12 @@ ALTER TABLE `employee_orders`
 --
 ALTER TABLE `employee_sessions`
   ADD CONSTRAINT `employee_sessions_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `inquiries`
+--
+ALTER TABLE `inquiries`
+  ADD CONSTRAINT `inquiries_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `inquiry_types` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `locations`

@@ -64,6 +64,7 @@ $autoload['libraries'] = array(
     'database',
     'session',
     'settings_lib',
+    'query_lib',
 );
 
 /*
