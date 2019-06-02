@@ -31,6 +31,9 @@ class Carts_model extends CI_Model
         if ($this->input->post('token')):
             $this->db->where('token', $this->input->post('token'));
         endif;
+        if ($this->input->post('customer_id')):
+            $this->db->where('customer_id', $this->input->post('customer_id'));
+        endif;
         $this->query_lib->where();
         $this->query_lib->like();
         $this->query_lib->getSearch();
