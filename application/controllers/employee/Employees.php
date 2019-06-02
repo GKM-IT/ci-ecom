@@ -31,7 +31,7 @@ class Employees extends REST_Controller
             $result = [
                 'id' => $object['id'],
                 'group_id' => $object['group_id'],
-                'group' => $object['group'],
+                'group_name' => $object['group_name'],
                 'location_id' => $object['location_id'],
                 'location' => $object['location'],
                 'name' => $object['name'],

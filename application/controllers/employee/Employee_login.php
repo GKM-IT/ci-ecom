@@ -29,6 +29,8 @@ class Employee_login extends REST_Controller
         if ($object):
             $result = [
                 'id' => $object['id'],
+                'group_id' => $object['group_id'],
+                'group_name' => $object['group_name'],
                 'name' => $object['name'],
                 'email' => $object['email'],
                 'contact' => $object['contact'],
