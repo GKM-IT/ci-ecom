@@ -6644,7 +6644,7 @@ CREATE TABLE `zones_view` (
 --
 DROP TABLE IF EXISTS `attributes_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `attributes_view`  AS  select `a`.`id` AS `id`,`a`.`group_id` AS `group_id`,`a`.`name` AS `name`,`a`.`image` AS `image`,`a`.`sort_order` AS `sort_order`,`a`.`status` AS `status`,`a`.`created_by` AS `created_by`,`a`.`created_at` AS `created_at`,`a`.`updated_by` AS `updated_by`,`a`.`updated_at` AS `updated_at`,`ag`.`name` AS `group_name` from (`attributes` `a` left join `attribute_groups` `ag` on((`ag`.`id` = `a`.`group_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `attributes_view`  AS  select `a`.`id` AS `id`,`a`.`group_id` AS `group_id`,`a`.`name` AS `name`,`a`.`image` AS `image`,`a`.`sort_order` AS `sort_order`,`a`.`status` AS `status`,`a`.`created_by` AS `created_by`,`a`.`created_at` AS `created_at`,`a`.`updated_by` AS `updated_by`,`a`.`updated_at` AS `updated_at`,`ag`.`name` AS `group_name` from (`attributes` `a` left join `attribute_groups` `ag` on((`ag`.`id` = `a`.`group_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6653,7 +6653,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `banners_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `banners_view`  AS  select `b`.`id` AS `id`,`b`.`type_id` AS `type_id`,`b`.`name` AS `name`,`b`.`status` AS `status`,`b`.`created_by` AS `created_by`,`b`.`created_at` AS `created_at`,`b`.`updated_by` AS `updated_by`,`b`.`updated_at` AS `updated_at`,`t`.`name` AS `type` from (`banners` `b` left join `types` `t` on((`t`.`id` = `b`.`type_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `banners_view`  AS  select `b`.`id` AS `id`,`b`.`type_id` AS `type_id`,`b`.`name` AS `name`,`b`.`status` AS `status`,`b`.`created_by` AS `created_by`,`b`.`created_at` AS `created_at`,`b`.`updated_by` AS `updated_by`,`b`.`updated_at` AS `updated_at`,`t`.`name` AS `type` from (`banners` `b` left join `types` `t` on((`t`.`id` = `b`.`type_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6662,7 +6662,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `banner_images_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `banner_images_view`  AS  select `bi`.`id` AS `id`,`bi`.`banner_id` AS `banner_id`,`bi`.`type` AS `type`,`bi`.`type_id` AS `type_id`,`bi`.`name` AS `name`,`bi`.`image` AS `image`,`bi`.`link` AS `link`,`bi`.`sort_order` AS `sort_order`,`b`.`name` AS `banner` from (`banner_images` `bi` left join `banners` `b` on((`b`.`id` = `bi`.`banner_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `banner_images_view`  AS  select `bi`.`id` AS `id`,`bi`.`banner_id` AS `banner_id`,`bi`.`type` AS `type`,`bi`.`type_id` AS `type_id`,`bi`.`name` AS `name`,`bi`.`image` AS `image`,`bi`.`link` AS `link`,`bi`.`sort_order` AS `sort_order`,`b`.`name` AS `banner` from (`banner_images` `bi` left join `banners` `b` on((`b`.`id` = `bi`.`banner_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6671,7 +6671,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `carts_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `carts_view`  AS  select `ct`.`id` AS `id`,`ct`.`token` AS `token`,`ct`.`customer_id` AS `customer_id`,`ct`.`product_id` AS `product_id`,`ct`.`price_type` AS `price_type`,`ct`.`option` AS `option`,`ct`.`quantity` AS `quantity`,`ct`.`status` AS `status`,`ct`.`created_by` AS `created_by`,`ct`.`created_at` AS `created_at`,`ct`.`updated_by` AS `updated_by`,`ct`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`p`.`name` AS `product`,`p`.`price` AS `price` from ((`carts` `ct` left join `customers` `c` on((`c`.`id` = `ct`.`customer_id`))) left join `products` `p` on((`p`.`id` = `ct`.`product_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `carts_view`  AS  select `ct`.`id` AS `id`,`ct`.`token` AS `token`,`ct`.`customer_id` AS `customer_id`,`ct`.`product_id` AS `product_id`,`ct`.`price_type` AS `price_type`,`ct`.`option` AS `option`,`ct`.`quantity` AS `quantity`,`ct`.`status` AS `status`,`ct`.`created_by` AS `created_by`,`ct`.`created_at` AS `created_at`,`ct`.`updated_by` AS `updated_by`,`ct`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`p`.`name` AS `product`,`p`.`price` AS `price` from ((`carts` `ct` left join `customers` `c` on((`c`.`id` = `ct`.`customer_id`))) left join `products` `p` on((`p`.`id` = `ct`.`product_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6680,7 +6680,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `categories_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `categories_view`  AS  select `c`.`id` AS `id`,`c`.`type_id` AS `type_id`,`c`.`parent_id` AS `parent_id`,`c`.`name` AS `name`,`c`.`image` AS `image`,`c`.`sort_order` AS `sort_order`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`t`.`name` AS `type` from (`categories` `c` left join `types` `t` on((`t`.`id` = `c`.`type_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `categories_view`  AS  select `c`.`id` AS `id`,`c`.`type_id` AS `type_id`,`c`.`parent_id` AS `parent_id`,`c`.`name` AS `name`,`c`.`image` AS `image`,`c`.`sort_order` AS `sort_order`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`t`.`name` AS `type` from (`categories` `c` left join `types` `t` on((`t`.`id` = `c`.`type_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6689,7 +6689,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `cities_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cities_view`  AS  select `c`.`id` AS `id`,`c`.`country_id` AS `country_id`,`c`.`zone_id` AS `zone_id`,`c`.`name` AS `name`,`c`.`code` AS `code`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`ct`.`name` AS `country`,`z`.`name` AS `zone` from ((`cities` `c` left join `countries` `ct` on((`ct`.`id` = `c`.`country_id`))) left join `zones` `z` on((`z`.`id` = `c`.`zone_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `cities_view`  AS  select `c`.`id` AS `id`,`c`.`country_id` AS `country_id`,`c`.`zone_id` AS `zone_id`,`c`.`name` AS `name`,`c`.`code` AS `code`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`ct`.`name` AS `country`,`z`.`name` AS `zone` from ((`cities` `c` left join `countries` `ct` on((`ct`.`id` = `c`.`country_id`))) left join `zones` `z` on((`z`.`id` = `c`.`zone_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6698,7 +6698,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `customers_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customers_view`  AS  select `c`.`id` AS `id`,`c`.`group_id` AS `group_id`,`c`.`name` AS `name`,`c`.`email` AS `email`,`c`.`contact` AS `contact`,`c`.`password` AS `password`,`c`.`image` AS `image`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`cg`.`name` AS `group_name` from (`customers` `c` left join `customer_groups` `cg` on((`cg`.`id` = `c`.`group_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `customers_view`  AS  select `c`.`id` AS `id`,`c`.`group_id` AS `group_id`,`c`.`name` AS `name`,`c`.`email` AS `email`,`c`.`contact` AS `contact`,`c`.`password` AS `password`,`c`.`image` AS `image`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`cg`.`name` AS `group_name` from (`customers` `c` left join `customer_groups` `cg` on((`cg`.`id` = `c`.`group_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6707,7 +6707,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `customer_addresses_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customer_addresses_view`  AS  select `ca`.`id` AS `id`,`ca`.`customer_id` AS `customer_id`,`ca`.`name` AS `name`,`ca`.`contact` AS `contact`,`ca`.`country_id` AS `country_id`,`ca`.`zone_id` AS `zone_id`,`ca`.`city_id` AS `city_id`,`ca`.`postcode` AS `postcode`,`ca`.`address` AS `address`,`ca`.`default` AS `default`,`ca`.`status` AS `status`,`ca`.`created_by` AS `created_by`,`ca`.`created_at` AS `created_at`,`ca`.`updated_by` AS `updated_by`,`ca`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`ct`.`name` AS `country`,`z`.`name` AS `zone`,`cs`.`name` AS `city` from ((((`customer_addresses` `ca` left join `customers` `c` on((`c`.`id` = `ca`.`customer_id`))) left join `countries` `ct` on((`ct`.`id` = `ca`.`country_id`))) left join `zones` `z` on((`z`.`id` = `ca`.`zone_id`))) left join `cities` `cs` on((`cs`.`id` = `ca`.`city_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `customer_addresses_view`  AS  select `ca`.`id` AS `id`,`ca`.`customer_id` AS `customer_id`,`ca`.`name` AS `name`,`ca`.`contact` AS `contact`,`ca`.`country_id` AS `country_id`,`ca`.`zone_id` AS `zone_id`,`ca`.`city_id` AS `city_id`,`ca`.`postcode` AS `postcode`,`ca`.`address` AS `address`,`ca`.`default` AS `default`,`ca`.`status` AS `status`,`ca`.`created_by` AS `created_by`,`ca`.`created_at` AS `created_at`,`ca`.`updated_by` AS `updated_by`,`ca`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`ct`.`name` AS `country`,`z`.`name` AS `zone`,`cs`.`name` AS `city` from ((((`customer_addresses` `ca` left join `customers` `c` on((`c`.`id` = `ca`.`customer_id`))) left join `countries` `ct` on((`ct`.`id` = `ca`.`country_id`))) left join `zones` `z` on((`z`.`id` = `ca`.`zone_id`))) left join `cities` `cs` on((`cs`.`id` = `ca`.`city_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6716,7 +6716,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `customer_sessions_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customer_sessions_view`  AS  select `cs`.`id` AS `id`,`cs`.`customer_id` AS `customer_id`,`cs`.`token` AS `token`,`cs`.`created_at` AS `created_at`,`cs`.`updated_at` AS `updated_at`,`c`.`name` AS `customer` from (`customer_sessions` `cs` left join `customers` `c` on((`c`.`id` = `cs`.`customer_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `customer_sessions_view`  AS  select `cs`.`id` AS `id`,`cs`.`customer_id` AS `customer_id`,`cs`.`token` AS `token`,`cs`.`created_at` AS `created_at`,`cs`.`updated_at` AS `updated_at`,`c`.`name` AS `customer` from (`customer_sessions` `cs` left join `customers` `c` on((`c`.`id` = `cs`.`customer_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6725,7 +6725,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `customer_wishlists_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customer_wishlists_view`  AS  select `cw`.`id` AS `id`,`cw`.`customer_id` AS `customer_id`,`cw`.`product_id` AS `product_id`,`cw`.`status` AS `status`,`cw`.`created_by` AS `created_by`,`cw`.`created_at` AS `created_at`,`cw`.`updated_by` AS `updated_by`,`cw`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`p`.`name` AS `product` from ((`customer_wishlists` `cw` left join `customers` `c` on((`c`.`id` = `cw`.`customer_id`))) left join `products` `p` on((`p`.`id` = `cw`.`product_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `customer_wishlists_view`  AS  select `cw`.`id` AS `id`,`cw`.`customer_id` AS `customer_id`,`cw`.`product_id` AS `product_id`,`cw`.`status` AS `status`,`cw`.`created_by` AS `created_by`,`cw`.`created_at` AS `created_at`,`cw`.`updated_by` AS `updated_by`,`cw`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`p`.`name` AS `product` from ((`customer_wishlists` `cw` left join `customers` `c` on((`c`.`id` = `cw`.`customer_id`))) left join `products` `p` on((`p`.`id` = `cw`.`product_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6734,7 +6734,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `employees_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `employees_view`  AS  select `e`.`id` AS `id`,`e`.`group_id` AS `group_id`,`e`.`location_id` AS `location_id`,`e`.`name` AS `name`,`e`.`email` AS `email`,`e`.`contact` AS `contact`,`e`.`password` AS `password`,`e`.`image` AS `image`,`e`.`status` AS `status`,`e`.`created_by` AS `created_by`,`e`.`created_at` AS `created_at`,`e`.`updated_by` AS `updated_by`,`e`.`updated_at` AS `updated_at`,`eg`.`name` AS `group_name`,`l`.`name` AS `location` from ((`employees` `e` left join `employee_groups` `eg` on((`eg`.`id` = `e`.`group_id`))) left join `locations` `l` on((`l`.`id` = `e`.`location_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `employees_view`  AS  select `e`.`id` AS `id`,`e`.`group_id` AS `group_id`,`e`.`location_id` AS `location_id`,`e`.`name` AS `name`,`e`.`email` AS `email`,`e`.`contact` AS `contact`,`e`.`password` AS `password`,`e`.`image` AS `image`,`e`.`status` AS `status`,`e`.`created_by` AS `created_by`,`e`.`created_at` AS `created_at`,`e`.`updated_by` AS `updated_by`,`e`.`updated_at` AS `updated_at`,`eg`.`name` AS `group_name`,`l`.`name` AS `location` from ((`employees` `e` left join `employee_groups` `eg` on((`eg`.`id` = `e`.`group_id`))) left join `locations` `l` on((`l`.`id` = `e`.`location_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6743,7 +6743,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `employee_attendances_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `employee_attendances_view`  AS  select `et`.`id` AS `id`,`et`.`location_id` AS `location_id`,`et`.`date` AS `date`,`et`.`employee_id` AS `employee_id`,`et`.`type` AS `type`,`et`.`status` AS `status`,`et`.`created_at` AS `created_at`,`et`.`updated_at` AS `updated_at`,`l`.`name` AS `location`,`e`.`name` AS `employee` from ((`employee_attendances` `et` left join `locations` `l` on((`l`.`id` = `et`.`location_id`))) left join `employees` `e` on((`e`.`id` = `et`.`employee_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `employee_attendances_view`  AS  select `et`.`id` AS `id`,`et`.`location_id` AS `location_id`,`et`.`date` AS `date`,`et`.`employee_id` AS `employee_id`,`et`.`type` AS `type`,`et`.`status` AS `status`,`et`.`created_at` AS `created_at`,`et`.`updated_at` AS `updated_at`,`l`.`name` AS `location`,`e`.`name` AS `employee` from ((`employee_attendances` `et` left join `locations` `l` on((`l`.`id` = `et`.`location_id`))) left join `employees` `e` on((`e`.`id` = `et`.`employee_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6752,7 +6752,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `employee_orders_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `employee_orders_view`  AS  select `eo`.`id` AS `id`,`eo`.`employee_id` AS `employee_id`,`eo`.`order_id` AS `order_id`,`eo`.`remark` AS `remark`,`eo`.`status` AS `status`,`eo`.`created_at` AS `created_at`,`eo`.`updated_at` AS `updated_at`,`e`.`name` AS `employee`,`o`.`name` AS `name`,`o`.`email` AS `email`,`o`.`contact` AS `contact`,`o`.`postcode` AS `postcode`,`o`.`address` AS `address`,`o`.`comment` AS `comment`,`o`.`total` AS `total`,`o`.`total_tax` AS `total_tax`,`ot`.`name` AS `order_type`,`os`.`name` AS `order_status` from ((((`employee_orders` `eo` left join `employees` `e` on((`e`.`id` = `eo`.`employee_id`))) left join `orders` `o` on((`o`.`id` = `eo`.`order_id`))) left join `order_types` `ot` on((`ot`.`id` = `o`.`order_type_id`))) left join `order_statuses` `os` on((`os`.`id` = `o`.`order_status_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `employee_orders_view`  AS  select `eo`.`id` AS `id`,`eo`.`employee_id` AS `employee_id`,`eo`.`order_id` AS `order_id`,`eo`.`remark` AS `remark`,`eo`.`status` AS `status`,`eo`.`created_at` AS `created_at`,`eo`.`updated_at` AS `updated_at`,`e`.`name` AS `employee`,`o`.`name` AS `name`,`o`.`email` AS `email`,`o`.`contact` AS `contact`,`o`.`postcode` AS `postcode`,`o`.`address` AS `address`,`o`.`comment` AS `comment`,`o`.`total` AS `total`,`o`.`total_tax` AS `total_tax`,`ot`.`name` AS `order_type`,`os`.`name` AS `order_status` from ((((`employee_orders` `eo` left join `employees` `e` on((`e`.`id` = `eo`.`employee_id`))) left join `orders` `o` on((`o`.`id` = `eo`.`order_id`))) left join `order_types` `ot` on((`ot`.`id` = `o`.`order_type_id`))) left join `order_statuses` `os` on((`os`.`id` = `o`.`order_status_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6761,7 +6761,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `employee_sessions_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `employee_sessions_view`  AS  select `es`.`id` AS `id`,`es`.`employee_id` AS `employee_id`,`es`.`token` AS `token`,`es`.`created_at` AS `created_at`,`es`.`updated_at` AS `updated_at`,`e`.`name` AS `employee` from (`employee_sessions` `es` left join `employees` `e` on((`e`.`id` = `es`.`employee_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `employee_sessions_view`  AS  select `es`.`id` AS `id`,`es`.`employee_id` AS `employee_id`,`es`.`token` AS `token`,`es`.`created_at` AS `created_at`,`es`.`updated_at` AS `updated_at`,`e`.`name` AS `employee` from (`employee_sessions` `es` left join `employees` `e` on((`e`.`id` = `es`.`employee_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6770,7 +6770,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `inquiries_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `inquiries_view`  AS  select `i`.`id` AS `id`,`i`.`type_id` AS `type_id`,`i`.`name` AS `name`,`i`.`email` AS `email`,`i`.`contact` AS `contact`,`i`.`text` AS `text`,`i`.`status` AS `status`,`i`.`created_by` AS `created_by`,`i`.`created_at` AS `created_at`,`i`.`updated_by` AS `updated_by`,`i`.`updated_at` AS `updated_at`,`it`.`name` AS `type` from (`inquiries` `i` left join `inquiry_types` `it` on((`it`.`id` = `i`.`type_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `inquiries_view`  AS  select `i`.`id` AS `id`,`i`.`type_id` AS `type_id`,`i`.`name` AS `name`,`i`.`email` AS `email`,`i`.`contact` AS `contact`,`i`.`text` AS `text`,`i`.`status` AS `status`,`i`.`created_by` AS `created_by`,`i`.`created_at` AS `created_at`,`i`.`updated_by` AS `updated_by`,`i`.`updated_at` AS `updated_at`,`it`.`name` AS `type` from (`inquiries` `i` left join `inquiry_types` `it` on((`it`.`id` = `i`.`type_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6779,7 +6779,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `locations_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `locations_view`  AS  select `l`.`id` AS `id`,`l`.`name` AS `name`,`l`.`contact_person` AS `contact_person`,`l`.`contact` AS `contact`,`l`.`email` AS `email`,`l`.`country_id` AS `country_id`,`l`.`zone_id` AS `zone_id`,`l`.`city_id` AS `city_id`,`l`.`postcode` AS `postcode`,`l`.`address` AS `address`,`l`.`sort_order` AS `sort_order`,`l`.`status` AS `status`,`l`.`created_by` AS `created_by`,`l`.`created_at` AS `created_at`,`l`.`updated_by` AS `updated_by`,`l`.`updated_at` AS `updated_at`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city` from (((`locations` `l` left join `countries` `c` on((`c`.`id` = `l`.`country_id`))) left join `zones` `z` on((`z`.`id` = `l`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `l`.`city_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `locations_view`  AS  select `l`.`id` AS `id`,`l`.`name` AS `name`,`l`.`contact_person` AS `contact_person`,`l`.`contact` AS `contact`,`l`.`email` AS `email`,`l`.`country_id` AS `country_id`,`l`.`zone_id` AS `zone_id`,`l`.`city_id` AS `city_id`,`l`.`postcode` AS `postcode`,`l`.`address` AS `address`,`l`.`sort_order` AS `sort_order`,`l`.`status` AS `status`,`l`.`created_by` AS `created_by`,`l`.`created_at` AS `created_at`,`l`.`updated_by` AS `updated_by`,`l`.`updated_at` AS `updated_at`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city` from (((`locations` `l` left join `countries` `c` on((`c`.`id` = `l`.`country_id`))) left join `zones` `z` on((`z`.`id` = `l`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `l`.`city_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6788,7 +6788,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `orders_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `orders_view`  AS  select `o`.`id` AS `id`,`o`.`order_type_id` AS `order_type_id`,`o`.`customer_id` AS `customer_id`,`o`.`name` AS `name`,`o`.`email` AS `email`,`o`.`contact` AS `contact`,`o`.`country_id` AS `country_id`,`o`.`zone_id` AS `zone_id`,`o`.`city_id` AS `city_id`,`o`.`postcode` AS `postcode`,`o`.`address` AS `address`,`o`.`comment` AS `comment`,`o`.`total` AS `total`,`o`.`total_tax` AS `total_tax`,`o`.`order_status_id` AS `order_status_id`,`o`.`status` AS `status`,`o`.`created_by` AS `created_by`,`o`.`created_at` AS `created_at`,`o`.`updated_by` AS `updated_by`,`o`.`updated_at` AS `updated_at`,`ot`.`name` AS `order_type`,`cr`.`name` AS `customer`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city`,`os`.`name` AS `order_status` from ((((((`orders` `o` left join `order_types` `ot` on((`ot`.`id` = `o`.`order_type_id`))) left join `customers` `cr` on((`cr`.`id` = `o`.`customer_id`))) left join `countries` `c` on((`c`.`id` = `o`.`country_id`))) left join `zones` `z` on((`z`.`id` = `o`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `o`.`city_id`))) left join `order_statuses` `os` on((`os`.`id` = `o`.`order_status_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `orders_view`  AS  select `o`.`id` AS `id`,`o`.`order_type_id` AS `order_type_id`,`o`.`customer_id` AS `customer_id`,`o`.`name` AS `name`,`o`.`email` AS `email`,`o`.`contact` AS `contact`,`o`.`country_id` AS `country_id`,`o`.`zone_id` AS `zone_id`,`o`.`city_id` AS `city_id`,`o`.`postcode` AS `postcode`,`o`.`address` AS `address`,`o`.`comment` AS `comment`,`o`.`total` AS `total`,`o`.`total_tax` AS `total_tax`,`o`.`order_status_id` AS `order_status_id`,`o`.`status` AS `status`,`o`.`created_by` AS `created_by`,`o`.`created_at` AS `created_at`,`o`.`updated_by` AS `updated_by`,`o`.`updated_at` AS `updated_at`,`ot`.`name` AS `order_type`,`cr`.`name` AS `customer`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city`,`os`.`name` AS `order_status` from ((((((`orders` `o` left join `order_types` `ot` on((`ot`.`id` = `o`.`order_type_id`))) left join `customers` `cr` on((`cr`.`id` = `o`.`customer_id`))) left join `countries` `c` on((`c`.`id` = `o`.`country_id`))) left join `zones` `z` on((`z`.`id` = `o`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `o`.`city_id`))) left join `order_statuses` `os` on((`os`.`id` = `o`.`order_status_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6797,7 +6797,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `order_products_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `order_products_view`  AS  select `op`.`order_id` AS `order_id`,`op`.`product_id` AS `product_id`,`op`.`price` AS `price`,`op`.`quantity` AS `quantity`,`op`.`tax` AS `tax`,`op`.`total` AS `total`,`p`.`name` AS `product` from (`order_products` `op` left join `products` `p` on((`p`.`id` = `op`.`product_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `order_products_view`  AS  select `op`.`order_id` AS `order_id`,`op`.`product_id` AS `product_id`,`op`.`price` AS `price`,`op`.`quantity` AS `quantity`,`op`.`tax` AS `tax`,`op`.`total` AS `total`,`p`.`name` AS `product` from (`order_products` `op` left join `products` `p` on((`p`.`id` = `op`.`product_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6806,7 +6806,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `products_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `products_view`  AS  select `p`.`id` AS `id`,`p`.`type_id` AS `type_id`,`p`.`manufacturer_id` AS `manufacturer_id`,`p`.`code` AS `code`,`p`.`model` AS `model`,`p`.`sku` AS `sku`,`p`.`name` AS `name`,`p`.`price_type` AS `price_type`,`p`.`price` AS `price`,`p`.`image` AS `image`,`p`.`description` AS `description`,`p`.`text` AS `text`,`p`.`tax_class_id` AS `tax_class_id`,`p`.`length_class_id` AS `length_class_id`,`p`.`length` AS `length`,`p`.`width` AS `width`,`p`.`height` AS `height`,`p`.`weight_class_id` AS `weight_class_id`,`p`.`weight` AS `weight`,`p`.`viewed` AS `viewed`,`p`.`minimum` AS `minimum`,`p`.`shipping` AS `shipping`,`p`.`inventory` AS `inventory`,`p`.`status` AS `status`,`p`.`created_by` AS `created_by`,`p`.`created_at` AS `created_at`,`p`.`updated_by` AS `updated_by`,`p`.`updated_at` AS `updated_at`,`t`.`name` AS `type`,`m`.`name` AS `manufacturer`,`tc`.`name` AS `tax_class`,`lc`.`name` AS `length_class`,`lc`.`unit` AS `length_unit`,`wc`.`name` AS `weight_class`,`wc`.`unit` AS `weight_unit` from (((((`products` `p` left join `types` `t` on((`t`.`id` = `p`.`type_id`))) left join `manufactures` `m` on((`m`.`id` = `p`.`manufacturer_id`))) left join `tax_classes` `tc` on((`tc`.`id` = `p`.`tax_class_id`))) left join `length_classes` `lc` on((`lc`.`id` = `p`.`length_class_id`))) left join `weight_classes` `wc` on((`wc`.`id` = `p`.`weight_class_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `products_view`  AS  select `p`.`id` AS `id`,`p`.`type_id` AS `type_id`,`p`.`manufacturer_id` AS `manufacturer_id`,`p`.`code` AS `code`,`p`.`model` AS `model`,`p`.`sku` AS `sku`,`p`.`name` AS `name`,`p`.`price_type` AS `price_type`,`p`.`price` AS `price`,`p`.`image` AS `image`,`p`.`description` AS `description`,`p`.`text` AS `text`,`p`.`tax_class_id` AS `tax_class_id`,`p`.`length_class_id` AS `length_class_id`,`p`.`length` AS `length`,`p`.`width` AS `width`,`p`.`height` AS `height`,`p`.`weight_class_id` AS `weight_class_id`,`p`.`weight` AS `weight`,`p`.`viewed` AS `viewed`,`p`.`minimum` AS `minimum`,`p`.`shipping` AS `shipping`,`p`.`inventory` AS `inventory`,`p`.`status` AS `status`,`p`.`created_by` AS `created_by`,`p`.`created_at` AS `created_at`,`p`.`updated_by` AS `updated_by`,`p`.`updated_at` AS `updated_at`,`t`.`name` AS `type`,`m`.`name` AS `manufacturer`,`tc`.`name` AS `tax_class`,`lc`.`name` AS `length_class`,`lc`.`unit` AS `length_unit`,`wc`.`name` AS `weight_class`,`wc`.`unit` AS `weight_unit` from (((((`products` `p` left join `types` `t` on((`t`.`id` = `p`.`type_id`))) left join `manufactures` `m` on((`m`.`id` = `p`.`manufacturer_id`))) left join `tax_classes` `tc` on((`tc`.`id` = `p`.`tax_class_id`))) left join `length_classes` `lc` on((`lc`.`id` = `p`.`length_class_id`))) left join `weight_classes` `wc` on((`wc`.`id` = `p`.`weight_class_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6815,7 +6815,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `product_attributes_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `product_attributes_view`  AS  select `pa`.`product_id` AS `product_id`,`pa`.`attribute_id` AS `attribute_id`,`pa`.`text` AS `text`,`p`.`name` AS `product`,`a`.`name` AS `attribute` from ((`product_attributes` `pa` left join `products` `p` on((`p`.`id` = `pa`.`product_id`))) left join `attributes` `a` on((`a`.`id` = `pa`.`attribute_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `product_attributes_view`  AS  select `pa`.`product_id` AS `product_id`,`pa`.`attribute_id` AS `attribute_id`,`pa`.`text` AS `text`,`p`.`name` AS `product`,`a`.`name` AS `attribute` from ((`product_attributes` `pa` left join `products` `p` on((`p`.`id` = `pa`.`product_id`))) left join `attributes` `a` on((`a`.`id` = `pa`.`attribute_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6824,7 +6824,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `product_prices_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `product_prices_view`  AS  select `pp`.`id` AS `id`,`pp`.`product_id` AS `product_id`,`pp`.`customer_group_id` AS `customer_group_id`,`pp`.`price` AS `price`,`pp`.`start` AS `start`,`pp`.`end` AS `end`,`pp`.`status` AS `status`,`pp`.`created_by` AS `created_by`,`pp`.`created_at` AS `created_at`,`pp`.`updated_by` AS `updated_by`,`pp`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`cg`.`name` AS `customer_group` from ((`product_prices` `pp` left join `products` `p` on((`p`.`id` = `pp`.`product_id`))) left join `customer_groups` `cg` on((`cg`.`id` = `pp`.`customer_group_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `product_prices_view`  AS  select `pp`.`id` AS `id`,`pp`.`product_id` AS `product_id`,`pp`.`customer_group_id` AS `customer_group_id`,`pp`.`price` AS `price`,`pp`.`start` AS `start`,`pp`.`end` AS `end`,`pp`.`status` AS `status`,`pp`.`created_by` AS `created_by`,`pp`.`created_at` AS `created_at`,`pp`.`updated_by` AS `updated_by`,`pp`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`cg`.`name` AS `customer_group` from ((`product_prices` `pp` left join `products` `p` on((`p`.`id` = `pp`.`product_id`))) left join `customer_groups` `cg` on((`cg`.`id` = `pp`.`customer_group_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6833,7 +6833,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `product_reviews_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `product_reviews_view`  AS  select `pr`.`id` AS `id`,`pr`.`product_id` AS `product_id`,`pr`.`customer_id` AS `customer_id`,`pr`.`rating_id` AS `rating_id`,`pr`.`name` AS `name`,`pr`.`text` AS `text`,`pr`.`status` AS `status`,`pr`.`created_by` AS `created_by`,`pr`.`created_at` AS `created_at`,`pr`.`updated_by` AS `updated_by`,`pr`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`c`.`name` AS `customer`,`r`.`name` AS `rating`,`r`.`sort_order` AS `rate` from (((`product_reviews` `pr` left join `products` `p` on((`p`.`id` = `pr`.`product_id`))) left join `customers` `c` on((`c`.`id` = `pr`.`customer_id`))) left join `ratings` `r` on((`r`.`id` = `pr`.`rating_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `product_reviews_view`  AS  select `pr`.`id` AS `id`,`pr`.`product_id` AS `product_id`,`pr`.`customer_id` AS `customer_id`,`pr`.`rating_id` AS `rating_id`,`pr`.`name` AS `name`,`pr`.`text` AS `text`,`pr`.`status` AS `status`,`pr`.`created_by` AS `created_by`,`pr`.`created_at` AS `created_at`,`pr`.`updated_by` AS `updated_by`,`pr`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`c`.`name` AS `customer`,`r`.`name` AS `rating`,`r`.`sort_order` AS `rate` from (((`product_reviews` `pr` left join `products` `p` on((`p`.`id` = `pr`.`product_id`))) left join `customers` `c` on((`c`.`id` = `pr`.`customer_id`))) left join `ratings` `r` on((`r`.`id` = `pr`.`rating_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6842,7 +6842,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `purchases_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `purchases_view`  AS  select `p`.`id` AS `id`,`p`.`purchase_type_id` AS `purchase_type_id`,`p`.`vendor_id` AS `vendor_id`,`p`.`name` AS `name`,`p`.`email` AS `email`,`p`.`contact` AS `contact`,`p`.`country_id` AS `country_id`,`p`.`zone_id` AS `zone_id`,`p`.`city_id` AS `city_id`,`p`.`postcode` AS `postcode`,`p`.`address` AS `address`,`p`.`comment` AS `comment`,`p`.`total` AS `total`,`p`.`purchase_status_id` AS `purchase_status_id`,`p`.`status` AS `status`,`p`.`created_by` AS `created_by`,`p`.`created_at` AS `created_at`,`p`.`updated_by` AS `updated_by`,`p`.`updated_at` AS `updated_at`,`pt`.`name` AS `purchase_type`,`v`.`name` AS `vendor`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city`,`ps`.`name` AS `purchase_status` from ((((((`purchases` `p` left join `purchase_types` `pt` on((`pt`.`id` = `p`.`purchase_type_id`))) left join `vendors` `v` on((`v`.`id` = `p`.`vendor_id`))) left join `countries` `c` on((`c`.`id` = `p`.`country_id`))) left join `zones` `z` on((`z`.`id` = `p`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `p`.`city_id`))) left join `purchase_statuses` `ps` on((`ps`.`id` = `p`.`purchase_status_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `purchases_view`  AS  select `p`.`id` AS `id`,`p`.`purchase_type_id` AS `purchase_type_id`,`p`.`vendor_id` AS `vendor_id`,`p`.`name` AS `name`,`p`.`email` AS `email`,`p`.`contact` AS `contact`,`p`.`country_id` AS `country_id`,`p`.`zone_id` AS `zone_id`,`p`.`city_id` AS `city_id`,`p`.`postcode` AS `postcode`,`p`.`address` AS `address`,`p`.`comment` AS `comment`,`p`.`total` AS `total`,`p`.`purchase_status_id` AS `purchase_status_id`,`p`.`status` AS `status`,`p`.`created_by` AS `created_by`,`p`.`created_at` AS `created_at`,`p`.`updated_by` AS `updated_by`,`p`.`updated_at` AS `updated_at`,`pt`.`name` AS `purchase_type`,`v`.`name` AS `vendor`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city`,`ps`.`name` AS `purchase_status` from ((((((`purchases` `p` left join `purchase_types` `pt` on((`pt`.`id` = `p`.`purchase_type_id`))) left join `vendors` `v` on((`v`.`id` = `p`.`vendor_id`))) left join `countries` `c` on((`c`.`id` = `p`.`country_id`))) left join `zones` `z` on((`z`.`id` = `p`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `p`.`city_id`))) left join `purchase_statuses` `ps` on((`ps`.`id` = `p`.`purchase_status_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6851,7 +6851,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `purchase_products_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `purchase_products_view`  AS  select `pp`.`purchase_id` AS `purchase_id`,`pp`.`product_id` AS `product_id`,`pp`.`price` AS `price`,`pp`.`quantity` AS `quantity`,`pp`.`total` AS `total`,`p`.`name` AS `product` from (`purchase_products` `pp` left join `products` `p` on((`p`.`id` = `pp`.`product_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `purchase_products_view`  AS  select `pp`.`purchase_id` AS `purchase_id`,`pp`.`product_id` AS `product_id`,`pp`.`price` AS `price`,`pp`.`quantity` AS `quantity`,`pp`.`total` AS `total`,`p`.`name` AS `product` from (`purchase_products` `pp` left join `products` `p` on((`p`.`id` = `pp`.`product_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6860,7 +6860,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `p_carts_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `p_carts_view`  AS  select `pc`.`id` AS `id`,`pc`.`token` AS `token`,`pc`.`user_id` AS `user_id`,`pc`.`product_id` AS `product_id`,`pc`.`price` AS `price`,`pc`.`option` AS `option`,`pc`.`quantity` AS `quantity`,`pc`.`tax` AS `tax`,`pc`.`status` AS `status`,`pc`.`created_by` AS `created_by`,`pc`.`created_at` AS `created_at`,`pc`.`updated_by` AS `updated_by`,`pc`.`updated_at` AS `updated_at`,`u`.`name` AS `user`,`p`.`name` AS `product` from ((`p_carts` `pc` left join `users` `u` on((`u`.`id` = `pc`.`user_id`))) left join `products` `p` on((`p`.`id` = `pc`.`product_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `p_carts_view`  AS  select `pc`.`id` AS `id`,`pc`.`token` AS `token`,`pc`.`user_id` AS `user_id`,`pc`.`product_id` AS `product_id`,`pc`.`price` AS `price`,`pc`.`option` AS `option`,`pc`.`quantity` AS `quantity`,`pc`.`tax` AS `tax`,`pc`.`status` AS `status`,`pc`.`created_by` AS `created_by`,`pc`.`created_at` AS `created_at`,`pc`.`updated_by` AS `updated_by`,`pc`.`updated_at` AS `updated_at`,`u`.`name` AS `user`,`p`.`name` AS `product` from ((`p_carts` `pc` left join `users` `u` on((`u`.`id` = `pc`.`user_id`))) left join `products` `p` on((`p`.`id` = `pc`.`product_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6869,7 +6869,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `stocks_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `stocks_view`  AS  select `s`.`id` AS `id`,`s`.`product_id` AS `product_id`,`s`.`location_id` AS `location_id`,`s`.`price` AS `price`,`s`.`quantity` AS `quantity`,`s`.`type` AS `type`,`s`.`reference` AS `reference`,`s`.`reference_id` AS `reference_id`,`s`.`text` AS `text`,`s`.`status` AS `status`,`s`.`created_by` AS `created_by`,`s`.`created_at` AS `created_at`,`s`.`updated_by` AS `updated_by`,`s`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`l`.`name` AS `location` from ((`stocks` `s` left join `products` `p` on((`p`.`id` = `s`.`product_id`))) left join `locations` `l` on((`l`.`id` = `s`.`location_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stocks_view`  AS  select `s`.`id` AS `id`,`s`.`product_id` AS `product_id`,`s`.`location_id` AS `location_id`,`s`.`price` AS `price`,`s`.`quantity` AS `quantity`,`s`.`type` AS `type`,`s`.`reference` AS `reference`,`s`.`reference_id` AS `reference_id`,`s`.`text` AS `text`,`s`.`status` AS `status`,`s`.`created_by` AS `created_by`,`s`.`created_at` AS `created_at`,`s`.`updated_by` AS `updated_by`,`s`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`l`.`name` AS `location` from ((`stocks` `s` left join `products` `p` on((`p`.`id` = `s`.`product_id`))) left join `locations` `l` on((`l`.`id` = `s`.`location_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6878,7 +6878,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `tax_rates_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `tax_rates_view`  AS  select `tr`.`id` AS `id`,`tr`.`tax_class_id` AS `tax_class_id`,`tr`.`name` AS `name`,`tr`.`rate` AS `rate`,`tr`.`type` AS `type`,`tr`.`status` AS `status`,`tr`.`created_by` AS `created_by`,`tr`.`created_at` AS `created_at`,`tr`.`updated_by` AS `updated_by`,`tr`.`updated_at` AS `updated_at`,`tc`.`name` AS `tax_class` from (`tax_rates` `tr` left join `tax_classes` `tc` on((`tc`.`id` = `tr`.`tax_class_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `tax_rates_view`  AS  select `tr`.`id` AS `id`,`tr`.`tax_class_id` AS `tax_class_id`,`tr`.`name` AS `name`,`tr`.`rate` AS `rate`,`tr`.`type` AS `type`,`tr`.`status` AS `status`,`tr`.`created_by` AS `created_by`,`tr`.`created_at` AS `created_at`,`tr`.`updated_by` AS `updated_by`,`tr`.`updated_at` AS `updated_at`,`tc`.`name` AS `tax_class` from (`tax_rates` `tr` left join `tax_classes` `tc` on((`tc`.`id` = `tr`.`tax_class_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6887,7 +6887,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `users_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `users_view`  AS  select `u`.`id` AS `id`,`u`.`group_id` AS `group_id`,`u`.`name` AS `name`,`u`.`email` AS `email`,`u`.`contact` AS `contact`,`u`.`password` AS `password`,`u`.`image` AS `image`,`u`.`status` AS `status`,`u`.`created_by` AS `created_by`,`u`.`created_at` AS `created_at`,`u`.`updated_by` AS `updated_by`,`u`.`updated_at` AS `updated_at`,`ug`.`name` AS `group_name` from (`users` `u` left join `user_groups` `ug` on((`ug`.`id` = `u`.`group_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `users_view`  AS  select `u`.`id` AS `id`,`u`.`group_id` AS `group_id`,`u`.`name` AS `name`,`u`.`email` AS `email`,`u`.`contact` AS `contact`,`u`.`password` AS `password`,`u`.`image` AS `image`,`u`.`status` AS `status`,`u`.`created_by` AS `created_by`,`u`.`created_at` AS `created_at`,`u`.`updated_by` AS `updated_by`,`u`.`updated_at` AS `updated_at`,`ug`.`name` AS `group_name` from (`users` `u` left join `user_groups` `ug` on((`ug`.`id` = `u`.`group_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6896,7 +6896,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `user_sessions_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_sessions_view`  AS  select `us`.`id` AS `id`,`us`.`user_id` AS `user_id`,`us`.`token` AS `token`,`us`.`created_at` AS `created_at`,`us`.`updated_at` AS `updated_at`,`u`.`name` AS `user` from (`user_sessions` `us` left join `users` `u` on((`u`.`id` = `us`.`user_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `user_sessions_view`  AS  select `us`.`id` AS `id`,`us`.`user_id` AS `user_id`,`us`.`token` AS `token`,`us`.`created_at` AS `created_at`,`us`.`updated_at` AS `updated_at`,`u`.`name` AS `user` from (`user_sessions` `us` left join `users` `u` on((`u`.`id` = `us`.`user_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6905,7 +6905,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vendors_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vendors_view`  AS  select `v`.`id` AS `id`,`v`.`group_id` AS `group_id`,`v`.`name` AS `name`,`v`.`email` AS `email`,`v`.`contact` AS `contact`,`v`.`password` AS `password`,`v`.`image` AS `image`,`v`.`status` AS `status`,`v`.`created_by` AS `created_by`,`v`.`created_at` AS `created_at`,`v`.`updated_by` AS `updated_by`,`v`.`updated_at` AS `updated_at`,`vg`.`name` AS `group_name` from (`vendors` `v` left join `vendor_groups` `vg` on((`vg`.`id` = `v`.`group_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vendors_view`  AS  select `v`.`id` AS `id`,`v`.`group_id` AS `group_id`,`v`.`name` AS `name`,`v`.`email` AS `email`,`v`.`contact` AS `contact`,`v`.`password` AS `password`,`v`.`image` AS `image`,`v`.`status` AS `status`,`v`.`created_by` AS `created_by`,`v`.`created_at` AS `created_at`,`v`.`updated_by` AS `updated_by`,`v`.`updated_at` AS `updated_at`,`vg`.`name` AS `group_name` from (`vendors` `v` left join `vendor_groups` `vg` on((`vg`.`id` = `v`.`group_id`))) ;
 
 -- --------------------------------------------------------
 
@@ -6914,7 +6914,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `zones_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `zones_view`  AS  select `z`.`id` AS `id`,`z`.`country_id` AS `country_id`,`z`.`name` AS `name`,`z`.`code` AS `code`,`z`.`status` AS `status`,`z`.`created_by` AS `created_by`,`z`.`created_at` AS `created_at`,`z`.`updated_by` AS `updated_by`,`z`.`updated_at` AS `updated_at`,`c`.`name` AS `country` from (`zones` `z` left join `countries` `c` on((`c`.`id` = `z`.`country_id`))) ;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `zones_view`  AS  select `z`.`id` AS `id`,`z`.`country_id` AS `country_id`,`z`.`name` AS `name`,`z`.`code` AS `code`,`z`.`status` AS `status`,`z`.`created_by` AS `created_by`,`z`.`created_at` AS `created_at`,`z`.`updated_by` AS `updated_by`,`z`.`updated_at` AS `updated_at`,`c`.`name` AS `country` from (`zones` `z` left join `countries` `c` on((`c`.`id` = `z`.`country_id`))) ;
 
 --
 -- Indexes for dumped tables
