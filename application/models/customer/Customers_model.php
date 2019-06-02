@@ -88,7 +88,7 @@ class Customers_model extends CI_Model
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('email', $this->input->post('email'));
         $this->db->set('contact', $this->input->post('contact'));
-        $this->db->set('password', $this->input->post('password'));
+        $this->db->set('password', md5($this->input->post('password')));
         $this->db->set('status', $this->input->post('status'));
 
         if ($this->input->post('id')):
@@ -129,7 +129,7 @@ class Customers_model extends CI_Model
         $this->db->where('email', $this->input->post('username'));
         $this->db->or_where('contact', $this->input->post('username'));
         $this->db->group_end();
-        $this->db->where('password', $this->input->post('password'));
+        $this->db->where('password', md5($this->input->post('password')));
         $query = $this->db->get();
         return $query->row_array();
     }
