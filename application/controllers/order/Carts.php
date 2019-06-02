@@ -53,7 +53,7 @@ class Carts extends REST_Controller
                 'id' => $object['id'],
                 'token' => $object['token'],
                 'product_id' => $object['product_id'],
-                'product_name' => $object['product_name'],
+                'product' => $object['product'],
                 'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
                 'price' => $this->settings_lib->number_format($object['price']),
                 'special_price' => $special_price,                

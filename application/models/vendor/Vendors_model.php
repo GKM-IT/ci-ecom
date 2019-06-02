@@ -4,73 +4,35 @@ class Vendors_model extends CI_Model
 {
 
     private $table = 'vendors';
-    private $table_view = 'vendors';
-    private $column_order = array(null, 'eg.name', 'e.name', 'e.email', 'e.contact', 't.updated_at', null);
-    private $column_search = array('eg.name', 'e.name', 'e.email', 'e.contact', 't.updated_at');
-    private $order = array('t.updated_at' => 'desc');
+    private $table_view = 'vendors_view';
+    private $column_search = array('group_name', 'name', 'email', 'contact', 'updated_at');
     private $currectDatetime = '';
 
     public function __construct()
     {
         parent::__construct();
         $this->currectDatetime = date('Y-m-d h:i:s');
+        $this->query_lib->table = $this->table;
+        $this->query_lib->table_view = $this->table_view;
+        $this->query_lib->column_search = $this->column_search;
     }
 
     private function _getTablesQuery()
     {
-        $this->db->select('t.*');
-        $this->db->select('eg.name as group');        
-        $this->db->from($this->table_view . ' t');
-        $this->db->join('vendor_groups eg', 'eg.id=t.group_id');        
-        if ($this->input->post('name')):
-            $this->db->where('t.name', $this->input->post('name'));
-        endif;
-        $status = 1;
-        if ($this->input->post('status') && $this->input->post('status') == 'false'):
-            $status = 0;
-        endif;
-        $this->db->where('t.status', $status);
-        $i = 0;
-        foreach ($this->column_search as $item):
-            if (isset($_POST['length'])):
-                if (isset($_POST['search']['value'])):
-                    if ($i === 0):
-                        $this->db->group_start();
-                        $this->db->like($item, $_POST['search']['value']);
-                    else:
-                        $this->db->or_like($item, $_POST['search']['value']);
-                    endif;
-                    if (count($this->column_search) - 1 == $i):
-                        $this->db->group_end();
-                    endif;
-                endif;
-            endif;
-            $i++;
-        endforeach;
-        if (isset($_POST['order'])):
-            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-        elseif (isset($this->order)):
-            $order = $this->order;
-            $this->db->order_by(key($order), $order[key($order)]);
-        endif;
+        $this->db->from($this->table_view);
+        $this->query_lib->where();
+        $this->query_lib->like();
+        $this->query_lib->getSearch();
+        $this->query_lib->getSort();
     }
 
     public function getTables()
     {
         $this->_getTablesQuery();
-        if ($this->input->post('length')):
-            if ($this->input->post('length') != -1):
-                if ($this->input->post('start')):
-                    $start = $this->input->post('start');
-                else:
-                    $start = 0;
-                endif;
-                $this->db->limit($this->input->post('length'), $start);
-            endif;
-        endif;
+        $this->query_lib->getPaginate();
         $query = $this->db->get();
-//        print_r($this->db->last_query());
-        //        exit;
+        // print_r($this->db->last_query());
+        // exit;
         return $query->result_array();
     }
 
@@ -83,19 +45,18 @@ class Vendors_model extends CI_Model
 
     public function countAll()
     {
-        $this->db->from($this->table_view);
+        $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
     public function getById($id)
     {
-        $this->db->select('t.*');
-        $this->db->select('eg.name as group');        
-        $this->db->from($this->table_view . ' t');
-        $this->db->join('vendor_groups eg', 'eg.id=t.group_id');        
-        $this->db->where('t.id', $id);
-        $query = $this->db->get();
-        return $query->row_array();
+        return $this->query_lib->getById($id);
+    }
+
+    public function deleteById($id)
+    {
+        return $this->query_lib->deleteById($id);
     }
 
     public function getByEmail($email)
@@ -120,24 +81,9 @@ class Vendors_model extends CI_Model
         return $query->row_array();
     }
 
-    public function deleteById($id)
-    {
-        $this->db->trans_start();
-        $this->db->where('id', $id);
-        $this->db->delete($this->table);
-        $this->db->trans_complete();
-        if ($this->db->trans_status() === false):
-            $this->db->trans_rollback();
-            return false;
-        else:
-            $this->db->trans_commit();
-            return true;
-        endif;
-    }
-
     public function save()
     {
-        $this->db->trans_start();        
+        $this->db->trans_start();
         $this->db->set('group_id', $this->input->post('group_id'));
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('email', $this->input->post('email'));

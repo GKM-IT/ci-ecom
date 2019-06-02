@@ -19,7 +19,7 @@ FROM banner_images bi LEFT JOIN banners b ON b.id=bi.banner_id;
 CREATE OR REPLACE 
  VIEW `carts_view`
  AS
-SELECT ct.*, c.name AS customer, p.name AS product, p.price
+SELECT ct.*, c.name AS customer, p.name AS product,p.image AS product_image, p.price
 FROM carts ct LEFT JOIN customers c ON c.id=ct.customer_id LEFT JOIN products p ON p.id=ct.product_id;
 
 CREATE OR REPLACE 
@@ -143,7 +143,7 @@ FROM order_products op
 CREATE OR REPLACE 
  VIEW `products_view`
  AS
-SELECT p.*, t.name AS type, m.name AS manufacturer, tc.name AS tax_class, lc.name length_class, lc.unit AS length_unit, wc.name AS weight_class, wc.unit AS weight_unit
+SELECT p.*, t.name AS type, m.name AS manufacture, tc.name AS tax_class, lc.name length_class, lc.unit AS length_unit, wc.name AS weight_class, wc.unit AS weight_unit
 FROM products p
     LEFT JOIN types t ON t.id=p.type_id
     LEFT JOIN manufactures m ON m.id=p.manufacturer_id
@@ -199,7 +199,7 @@ CREATE OR REPLACE
  VIEW `p_carts_view`
  AS
 SELECT pc.*, u.name
-AS user,p.name AS product FROM p_carts pc 
+AS user,p.name AS product,p.image AS product_image FROM p_carts pc 
 LEFT JOIN users u ON u.id=pc.user_id
 LEFT JOIN products p ON p.id=pc.product_id;
 

@@ -71,15 +71,15 @@ class Query_lib
 
     public function like()
     {
-        if ($_POST['find']):
-            foreach ($_POST['find'] as $key => $value):
+        if (isset($_POST['like'])):
+            foreach ($_POST['like'] as $key => $value):
                 $this->ci->db->like($key, $value);
             endforeach;
         endif;
     }
     public function where()
     {
-        if ($_POST['where']):
+        if (isset($_POST['where'])):
             foreach ($_POST['where'] as $key => $value):
                 $this->ci->db->where($key, $value);
             endforeach;
@@ -92,5 +92,15 @@ class Query_lib
         $this->ci->db->where('id', $id);
         $query = $this->ci->db->get();
         return $query->row_array();
+    }
+
+    public function getSpecialPrice()
+    {
+        if ($this->ci->input->post('customer_id')):
+            $customer = $this->ci->db->get_where('customers', ['id' => $this->ci->input->post('customer_id')])->row_array();            
+            $this->ci->db->select('*, (SELECT pp.price FROM product_prices pp WHERE pp.product_id=id AND pp.start <= date(now()) AND pp.end >= date(now()) AND pp.status=1 AND pp.customer_group_id=' . $customer['group_id'] . ' LIMIT 1) AS special_price');
+        else:
+            $this->ci->db->select('*, 0 AS special_price');
+        endif;
     }
 }
