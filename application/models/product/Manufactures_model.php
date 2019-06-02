@@ -4,7 +4,7 @@ class Manufactures_model extends CI_Model
 {
 
     private $table = 'manufactures';
-    private $table_view = 'manufactures_view';
+    private $table_view = 'manufactures';
     private $column_search = array('name', 'updated_at');
     private $currectDatetime = '';
 
