@@ -97,8 +97,8 @@ class Query_lib
     public function getSpecialPrice()
     {
         if ($this->ci->input->post('customer_id')):
-            $customer = $this->ci->db->get_where('customers', ['id' => $this->ci->input->post('customer_id')])->row_array();            
-            $this->ci->db->select('*, (SELECT pp.price FROM product_prices pp WHERE pp.product_id=id AND pp.start <= date(now()) AND pp.end >= date(now()) AND pp.status=1 AND pp.customer_group_id=' . $customer['group_id'] . ' LIMIT 1) AS special_price');
+            $customer = $this->ci->db->get_where('customers', ['id' => $this->ci->input->post('customer_id')])->row_array();
+            $this->ci->db->select('*, (SELECT pp.price FROM product_prices pp WHERE pp.product_id=' . $this->table_view . '.id AND pp.start <= date(now()) AND pp.end >= date(now()) AND pp.status=1 AND pp.customer_group_id=' . $customer['group_id'] . ' LIMIT 1) AS special_price');
         else:
             $this->ci->db->select('*, 0 AS special_price');
         endif;
