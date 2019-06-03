@@ -47,8 +47,6 @@ class Carts extends REST_Controller
                 $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $total);
             endif;
 
-            
-
             $result = [
                 'id' => $object['id'],
                 'token' => $object['token'],
@@ -56,8 +54,8 @@ class Carts extends REST_Controller
                 'product' => $object['product'],
                 'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
                 'price' => $this->settings_lib->number_format($object['price']),
-                'special_price' => $special_price,                
-                'discount' => $discount,                
+                'special_price' => $special_price,
+                'discount' => $discount,
                 'quantity' => $this->settings_lib->number_format($object['quantity']),
                 'sub_total' => $this->settings_lib->number_format($subTotal),
                 'total_tax' => $this->settings_lib->number_format($tax),
@@ -202,7 +200,7 @@ class Carts extends REST_Controller
 
     public function validate_product($field_value)
     {
-        if ($this->carts_model->checkProduct($field_value)):
+        if (!$this->input->post('id') && $this->carts_model->checkProduct($field_value)):
             $this->form_validation->set_message('validate_product', sprintf($this->lang->line('error_already_exists'), '{field}'));
             return false;
         else:
