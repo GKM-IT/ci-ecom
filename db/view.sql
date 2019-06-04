@@ -19,7 +19,7 @@ FROM banner_images bi LEFT JOIN banners b ON b.id=bi.banner_id;
 CREATE OR REPLACE 
  VIEW `carts_view`
  AS
-SELECT ct.*, c.name AS customer, p.name AS product,p.image AS product_image, p.price
+SELECT ct.*, c.name AS customer, p.name AS product, p.image AS product_image, p.price
 FROM carts ct LEFT JOIN customers c ON c.id=ct.customer_id LEFT JOIN products p ON p.id=ct.product_id;
 
 CREATE OR REPLACE 
@@ -91,10 +91,13 @@ FROM employee_attendances et
 CREATE OR REPLACE 
  VIEW `employee_orders_view`
  AS
-SELECT eo.*, e.name AS employee, o.name, o.email, o.contact, o.postcode, o.address, o.comment, o.total, o.total_tax, ot.name AS order_type, os.name AS order_status
+SELECT eo.*, e.name AS employee, o.invoice_no, o.name, o.email, o.contact, c.name AS country, z.name AS zone, ct.name AS city, o.postcode, o.address, o.comment, o.total, o.total_tax, ot.name AS order_type, os.name AS order_status
 FROM employee_orders eo
     LEFT JOIN employees e ON e.id=eo.employee_id
     LEFT JOIN orders o ON o.id=eo.order_id
+    LEFT JOIN countries c ON c.id=o.country_id
+    LEFT JOIN zones z ON z.id=o.zone_id
+    LEFT JOIN cities ct ON ct.id=o.city_id
     LEFT JOIN order_types ot ON ot.id=o.order_type_id
     LEFT JOIN order_statuses os ON os.id=o.order_status_id;
 
