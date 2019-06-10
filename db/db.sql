@@ -1,33 +1,16 @@
--- phpMyAdmin SQL Dump
--- version 4.8.5
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Generation Time: Jun 01, 2019 at 09:57 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
-
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `ci_ecom`
---
 
--- --------------------------------------------------------
-
---
--- Table structure for table `attributes`
---
-
+DROP TABLE IF EXISTS `attributes`;
 CREATE TABLE `attributes` (
   `id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
@@ -41,41 +24,12 @@ CREATE TABLE `attributes` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `attributes`
---
-
 INSERT INTO `attributes` (`id`, `group_id`, `name`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'color', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 01:50:45'),
+(1, 1, 'color', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:20'),
 (2, 2, 'Surface Finish', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 1, 'red', 'undefined', 0, 1, 0, '2019-02-02 02:35:21', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `attributes_view`
--- (See below for the actual view)
---
-CREATE TABLE `attributes_view` (
-`id` int(11)
-,`group_id` int(11)
-,`name` varchar(32)
-,`image` text
-,`sort_order` int(11)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`group_name` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `attribute_groups`
---
-
+DROP TABLE IF EXISTS `attribute_groups`;
 CREATE TABLE `attribute_groups` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -88,20 +42,11 @@ CREATE TABLE `attribute_groups` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `attribute_groups`
---
-
 INSERT INTO `attribute_groups` (`id`, `name`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Color', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 01:52:10'),
+(1, 'Color', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:20'),
 (2, 'Finishing', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `banners`
---
-
+DROP TABLE IF EXISTS `banners`;
 CREATE TABLE `banners` (
   `id` int(11) NOT NULL,
   `type_id` int(11) NOT NULL,
@@ -113,37 +58,10 @@ CREATE TABLE `banners` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `banners`
---
-
 INSERT INTO `banners` (`id`, `type_id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'Men Shirt Banner', 1, 0, '0000-00-00 00:00:00', 0, '2019-03-02 12:29:12');
+(1, 1, 'Men Shirt Banner', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:24');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `banners_view`
--- (See below for the actual view)
---
-CREATE TABLE `banners_view` (
-`id` int(11)
-,`type_id` int(11)
-,`name` varchar(32)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`type` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `banner_images`
---
-
+DROP TABLE IF EXISTS `banner_images`;
 CREATE TABLE `banner_images` (
   `id` int(11) NOT NULL,
   `banner_id` int(11) NOT NULL,
@@ -155,38 +73,11 @@ CREATE TABLE `banner_images` (
   `sort_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `banner_images`
---
-
 INSERT INTO `banner_images` (`id`, `banner_id`, `type`, `type_id`, `name`, `image`, `link`, `sort_order`) VALUES
-(15, 1, '', 0, 'dasd', 'upload/banners/banner6.jpg', 'dasd', 1),
-(16, 1, '', 0, 'hii', 'upload/banners/banner8.jpg', 'hiii', 0);
+(19, 1, '', 0, 'Banner 1', '', '', 1),
+(20, 1, '', 0, 'Banner 2', '', '', 2);
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `banner_images_view`
--- (See below for the actual view)
---
-CREATE TABLE `banner_images_view` (
-`id` int(11)
-,`banner_id` int(11)
-,`type` varchar(64)
-,`type_id` int(11)
-,`name` varchar(32)
-,`image` text
-,`link` text
-,`sort_order` int(11)
-,`banner` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `carts`
---
-
+DROP TABLE IF EXISTS `carts`;
 CREATE TABLE `carts` (
   `id` int(11) NOT NULL,
   `token` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
@@ -202,44 +93,13 @@ CREATE TABLE `carts` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `carts`
---
-
 INSERT INTO `carts` (`id`, `token`, `customer_id`, `product_id`, `price_type`, `option`, `quantity`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'SwLOWa6y', 1, 1, 'FIXED', '', '1.0000', 1, 0, '2019-05-11 09:49:27', 0, '0000-00-00 00:00:00'),
-(2, 'SwLOWa6y', 1, 2, 'HOUR', '', '1.0000', 1, 0, '2019-05-28 12:17:45', 0, '0000-00-00 00:00:00');
+(1, 'x4QKDEvO', 1, 1, 'FIXED', '', '1.0000', 1, 0, '2019-05-11 09:49:27', 0, '0000-00-00 00:00:00'),
+(2, 'x4QKDEvO', 1, 2, 'HOUR', '', '1.0000', 1, 0, '2019-05-28 12:17:45', 0, '0000-00-00 00:00:00'),
+(3, 'x4QKDEvO', 1, 2, 'FIXED', '', '1.0000', 1, 0, '2019-06-02 10:24:30', 0, '0000-00-00 00:00:00'),
+(4, 'SwLOWa6y', 1, 2, 'FIXED', '', '2.0000', 1, 0, '2019-06-03 11:20:46', 0, '2019-06-08 08:11:22');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `carts_view`
--- (See below for the actual view)
---
-CREATE TABLE `carts_view` (
-`id` int(11)
-,`token` varchar(128)
-,`customer_id` int(11)
-,`product_id` int(11)
-,`price_type` enum('FIXED','WEIGHT','LENGTH','HOUR')
-,`option` text
-,`quantity` decimal(15,4)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`customer` varchar(32)
-,`product` varchar(32)
-,`price` decimal(15,8)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `categories`
---
-
+DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `type_id` int(11) NOT NULL,
@@ -254,42 +114,12 @@ CREATE TABLE `categories` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `categories`
---
-
 INSERT INTO `categories` (`id`, `type_id`, `parent_id`, `name`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 0, 'chain', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-23 09:10:39'),
+(1, 1, 0, 'chain', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:20'),
 (2, 2, 0, 'ring', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-30 12:46:44'),
 (3, 3, 0, 'pendant ', '', 0, 1, 0, '2019-01-30 12:51:35', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `categories_view`
--- (See below for the actual view)
---
-CREATE TABLE `categories_view` (
-`id` int(11)
-,`type_id` int(11)
-,`parent_id` int(11)
-,`name` varchar(32)
-,`image` text
-,`sort_order` int(11)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`type` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cities`
---
-
+DROP TABLE IF EXISTS `cities`;
 CREATE TABLE `cities` (
   `id` int(11) NOT NULL,
   `country_id` int(11) NOT NULL,
@@ -303,41 +133,11 @@ CREATE TABLE `cities` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `cities`
---
-
 INSERT INTO `cities` (`id`, `country_id`, `zone_id`, `name`, `code`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 99, 1501, 'Udaipur', 'UDR', 1, 0, '0000-00-00 00:00:00', 0, '2019-01-25 12:56:30'),
+(1, 99, 1501, 'Udaipur', 'UDR', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:19'),
 (2, 99, 1501, 'Jaipur', 'JR', 1, 0, '2019-01-30 11:10:41', 0, '2019-01-30 11:15:15');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `cities_view`
--- (See below for the actual view)
---
-CREATE TABLE `cities_view` (
-`id` int(11)
-,`country_id` int(11)
-,`zone_id` int(11)
-,`name` varchar(128)
-,`code` varchar(32)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`country` varchar(128)
-,`zone` varchar(128)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `countries`
---
-
+DROP TABLE IF EXISTS `countries`;
 CREATE TABLE `countries` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL,
@@ -351,10 +151,6 @@ CREATE TABLE `countries` (
   `updated_by` int(11) NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `countries`
---
 
 INSERT INTO `countries` (`id`, `name`, `iso_code_2`, `iso_code_3`, `address_format`, `postcode_required`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 'Afghanistan', 'AF', 'AFG', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-05-30 01:20:12'),
@@ -454,7 +250,7 @@ INSERT INTO `countries` (`id`, `name`, `iso_code_2`, `iso_code_3`, `address_form
 (96, 'Hong Kong', 'HK', 'HKG', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (97, 'Hungary', 'HU', 'HUN', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (98, 'Iceland', 'IS', 'ISL', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(99, 'India', 'IN', 'IND', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-30 09:56:52'),
+(99, 'India', 'IN', 'IND', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:19'),
 (100, 'Indonesia', 'ID', 'IDN', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (101, 'Iran (Islamic Republic of)', 'IR', 'IRN', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (102, 'Iraq', 'IQ', 'IRQ', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
@@ -611,12 +407,7 @@ INSERT INTO `countries` (`id`, `name`, `iso_code_2`, `iso_code_3`, `address_form
 (256, 'Guernsey', 'GG', 'GGY', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (257, 'Jersey', 'JE', 'JEY', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `currencies`
---
-
+DROP TABLE IF EXISTS `currencies`;
 CREATE TABLE `currencies` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -634,20 +425,11 @@ CREATE TABLE `currencies` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `currencies`
---
-
 INSERT INTO `currencies` (`id`, `name`, `code`, `symbol_left`, `symbol_right`, `decimal_place`, `value`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'US Dollar', 'USD', '$', '', '2', 1.00000000, '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:26:59'),
+(1, 'US Dollar', 'USD', '$', '', '2', 1.00000000, '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:23'),
 (2, 'Indian Rupees', 'INR', '', '₹', '2', 71.27000000, '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `customers`
---
-
+DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
   `id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
@@ -663,42 +445,11 @@ CREATE TABLE `customers` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `customers`
---
-
 INSERT INTO `customers` (`id`, `group_id`, `name`, `email`, `contact`, `password`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', '123', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:20:58'),
+(1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', '202cb962ac59075b964b07152d234b70', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:18'),
 (2, 3, 'ali', 'ali@gmail.com', '6876764374', '123', '', 1, 0, '2019-02-09 07:46:20', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `customers_view`
--- (See below for the actual view)
---
-CREATE TABLE `customers_view` (
-`id` int(11)
-,`group_id` int(11)
-,`name` varchar(32)
-,`email` varchar(96)
-,`contact` varchar(15)
-,`password` varchar(40)
-,`image` text
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`group_name` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `customer_addresses`
---
-
+DROP TABLE IF EXISTS `customer_addresses`;
 CREATE TABLE `customer_addresses` (
   `id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
@@ -717,47 +468,12 @@ CREATE TABLE `customer_addresses` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `customer_addresses`
---
-
 INSERT INTO `customer_addresses` (`id`, `customer_id`, `name`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `default`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'nadim', '7737033665', 99, 1501, 1, '313001', 'udaipur', 0, 1, 0, '2019-05-11 11:20:53', 0, '0000-00-00 00:00:00');
+(1, 1, 'nadim', '7737033665', 99, 1501, 1, '313001', 'udaipur', 0, 1, 0, '2019-05-11 11:20:53', 0, '0000-00-00 00:00:00'),
+(2, 1, 'nadim', '7737033665', 99, 1501, 1, '313001', 'udaipur', 0, 1, 0, '2019-06-02 10:24:26', 0, '0000-00-00 00:00:00'),
+(3, 1, 'nadim', '7737033665', 99, 1501, 1, '313001', 'udaipur', 0, 1, 0, '2019-06-08 08:11:18', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `customer_addresses_view`
--- (See below for the actual view)
---
-CREATE TABLE `customer_addresses_view` (
-`id` int(11)
-,`customer_id` int(11)
-,`name` varchar(32)
-,`contact` varchar(15)
-,`country_id` int(11)
-,`zone_id` int(11)
-,`city_id` int(11)
-,`postcode` varchar(10)
-,`address` varchar(128)
-,`default` tinyint(1)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`customer` varchar(32)
-,`country` varchar(128)
-,`zone` varchar(128)
-,`city` varchar(128)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `customer_groups`
---
-
+DROP TABLE IF EXISTS `customer_groups`;
 CREATE TABLE `customer_groups` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -769,21 +485,12 @@ CREATE TABLE `customer_groups` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `customer_groups`
---
-
 INSERT INTO `customer_groups` (`id`, `name`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'default', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:19:54'),
+(1, 'default', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:18'),
 (2, 'vendor', '', 1, 0, '2019-02-09 07:34:49', 0, '0000-00-00 00:00:00'),
 (3, 'regular', '', 1, 0, '2019-02-09 07:38:50', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `customer_sessions`
---
-
+DROP TABLE IF EXISTS `customer_sessions`;
 CREATE TABLE `customer_sessions` (
   `id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
@@ -792,34 +499,10 @@ CREATE TABLE `customer_sessions` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `customer_sessions`
---
-
 INSERT INTO `customer_sessions` (`id`, `customer_id`, `token`, `created_at`, `updated_at`) VALUES
-(3, 1, 'SwLOWa6y', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(6, 1, 'x4QKDEvO', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `customer_sessions_view`
--- (See below for the actual view)
---
-CREATE TABLE `customer_sessions_view` (
-`id` int(11)
-,`customer_id` int(11)
-,`token` varchar(255)
-,`created_at` datetime
-,`updated_at` datetime
-,`customer` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `customer_wishlists`
---
-
+DROP TABLE IF EXISTS `customer_wishlists`;
 CREATE TABLE `customer_wishlists` (
   `id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
@@ -831,40 +514,12 @@ CREATE TABLE `customer_wishlists` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `customer_wishlists`
---
-
 INSERT INTO `customer_wishlists` (`id`, `customer_id`, `product_id`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (5, 1, 3, 1, 0, '2019-03-09 10:18:15', 0, '0000-00-00 00:00:00'),
 (8, 1, 2, 1, 0, '2019-03-09 10:49:40', 0, '0000-00-00 00:00:00'),
 (9, 1, 1, 1, 0, '2019-03-14 05:23:09', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `customer_wishlists_view`
--- (See below for the actual view)
---
-CREATE TABLE `customer_wishlists_view` (
-`id` int(11)
-,`customer_id` int(11)
-,`product_id` int(11)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`customer` varchar(32)
-,`product` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `employees`
---
-
+DROP TABLE IF EXISTS `employees`;
 CREATE TABLE `employees` (
   `id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
@@ -881,44 +536,11 @@ CREATE TABLE `employees` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `employees`
---
-
 INSERT INTO `employees` (`id`, `group_id`, `location_id`, `name`, `email`, `contact`, `password`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 1, 1, 'Ali', 'ali@gmail.com', '1234567890', '123', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-23 06:06:04'),
 (2, 1, 1, 'Ali Hamed', 'ali@gmail.com', '1234567890', '123', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-23 06:06:04');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `employees_view`
--- (See below for the actual view)
---
-CREATE TABLE `employees_view` (
-`id` int(11)
-,`group_id` int(11)
-,`location_id` int(11)
-,`name` varchar(32)
-,`email` varchar(96)
-,`contact` varchar(15)
-,`password` varchar(40)
-,`image` text
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`group_name` varchar(32)
-,`location` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `employee_attendances`
---
-
+DROP TABLE IF EXISTS `employee_attendances`;
 CREATE TABLE `employee_attendances` (
   `id` int(11) NOT NULL,
   `location_id` int(11) NOT NULL,
@@ -930,40 +552,12 @@ CREATE TABLE `employee_attendances` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `employee_attendances`
---
-
 INSERT INTO `employee_attendances` (`id`, `location_id`, `date`, `employee_id`, `type`, `status`, `created_at`, `updated_at`) VALUES
 (3, 1, '2019-05-24', 1, 'IN', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (4, 1, '2019-05-24', 1, 'IN', 1, '2019-05-26 09:45:20', '0000-00-00 00:00:00'),
 (5, 1, '2019-05-24', 1, 'OUT', 1, '2019-05-26 09:49:53', '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `employee_attendances_view`
--- (See below for the actual view)
---
-CREATE TABLE `employee_attendances_view` (
-`id` int(11)
-,`location_id` int(11)
-,`date` date
-,`employee_id` int(11)
-,`type` enum('IN','OUT')
-,`status` tinyint(1)
-,`created_at` datetime
-,`updated_at` datetime
-,`location` varchar(32)
-,`employee` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `employee_groups`
---
-
+DROP TABLE IF EXISTS `employee_groups`;
 CREATE TABLE `employee_groups` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -975,70 +569,42 @@ CREATE TABLE `employee_groups` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `employee_groups`
---
-
 INSERT INTO `employee_groups` (`id`, `name`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Employee A', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-23 06:03:31'),
+(1, 'Employee A', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:17'),
 (2, 'Employee B', '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `employee_orders`
---
-
+DROP TABLE IF EXISTS `employee_orders`;
 CREATE TABLE `employee_orders` (
   `id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `remark` text COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `employee_orders`
---
+INSERT INTO `employee_orders` (`id`, `employee_id`, `order_id`, `remark`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(2, 1, 1, 'delivery', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
-INSERT INTO `employee_orders` (`id`, `employee_id`, `order_id`, `remark`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'delivery', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+DROP TABLE IF EXISTS `employee_order_histories`;
+CREATE TABLE `employee_order_histories` (
+  `id` int(11) NOT NULL,
+  `remark` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
+INSERT INTO `employee_order_histories` (`id`, `remark`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(2, 'delivery', 0, 0, '2019-06-08 10:24:14', 0, '2019-06-08 10:24:14'),
+(2, 'delivery', 0, 0, '2019-06-08 10:24:44', 0, '2019-06-08 10:24:44');
 
---
--- Stand-in structure for view `employee_orders_view`
--- (See below for the actual view)
---
-CREATE TABLE `employee_orders_view` (
-`id` int(11)
-,`employee_id` int(11)
-,`order_id` int(11)
-,`remark` text
-,`status` tinyint(1)
-,`created_at` datetime
-,`updated_at` datetime
-,`employee` varchar(32)
-,`name` varchar(32)
-,`email` varchar(128)
-,`contact` varchar(15)
-,`postcode` varchar(10)
-,`address` varchar(128)
-,`comment` text
-,`total` decimal(15,4)
-,`total_tax` decimal(15,4)
-,`order_type` varchar(32)
-,`order_status` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `employee_sessions`
---
-
+DROP TABLE IF EXISTS `employee_sessions`;
 CREATE TABLE `employee_sessions` (
   `id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
@@ -1047,34 +613,10 @@ CREATE TABLE `employee_sessions` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `employee_sessions`
---
-
 INSERT INTO `employee_sessions` (`id`, `employee_id`, `token`, `created_at`, `updated_at`) VALUES
 (1, 1, '123', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `employee_sessions_view`
--- (See below for the actual view)
---
-CREATE TABLE `employee_sessions_view` (
-`id` int(11)
-,`employee_id` int(11)
-,`token` varchar(255)
-,`created_at` datetime
-,`updated_at` datetime
-,`employee` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `informations`
---
-
+DROP TABLE IF EXISTS `informations`;
 CREATE TABLE `informations` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -1089,21 +631,12 @@ CREATE TABLE `informations` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `informations`
---
-
 INSERT INTO `informations` (`id`, `name`, `description`, `text`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'about', '', '', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:01:59'),
+(1, 'about', '', '', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:21'),
 (2, 'privacy & policy', 'privacy & policy', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-23 01:55:24'),
 (3, 'terms & conditions', 'terms & conditions', '<p>\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n</p>', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-23 01:55:49');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `inquiries`
---
-
+DROP TABLE IF EXISTS `inquiries`;
 CREATE TABLE `inquiries` (
   `id` int(11) NOT NULL,
   `type_id` int(11) NOT NULL,
@@ -1118,43 +651,13 @@ CREATE TABLE `inquiries` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `inquiries`
---
-
 INSERT INTO `inquiries` (`id`, `type_id`, `name`, `email`, `contact`, `text`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 'hii', 1, 0, '2019-03-03 03:07:15', 0, '0000-00-00 00:00:00'),
+(1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 'hi', 1, 0, '2019-03-03 03:07:15', 0, '2019-06-08 08:11:21'),
 (2, 1, 'nadim', 'nadim@gmail.com', '748237948723', 'fsdfdsf', 1, 0, '2019-03-03 03:11:54', 0, '0000-00-00 00:00:00'),
 (3, 1, 'nadim', 'nadi@dsd..fdsf', '423423f', 'sdfdsf', 1, 0, '2019-03-03 03:14:06', 0, '0000-00-00 00:00:00'),
 (4, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 'hi', 1, 0, '2019-03-05 07:30:32', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `inquiries_view`
--- (See below for the actual view)
---
-CREATE TABLE `inquiries_view` (
-`id` int(11)
-,`type_id` int(11)
-,`name` varchar(32)
-,`email` varchar(128)
-,`contact` varchar(15)
-,`text` text
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`type` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `inquiry_types`
---
-
+DROP TABLE IF EXISTS `inquiry_types`;
 CREATE TABLE `inquiry_types` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -1165,20 +668,11 @@ CREATE TABLE `inquiry_types` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `inquiry_types`
---
-
 INSERT INTO `inquiry_types` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 'a', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (2, 'b', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `length_classes`
---
-
+DROP TABLE IF EXISTS `length_classes`;
 CREATE TABLE `length_classes` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -1192,21 +686,12 @@ CREATE TABLE `length_classes` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `length_classes`
---
-
 INSERT INTO `length_classes` (`id`, `name`, `unit`, `value`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Centimeter', 'cm', '1.00000000', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:18:19'),
+(1, 'Centimeter', 'cm', '1.00000000', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:24'),
 (2, 'Millimeter', 'mm', '10.00000000', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 'Inch', 'in', '0.39370000', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `locations`
---
-
+DROP TABLE IF EXISTS `locations`;
 CREATE TABLE `locations` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -1226,48 +711,11 @@ CREATE TABLE `locations` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `locations`
---
-
 INSERT INTO `locations` (`id`, `name`, `contact_person`, `contact`, `email`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Location A', 'nadim', '7737033665', 'nadim@gmail.com', 99, 1501, 1, '313001', 'udaipur', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-25 01:13:26'),
+(1, 'nadim', 'nadim', '7737033665', 'nadim@gmail.com', 99, 1501, 1, '313001', 'udaipur', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:19'),
 (2, 'Location B', '', 'a', 'a', 99, 1501, 1, '1', '1', 1, 1, 0, '2019-01-31 10:24:38', 0, '2019-02-09 07:18:43');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `locations_view`
--- (See below for the actual view)
---
-CREATE TABLE `locations_view` (
-`id` int(11)
-,`name` varchar(32)
-,`contact_person` varchar(100)
-,`contact` varchar(15)
-,`email` varchar(128)
-,`country_id` int(11)
-,`zone_id` int(11)
-,`city_id` int(11)
-,`postcode` varchar(10)
-,`address` varchar(128)
-,`sort_order` int(11)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`country` varchar(128)
-,`zone` varchar(128)
-,`city` varchar(128)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `manufactures`
---
-
+DROP TABLE IF EXISTS `manufactures`;
 CREATE TABLE `manufactures` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -1280,22 +728,13 @@ CREATE TABLE `manufactures` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `manufactures`
---
-
 INSERT INTO `manufactures` (`id`, `name`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'ABC', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-26 04:52:08'),
+(1, 'chain', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:20'),
 (2, 'XYZ', '', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 'TEST', '', 0, 1, 0, '2019-01-30 01:29:10', 0, '0000-00-00 00:00:00'),
 (4, 'chain', '', 0, 1, 0, '2019-02-26 04:52:18', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `orders`
---
-
+DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `invoice_no` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1309,10 +748,10 @@ CREATE TABLE `orders` (
   `city_id` int(11) NOT NULL,
   `postcode` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `address` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  `comment` text COLLATE utf8_unicode_ci NOT NULL,
-  `total` decimal(15,4) NOT NULL,
   `total_tax` decimal(15,4) NOT NULL,
+  `total` decimal(15,4) NOT NULL,
   `order_status_id` int(11) NOT NULL,
+  `comment` text COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL,
   `created_by` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
@@ -1320,62 +759,25 @@ CREATE TABLE `orders` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `orders`
---
+INSERT INTO `orders` (`id`, `invoice_no`, `order_type_id`, `customer_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `total_tax`, `total`, `order_status_id`, `comment`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, '', 1, 0, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '', '', '0.0000', '0.0000', 1, 'dasd', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
-INSERT INTO `orders` (`id`, `invoice_no`, `order_type_id`, `customer_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `comment`, `total`, `total_tax`, `order_status_id`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, '', 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-10 03:11:01', 0, '2019-03-13 06:02:19'),
-(2, '', 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-10 03:20:22', 0, '2019-03-13 06:02:35'),
-(3, '', 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '850.5000', '126.3600', 1, 1, 0, '2019-03-10 04:51:58', 0, '2019-05-28 02:04:12'),
-(11, '', 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-13 05:57:56', 0, '0000-00-00 00:00:00'),
-(12, '', 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '100.0000', '0.0000', 1, 1, 0, '2019-03-13 06:01:34', 0, '0000-00-00 00:00:00'),
-(14, '', 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'dasd', '1000.0000', '0.0000', 1, 1, 0, '2019-03-14 05:59:53', 0, '0000-00-00 00:00:00'),
-(15, '', 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'hihoiho', '1000.0000', '0.0000', 1, 1, 0, '2019-03-16 10:21:20', 0, '0000-00-00 00:00:00'),
-(16, '', 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'fnsdhf', 'i need', '123.0000', '0.0000', 1, 1, 0, '2019-03-16 01:09:32', 0, '0000-00-00 00:00:00'),
-(17, '', 1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', 99, 1501, 1, '313001', 'dasd', 'dasd', '1000.0000', '0.0000', 1, 1, 0, '2019-04-18 03:44:51', 0, '0000-00-00 00:00:00');
+DROP TABLE IF EXISTS `order_histories`;
+CREATE TABLE `order_histories` (
+  `id` int(11) NOT NULL,
+  `order_status_id` int(11) NOT NULL,
+  `comment` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
+INSERT INTO `order_histories` (`id`, `order_status_id`, `comment`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 1, 'dasd', 1, 0, '2019-06-08 10:23:17', 0, '2019-06-08 10:23:17');
 
---
--- Stand-in structure for view `orders_view`
--- (See below for the actual view)
---
-CREATE TABLE `orders_view` (
-`id` int(11)
-,`order_type_id` int(11)
-,`customer_id` int(11)
-,`name` varchar(32)
-,`email` varchar(128)
-,`contact` varchar(15)
-,`country_id` int(11)
-,`zone_id` int(11)
-,`city_id` int(11)
-,`postcode` varchar(10)
-,`address` varchar(128)
-,`comment` text
-,`total` decimal(15,4)
-,`total_tax` decimal(15,4)
-,`order_status_id` int(11)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`order_type` varchar(32)
-,`customer` varchar(32)
-,`country` varchar(128)
-,`zone` varchar(128)
-,`city` varchar(128)
-,`order_status` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `order_products`
---
-
+DROP TABLE IF EXISTS `order_products`;
 CREATE TABLE `order_products` (
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -1385,55 +787,10 @@ CREATE TABLE `order_products` (
   `total` decimal(15,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `order_products`
---
-
 INSERT INTO `order_products` (`order_id`, `product_id`, `price`, `quantity`, `tax`, `total`) VALUES
-(1, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
-(1, 2, '456.00000000', '1.00000000', '0.00000000', '456.00000000'),
-(1, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
-(2, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
-(2, 2, '456.00000000', '1.00000000', '0.00000000', '456.00000000'),
-(2, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
-(3, 1, '123.00000000', '1.00000000', '22.14000000', '145.14000000'),
-(3, 2, '456.00000000', '1.00000000', '82.08000000', '538.08000000'),
-(11, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
-(11, 2, '456.00000000', '1.00000000', '0.00000000', '456.00000000'),
-(11, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
-(12, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
-(12, 2, '456.00000000', '1.00000000', '0.00000000', '456.00000000'),
-(12, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
-(14, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
-(14, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
-(15, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
-(15, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000'),
-(16, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
-(17, 1, '123.00000000', '1.00000000', '0.00000000', '123.00000000'),
-(17, 3, '1000.00000000', '1.00000000', '0.00000000', '1000.00000000');
+(1, 1, '100.00000000', '1.00000000', '10.00000000', '110.00000000');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `order_products_view`
--- (See below for the actual view)
---
-CREATE TABLE `order_products_view` (
-`order_id` int(11)
-,`product_id` int(11)
-,`price` decimal(15,8)
-,`quantity` decimal(15,8)
-,`tax` decimal(15,8)
-,`total` decimal(15,8)
-,`product` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `order_statuses`
---
-
+DROP TABLE IF EXISTS `order_statuses`;
 CREATE TABLE `order_statuses` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -1444,20 +801,11 @@ CREATE TABLE `order_statuses` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `order_statuses`
---
-
 INSERT INTO `order_statuses` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Pending', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-27 09:35:43'),
+(1, 'Pending', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:22'),
 (2, 'processed', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `order_totals`
---
-
+DROP TABLE IF EXISTS `order_totals`;
 CREATE TABLE `order_totals` (
   `order_id` int(11) NOT NULL,
   `code` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -1466,20 +814,7 @@ CREATE TABLE `order_totals` (
   `sort_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `order_totals`
---
-
-INSERT INTO `order_totals` (`order_id`, `code`, `title`, `value`, `sort_order`) VALUES
-(3, 'total', 'Total', '850.5000', 0),
-(3, 'total_tax', 'Total Tax', '126.3600', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `order_types`
---
-
+DROP TABLE IF EXISTS `order_types`;
 CREATE TABLE `order_types` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -1490,21 +825,12 @@ CREATE TABLE `order_types` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `order_types`
---
-
 INSERT INTO `order_types` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Default', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:15:18'),
+(1, 'Default', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:22'),
 (2, 'Draft', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 'Quotation ', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `products`
---
-
+DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `type_id` int(11) NOT NULL,
@@ -1536,12 +862,8 @@ CREATE TABLE `products` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `products`
---
-
 INSERT INTO `products` (`id`, `type_id`, `manufacturer_id`, `code`, `model`, `sku`, `name`, `price_type`, `price`, `image`, `description`, `text`, `tax_class_id`, `length_class_id`, `length`, `width`, `height`, `weight_class_id`, `weight`, `viewed`, `minimum`, `shipping`, `inventory`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 1, '123', '123', '123', 'chain 123', 'FIXED', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-05-28 12:13:31'),
+(1, 1, 1, '123', '123', '123', 'chain 123', 'FIXED', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:21'),
 (2, 3, 1, 'c456', 'c456', 'c456', 'chain', 'HOUR', '456.00000000', 'upload/products/product6.jpg', '', '', 1, 1, '0.00000000', '0.00000000', '0.00000000', 1, '0.00000000', 0, 2, 0, 0, 1, 0, '2019-02-02 01:44:38', 0, '2019-02-08 07:10:05'),
 (3, 3, 1, '123', '123', '123', 'ring', 'FIXED', '1000.00000000', 'upload/products/product7.jpg', 'hii', '<p><img src=\"data:image/jpeg;base64,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\" style=\"width: 415px;\">hii</p>', 1, 1, '0.00000000', '0.00000000', '0.00000000', 1, '0.00000000', 0, 2, 0, 0, 1, 0, '2019-02-02 01:56:25', 0, '2019-02-23 01:46:51'),
 (4, 1, 1, '123', '123', '123', 'chain 123', 'FIXED', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-02-26 04:48:21', 0, '0000-00-00 00:00:00'),
@@ -1550,65 +872,12 @@ INSERT INTO `products` (`id`, `type_id`, `manufacturer_id`, `code`, `model`, `sk
 (7, 1, 1, '123', '123', '123', 'chain 123', 'FIXED', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-05-11 12:57:12', 0, '0000-00-00 00:00:00'),
 (8, 1, 1, '123', '123', '123', 'chain 123', 'FIXED', '123.00000000', '', '', '', 1, 1, '1.00000000', '1.00000000', '1.00000000', 1, '1.00000000', 0, 1, 1, 1, 1, 0, '2019-05-11 01:00:13', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `products_view`
--- (See below for the actual view)
---
-CREATE TABLE `products_view` (
-`id` int(11)
-,`type_id` int(11)
-,`manufacturer_id` int(11)
-,`code` varchar(64)
-,`model` varchar(64)
-,`sku` varchar(64)
-,`name` varchar(32)
-,`price_type` enum('FIXED','WEIGHT','LENGTH','HOUR')
-,`price` decimal(15,8)
-,`image` text
-,`description` varchar(255)
-,`text` text
-,`tax_class_id` int(11)
-,`length_class_id` int(11)
-,`length` decimal(15,8)
-,`width` decimal(15,8)
-,`height` decimal(15,8)
-,`weight_class_id` int(11)
-,`weight` decimal(15,8)
-,`viewed` int(11)
-,`minimum` int(11)
-,`shipping` tinyint(1)
-,`inventory` tinyint(1)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`type` varchar(32)
-,`manufacturer` varchar(32)
-,`tax_class` varchar(32)
-,`length_class` varchar(32)
-,`length_unit` varchar(4)
-,`weight_class` varchar(32)
-,`weight_unit` varchar(4)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_attributes`
---
-
+DROP TABLE IF EXISTS `product_attributes`;
 CREATE TABLE `product_attributes` (
   `product_id` int(11) NOT NULL,
   `attribute_id` int(11) NOT NULL,
   `text` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `product_attributes`
---
 
 INSERT INTO `product_attributes` (`product_id`, `attribute_id`, `text`) VALUES
 (1, 1, 'red'),
@@ -1616,34 +885,11 @@ INSERT INTO `product_attributes` (`product_id`, `attribute_id`, `text`) VALUES
 (3, 1, 'red'),
 (3, 2, 'nif');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `product_attributes_view`
--- (See below for the actual view)
---
-CREATE TABLE `product_attributes_view` (
-`product_id` int(11)
-,`attribute_id` int(11)
-,`text` text
-,`product` varchar(32)
-,`attribute` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_categories`
---
-
+DROP TABLE IF EXISTS `product_categories`;
 CREATE TABLE `product_categories` (
   `category_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `product_categories`
---
 
 INSERT INTO `product_categories` (`category_id`, `product_id`) VALUES
 (1, 1),
@@ -1653,12 +899,7 @@ INSERT INTO `product_categories` (`category_id`, `product_id`) VALUES
 (2, 2),
 (3, 2);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `product_images`
---
-
+DROP TABLE IF EXISTS `product_images`;
 CREATE TABLE `product_images` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -1667,12 +908,7 @@ CREATE TABLE `product_images` (
   `sort_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `product_prices`
---
-
+DROP TABLE IF EXISTS `product_prices`;
 CREATE TABLE `product_prices` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -1687,43 +923,13 @@ CREATE TABLE `product_prices` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `product_prices`
---
-
 INSERT INTO `product_prices` (`id`, `product_id`, `customer_group_id`, `price`, `start`, `end`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(13, 1, 1, '100.0000', '2019-05-01', '2019-05-31', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(14, 2, 1, '200.0000', '2019-05-01', '2019-05-28', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(15, 3, 1, '100.0000', '2019-05-01', '2019-05-31', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+(14, 2, 1, '50.0000', '2019-06-03', '2019-06-30', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(15, 3, 1, '50.0000', '2019-06-03', '2019-06-30', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(18, 1, 1, '100.0000', '2019-05-01', '2019-05-31', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(19, 1, 2, '200.0000', '2019-05-01', '2019-05-31', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `product_prices_view`
--- (See below for the actual view)
---
-CREATE TABLE `product_prices_view` (
-`id` int(11)
-,`product_id` int(11)
-,`customer_group_id` int(11)
-,`price` decimal(15,4)
-,`start` date
-,`end` date
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`product` varchar(32)
-,`customer_group` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_reviews`
---
-
+DROP TABLE IF EXISTS `product_reviews`;
 CREATE TABLE `product_reviews` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -1738,44 +944,11 @@ CREATE TABLE `product_reviews` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `product_reviews`
---
-
 INSERT INTO `product_reviews` (`id`, `product_id`, `customer_id`, `rating_id`, `name`, `text`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 1, 2, 'nadim', 'nice product', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-11 01:33:56'),
+(1, 1, 1, 2, 'nadim', 'nice product', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:20'),
 (2, 1, 1, 5, 'nadim', 'excellent', 1, 0, '2019-02-09 09:09:42', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `product_reviews_view`
--- (See below for the actual view)
---
-CREATE TABLE `product_reviews_view` (
-`id` int(11)
-,`product_id` int(11)
-,`customer_id` int(11)
-,`rating_id` int(11)
-,`name` varchar(32)
-,`text` text
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`product` varchar(32)
-,`customer` varchar(32)
-,`rating` varchar(32)
-,`rate` int(11)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchases`
---
-
+DROP TABLE IF EXISTS `purchases`;
 CREATE TABLE `purchases` (
   `id` int(11) NOT NULL,
   `purchase_type_id` int(11) NOT NULL,
@@ -1788,9 +961,10 @@ CREATE TABLE `purchases` (
   `city_id` int(11) NOT NULL,
   `postcode` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `address` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  `comment` text COLLATE utf8_unicode_ci NOT NULL,
   `total` decimal(15,4) NOT NULL,
+  `total_tax` decimal(15,4) NOT NULL,
   `purchase_status_id` int(11) NOT NULL,
+  `comment` text COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL,
   `created_by` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
@@ -1798,160 +972,11 @@ CREATE TABLE `purchases` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `purchases`
---
+INSERT INTO `purchases` (`id`, `purchase_type_id`, `vendor_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `total`, `total_tax`, `purchase_status_id`, `comment`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '0.0000', '0.0000', 1, '', 1, 0, '2019-06-08 08:11:23', 0, '0000-00-00 00:00:00');
 
-INSERT INTO `purchases` (`id`, `purchase_type_id`, `vendor_id`, `name`, `email`, `contact`, `country_id`, `zone_id`, `city_id`, `postcode`, `address`, `comment`, `total`, `purchase_status_id`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '0.0000', 1, 1, 0, '2019-05-04 09:33:35', 0, '0000-00-00 00:00:00'),
-(6, 1, 1, 'nadim', 'nadim@gmail.com', '7737033665', 99, 1501, 1, '313001', 'udaipur', '', '30.0000', 1, 1, 0, '2019-05-27 11:38:26', 0, '0000-00-00 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `purchases_view`
--- (See below for the actual view)
---
-CREATE TABLE `purchases_view` (
-`id` int(11)
-,`purchase_type_id` int(11)
-,`vendor_id` int(11)
-,`name` varchar(32)
-,`email` varchar(128)
-,`contact` varchar(15)
-,`country_id` int(11)
-,`zone_id` int(11)
-,`city_id` int(11)
-,`postcode` varchar(10)
-,`address` varchar(128)
-,`comment` text
-,`total` decimal(15,4)
-,`purchase_status_id` int(11)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`purchase_type` varchar(32)
-,`vendor` varchar(32)
-,`country` varchar(128)
-,`zone` varchar(128)
-,`city` varchar(128)
-,`purchase_status` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchase_products`
---
-
-CREATE TABLE `purchase_products` (
-  `purchase_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `price` decimal(15,8) NOT NULL,
-  `quantity` decimal(15,8) NOT NULL,
-  `total` decimal(15,8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_products`
---
-
-INSERT INTO `purchase_products` (`purchase_id`, `product_id`, `price`, `quantity`, `total`) VALUES
-(1, 1, '123.00000000', '1.00000000', '123.00000000');
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `purchase_products_view`
--- (See below for the actual view)
---
-CREATE TABLE `purchase_products_view` (
-`purchase_id` int(11)
-,`product_id` int(11)
-,`price` decimal(15,8)
-,`quantity` decimal(15,8)
-,`total` decimal(15,8)
-,`product` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchase_statuses`
---
-
-CREATE TABLE `purchase_statuses` (
-  `id` int(11) NOT NULL,
-  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `created_by` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_by` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `purchase_statuses`
---
-
-INSERT INTO `purchase_statuses` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Pending', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-27 09:32:18'),
-(2, 'processed', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchase_totals`
---
-
-CREATE TABLE `purchase_totals` (
-  `purchase_id` int(11) NOT NULL,
-  `code` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `value` decimal(15,4) NOT NULL,
-  `sort_order` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `purchase_totals`
---
-
-INSERT INTO `purchase_totals` (`purchase_id`, `code`, `title`, `value`, `sort_order`) VALUES
-(1, 'total', 'total', '123.0000', 0),
-(6, 'total', 'total', '0.0000', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `purchase_types`
---
-
-CREATE TABLE `purchase_types` (
-  `id` int(11) NOT NULL,
-  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `created_by` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_by` int(11) NOT NULL,
-  `updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `purchase_types`
---
-
-INSERT INTO `purchase_types` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Default', 1, 0, '2019-05-01 05:50:14', 0, '0000-00-00 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `p_carts`
---
-
-CREATE TABLE `p_carts` (
+DROP TABLE IF EXISTS `purchase_carts`;
+CREATE TABLE `purchase_carts` (
   `id` int(11) NOT NULL,
   `token` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -1967,44 +992,81 @@ CREATE TABLE `p_carts` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `p_carts`
---
+INSERT INTO `purchase_carts` (`id`, `token`, `user_id`, `product_id`, `price`, `option`, `quantity`, `tax`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 'EWmhKwgt', 1, 1, '200.00000000', '', '1.0000', '12.00000000', 1, 0, '2019-05-04 09:29:24', 0, '0000-00-00 00:00:00'),
+(2, 'EWmhKwgt', 1, 1, '20.00000000', '', '1.0000', '10.00000000', 1, 0, '2019-05-27 10:16:37', 0, '0000-00-00 00:00:00'),
+(3, 'EWmhKwgt', 1, 1, '20.00000000', '', '1.0000', '10.00000000', 1, 0, '2019-06-02 10:24:31', 0, '0000-00-00 00:00:00'),
+(4, '1', 1, 1, '20.00000000', '', '1.0000', '10.00000000', 1, 0, '2019-06-08 08:11:23', 0, '0000-00-00 00:00:00');
 
-INSERT INTO `p_carts` (`id`, `token`, `user_id`, `product_id`, `price`, `option`, `quantity`, `tax`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, '3QRevbFO', 1, 1, '200.00000000', '', '1.0000', '12.00000000', 1, 0, '2019-05-04 09:29:24', 0, '0000-00-00 00:00:00'),
-(2, '3QRevbFO', 1, 1, '20.00000000', '', '1.0000', '10.00000000', 1, 0, '2019-05-27 10:16:37', 0, '0000-00-00 00:00:00');
+DROP TABLE IF EXISTS `purchase_histories`;
+CREATE TABLE `purchase_histories` (
+  `id` int(11) NOT NULL,
+  `purchase_status_id` int(11) NOT NULL,
+  `comment` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
+INSERT INTO `purchase_histories` (`id`, `purchase_status_id`, `comment`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 1, '', 1, 0, '2019-06-08 11:41:23', 0, '2019-06-08 11:41:23');
 
---
--- Stand-in structure for view `p_carts_view`
--- (See below for the actual view)
---
-CREATE TABLE `p_carts_view` (
-`id` int(11)
-,`token` varchar(128)
-,`user_id` int(11)
-,`product_id` int(11)
-,`price` decimal(15,8)
-,`option` text
-,`quantity` decimal(15,4)
-,`tax` decimal(15,8)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`user` varchar(32)
-,`product` varchar(32)
-);
+DROP TABLE IF EXISTS `purchase_products`;
+CREATE TABLE `purchase_products` (
+  `purchase_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `price` decimal(15,8) NOT NULL,
+  `quantity` decimal(15,8) NOT NULL,
+  `total` decimal(15,8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
+INSERT INTO `purchase_products` (`purchase_id`, `product_id`, `price`, `quantity`, `total`) VALUES
+(1, 1, '100.00000000', '1.00000000', '100.00000000');
 
---
--- Table structure for table `ratings`
---
+DROP TABLE IF EXISTS `purchase_statuses`;
+CREATE TABLE `purchase_statuses` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `purchase_statuses` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 'Pending', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:23'),
+(2, 'processed', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+
+DROP TABLE IF EXISTS `purchase_totals`;
+CREATE TABLE `purchase_totals` (
+  `purchase_id` int(11) NOT NULL,
+  `code` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` decimal(15,4) NOT NULL,
+  `sort_order` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `purchase_totals` (`purchase_id`, `code`, `title`, `value`, `sort_order`) VALUES
+(1, 'total', 'total', '0.0000', 0);
+
+DROP TABLE IF EXISTS `purchase_types`;
+CREATE TABLE `purchase_types` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_by` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `purchase_types` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+(1, 'Default', 1, 0, '2019-05-01 05:50:14', 0, '2019-06-08 08:11:22');
+
+DROP TABLE IF EXISTS `ratings`;
 CREATE TABLE `ratings` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -2017,52 +1079,30 @@ CREATE TABLE `ratings` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `ratings`
---
-
 INSERT INTO `ratings` (`id`, `name`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Terrible', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:27:56'),
+(1, 'Terrible', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:23'),
 (2, 'Bad', '', 2, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 'Average', '', 3, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (4, 'Very Good', '', 4, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (5, 'Excellent', '', 5, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `related_products`
---
-
+DROP TABLE IF EXISTS `related_products`;
 CREATE TABLE `related_products` (
   `product_id` int(11) NOT NULL,
   `related_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `related_products`
---
-
 INSERT INTO `related_products` (`product_id`, `related_id`) VALUES
 (1, 2),
 (1, 3);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `settings`
---
-
+DROP TABLE IF EXISTS `settings`;
 CREATE TABLE `settings` (
   `code` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `key` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `value` text COLLATE utf8_unicode_ci NOT NULL,
   `serialized` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `settings`
---
 
 INSERT INTO `settings` (`code`, `key`, `value`, `serialized`) VALUES
 ('config', 'default_address', 'udaipur, rajasthan (IND)', 0),
@@ -2083,12 +1123,7 @@ INSERT INTO `settings` (`code`, `key`, `value`, `serialized`) VALUES
 ('config', 'default_weight_class', '1', 0),
 ('config', 'default_zone', '1501', 0);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `stocks`
---
-
+DROP TABLE IF EXISTS `stocks`;
 CREATE TABLE `stocks` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -2106,45 +1141,11 @@ CREATE TABLE `stocks` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `stocks`
---
-
 INSERT INTO `stocks` (`id`, `product_id`, `location_id`, `price`, `quantity`, `type`, `reference`, `reference_id`, `text`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 1, 2, '0.00000000', '10.00000000', 'i', '', 0, '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (2, 1, 2, '0.00000000', '10.00000000', 'o', '', 0, '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `stocks_view`
--- (See below for the actual view)
---
-CREATE TABLE `stocks_view` (
-`id` int(11)
-,`product_id` int(11)
-,`location_id` int(11)
-,`price` decimal(15,8)
-,`quantity` decimal(15,8)
-,`type` char(1)
-,`reference` char(1)
-,`reference_id` int(11)
-,`text` text
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`product` varchar(32)
-,`location` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `stock_statuses`
---
-
+DROP TABLE IF EXISTS `stock_statuses`;
 CREATE TABLE `stock_statuses` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -2155,20 +1156,11 @@ CREATE TABLE `stock_statuses` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `stock_statuses`
---
-
 INSERT INTO `stock_statuses` (`id`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 'In Stock', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (2, 'Out of Stock', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `tax_classes`
---
-
+DROP TABLE IF EXISTS `tax_classes`;
 CREATE TABLE `tax_classes` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -2180,20 +1172,11 @@ CREATE TABLE `tax_classes` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `tax_classes`
---
-
 INSERT INTO `tax_classes` (`id`, `name`, `description`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Taxable Goods', 'Taxable Goods', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:11:29'),
+(1, 'Taxable Goods', 'Taxable Goods', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:21'),
 (2, 'Downloadable Products', '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `tax_rates`
---
-
+DROP TABLE IF EXISTS `tax_rates`;
 CREATE TABLE `tax_rates` (
   `id` int(11) NOT NULL,
   `tax_class_id` int(11) NOT NULL,
@@ -2207,40 +1190,11 @@ CREATE TABLE `tax_rates` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `tax_rates`
---
-
 INSERT INTO `tax_rates` (`id`, `tax_class_id`, `name`, `rate`, `type`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'SGST', '10.0000', 'P', 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:13:17'),
+(1, 1, 'SGST', '10.0000', 'p', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:21'),
 (2, 1, 'CGST', '8.0000', 'P', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `tax_rates_view`
--- (See below for the actual view)
---
-CREATE TABLE `tax_rates_view` (
-`id` int(11)
-,`tax_class_id` int(11)
-,`name` varchar(32)
-,`rate` decimal(15,4)
-,`type` char(1)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`tax_class` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `types`
---
-
+DROP TABLE IF EXISTS `types`;
 CREATE TABLE `types` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -2253,21 +1207,12 @@ CREATE TABLE `types` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `types`
---
-
 INSERT INTO `types` (`id`, `name`, `image`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Men', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:28:42'),
+(1, 'Men', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:24'),
 (2, 'Women', '', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-30 12:14:44'),
 (3, 'Children', '', 2, 1, 0, '0000-00-00 00:00:00', 0, '2019-01-30 12:15:01');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
@@ -2283,44 +1228,13 @@ CREATE TABLE `users` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `users`
---
-
 INSERT INTO `users` (`id`, `group_id`, `name`, `email`, `contact`, `password`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 1, 'nadim', 'nadim.sheikh.07@gmail.com', '7737033665', '202cb962ac59075b964b07152d234b70', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-01-28 10:09:13'),
 (2, 2, 'ali', 'ali@gmail.com', '123456', '123', '', 1, 0, '2019-01-28 09:49:43', 0, '2019-01-28 10:11:35'),
 (3, 2, 'sahil', 'sahil@gmail.co', '123456456', '123', '', 1, 0, '2019-01-30 11:21:59', 0, '0000-00-00 00:00:00'),
 (4, 1, 'nadim', 'nadim@gmail.com', '123456123', '123456', '', 1, 0, '2019-02-02 11:20:14', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `users_view`
--- (See below for the actual view)
---
-CREATE TABLE `users_view` (
-`id` int(11)
-,`group_id` int(11)
-,`name` varchar(32)
-,`email` varchar(96)
-,`contact` varchar(15)
-,`password` varchar(40)
-,`image` text
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`group_name` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_groups`
---
-
+DROP TABLE IF EXISTS `user_groups`;
 CREATE TABLE `user_groups` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -2332,20 +1246,11 @@ CREATE TABLE `user_groups` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `user_groups`
---
-
 INSERT INTO `user_groups` (`id`, `name`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'super admin', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-04-10 06:03:25'),
+(1, 'admin', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:16'),
 (2, 'admin', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-01-28 10:30:25');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `user_sessions`
---
-
+DROP TABLE IF EXISTS `user_sessions`;
 CREATE TABLE `user_sessions` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -2354,34 +1259,10 @@ CREATE TABLE `user_sessions` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `user_sessions`
---
-
 INSERT INTO `user_sessions` (`id`, `user_id`, `token`, `created_at`, `updated_at`) VALUES
-(5, 1, '3QRevbFO', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(8, 1, 'EWmhKwgt', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `user_sessions_view`
--- (See below for the actual view)
---
-CREATE TABLE `user_sessions_view` (
-`id` int(11)
-,`user_id` int(11)
-,`token` varchar(255)
-,`created_at` datetime
-,`updated_at` datetime
-,`user` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `vendors`
---
-
+DROP TABLE IF EXISTS `vendors`;
 CREATE TABLE `vendors` (
   `id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
@@ -2397,41 +1278,10 @@ CREATE TABLE `vendors` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `vendors`
---
-
 INSERT INTO `vendors` (`id`, `group_id`, `name`, `email`, `contact`, `password`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 1, 'abc info ', 'abc@gmail.com', '1234567890', '', '', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+(1, 1, 'Ali', 'ali@gmail.com', '1234567890', '123', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:17');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `vendors_view`
--- (See below for the actual view)
---
-CREATE TABLE `vendors_view` (
-`id` int(11)
-,`group_id` int(11)
-,`name` varchar(32)
-,`email` varchar(96)
-,`contact` varchar(15)
-,`password` varchar(40)
-,`image` text
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`group_name` varchar(32)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `vendor_groups`
---
-
+DROP TABLE IF EXISTS `vendor_groups`;
 CREATE TABLE `vendor_groups` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -2443,19 +1293,10 @@ CREATE TABLE `vendor_groups` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `vendor_groups`
---
-
 INSERT INTO `vendor_groups` (`id`, `name`, `image`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Employee A', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-05-27 08:25:58');
+(1, 'Employee A', '', 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:18');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `weight_classes`
---
-
+DROP TABLE IF EXISTS `weight_classes`;
 CREATE TABLE `weight_classes` (
   `id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -2469,22 +1310,13 @@ CREATE TABLE `weight_classes` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `weight_classes`
---
-
 INSERT INTO `weight_classes` (`id`, `name`, `unit`, `value`, `sort_order`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-(1, 'Kilogram', 'kg', '1.00000000', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-02-27 02:17:28'),
+(1, 'Kilogram', 'kg', '1.00000000', 1, 1, 0, '0000-00-00 00:00:00', 0, '2019-06-08 08:11:24'),
 (2, 'Gram', 'g', '1000.00000000', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (3, 'Pound', 'lb', '2.20460000', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (4, 'Ounce', 'oz', '35.27400000', 0, 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `zones`
---
-
+DROP TABLE IF EXISTS `zones`;
 CREATE TABLE `zones` (
   `id` int(11) NOT NULL,
   `country_id` int(11) NOT NULL,
@@ -2496,10 +1328,6 @@ CREATE TABLE `zones` (
   `updated_by` int(11) NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `zones`
---
 
 INSERT INTO `zones` (`id`, `country_id`, `name`, `code`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 (1, 1, 'Badakhshan', 'BDS', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
@@ -6618,379 +5446,45 @@ INSERT INTO `zones` (`id`, `country_id`, `name`, `code`, `status`, `created_by`,
 (4237, 105, 'Fermo', 'FM', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
 (4238, 105, 'Monza Brianza', 'MB', 1, 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
 
---
--- Stand-in structure for view `zones_view`
--- (See below for the actual view)
---
-CREATE TABLE `zones_view` (
-`id` int(11)
-,`country_id` int(11)
-,`name` varchar(128)
-,`code` varchar(32)
-,`status` tinyint(1)
-,`created_by` int(11)
-,`created_at` datetime
-,`updated_by` int(11)
-,`updated_at` datetime
-,`country` varchar(128)
-);
-
--- --------------------------------------------------------
-
---
--- Structure for view `attributes_view`
---
-DROP TABLE IF EXISTS `attributes_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `attributes_view`  AS  select `a`.`id` AS `id`,`a`.`group_id` AS `group_id`,`a`.`name` AS `name`,`a`.`image` AS `image`,`a`.`sort_order` AS `sort_order`,`a`.`status` AS `status`,`a`.`created_by` AS `created_by`,`a`.`created_at` AS `created_at`,`a`.`updated_by` AS `updated_by`,`a`.`updated_at` AS `updated_at`,`ag`.`name` AS `group_name` from (`attributes` `a` left join `attribute_groups` `ag` on((`ag`.`id` = `a`.`group_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `banners_view`
---
-DROP TABLE IF EXISTS `banners_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `banners_view`  AS  select `b`.`id` AS `id`,`b`.`type_id` AS `type_id`,`b`.`name` AS `name`,`b`.`status` AS `status`,`b`.`created_by` AS `created_by`,`b`.`created_at` AS `created_at`,`b`.`updated_by` AS `updated_by`,`b`.`updated_at` AS `updated_at`,`t`.`name` AS `type` from (`banners` `b` left join `types` `t` on((`t`.`id` = `b`.`type_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `banner_images_view`
---
-DROP TABLE IF EXISTS `banner_images_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `banner_images_view`  AS  select `bi`.`id` AS `id`,`bi`.`banner_id` AS `banner_id`,`bi`.`type` AS `type`,`bi`.`type_id` AS `type_id`,`bi`.`name` AS `name`,`bi`.`image` AS `image`,`bi`.`link` AS `link`,`bi`.`sort_order` AS `sort_order`,`b`.`name` AS `banner` from (`banner_images` `bi` left join `banners` `b` on((`b`.`id` = `bi`.`banner_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `carts_view`
---
-DROP TABLE IF EXISTS `carts_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `carts_view`  AS  select `ct`.`id` AS `id`,`ct`.`token` AS `token`,`ct`.`customer_id` AS `customer_id`,`ct`.`product_id` AS `product_id`,`ct`.`price_type` AS `price_type`,`ct`.`option` AS `option`,`ct`.`quantity` AS `quantity`,`ct`.`status` AS `status`,`ct`.`created_by` AS `created_by`,`ct`.`created_at` AS `created_at`,`ct`.`updated_by` AS `updated_by`,`ct`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`p`.`name` AS `product`,`p`.`price` AS `price` from ((`carts` `ct` left join `customers` `c` on((`c`.`id` = `ct`.`customer_id`))) left join `products` `p` on((`p`.`id` = `ct`.`product_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `categories_view`
---
-DROP TABLE IF EXISTS `categories_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `categories_view`  AS  select `c`.`id` AS `id`,`c`.`type_id` AS `type_id`,`c`.`parent_id` AS `parent_id`,`c`.`name` AS `name`,`c`.`image` AS `image`,`c`.`sort_order` AS `sort_order`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`t`.`name` AS `type` from (`categories` `c` left join `types` `t` on((`t`.`id` = `c`.`type_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `cities_view`
---
-DROP TABLE IF EXISTS `cities_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `cities_view`  AS  select `c`.`id` AS `id`,`c`.`country_id` AS `country_id`,`c`.`zone_id` AS `zone_id`,`c`.`name` AS `name`,`c`.`code` AS `code`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`ct`.`name` AS `country`,`z`.`name` AS `zone` from ((`cities` `c` left join `countries` `ct` on((`ct`.`id` = `c`.`country_id`))) left join `zones` `z` on((`z`.`id` = `c`.`zone_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `customers_view`
---
-DROP TABLE IF EXISTS `customers_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `customers_view`  AS  select `c`.`id` AS `id`,`c`.`group_id` AS `group_id`,`c`.`name` AS `name`,`c`.`email` AS `email`,`c`.`contact` AS `contact`,`c`.`password` AS `password`,`c`.`image` AS `image`,`c`.`status` AS `status`,`c`.`created_by` AS `created_by`,`c`.`created_at` AS `created_at`,`c`.`updated_by` AS `updated_by`,`c`.`updated_at` AS `updated_at`,`cg`.`name` AS `group_name` from (`customers` `c` left join `customer_groups` `cg` on((`cg`.`id` = `c`.`group_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `customer_addresses_view`
---
-DROP TABLE IF EXISTS `customer_addresses_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `customer_addresses_view`  AS  select `ca`.`id` AS `id`,`ca`.`customer_id` AS `customer_id`,`ca`.`name` AS `name`,`ca`.`contact` AS `contact`,`ca`.`country_id` AS `country_id`,`ca`.`zone_id` AS `zone_id`,`ca`.`city_id` AS `city_id`,`ca`.`postcode` AS `postcode`,`ca`.`address` AS `address`,`ca`.`default` AS `default`,`ca`.`status` AS `status`,`ca`.`created_by` AS `created_by`,`ca`.`created_at` AS `created_at`,`ca`.`updated_by` AS `updated_by`,`ca`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`ct`.`name` AS `country`,`z`.`name` AS `zone`,`cs`.`name` AS `city` from ((((`customer_addresses` `ca` left join `customers` `c` on((`c`.`id` = `ca`.`customer_id`))) left join `countries` `ct` on((`ct`.`id` = `ca`.`country_id`))) left join `zones` `z` on((`z`.`id` = `ca`.`zone_id`))) left join `cities` `cs` on((`cs`.`id` = `ca`.`city_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `customer_sessions_view`
---
-DROP TABLE IF EXISTS `customer_sessions_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `customer_sessions_view`  AS  select `cs`.`id` AS `id`,`cs`.`customer_id` AS `customer_id`,`cs`.`token` AS `token`,`cs`.`created_at` AS `created_at`,`cs`.`updated_at` AS `updated_at`,`c`.`name` AS `customer` from (`customer_sessions` `cs` left join `customers` `c` on((`c`.`id` = `cs`.`customer_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `customer_wishlists_view`
---
-DROP TABLE IF EXISTS `customer_wishlists_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `customer_wishlists_view`  AS  select `cw`.`id` AS `id`,`cw`.`customer_id` AS `customer_id`,`cw`.`product_id` AS `product_id`,`cw`.`status` AS `status`,`cw`.`created_by` AS `created_by`,`cw`.`created_at` AS `created_at`,`cw`.`updated_by` AS `updated_by`,`cw`.`updated_at` AS `updated_at`,`c`.`name` AS `customer`,`p`.`name` AS `product` from ((`customer_wishlists` `cw` left join `customers` `c` on((`c`.`id` = `cw`.`customer_id`))) left join `products` `p` on((`p`.`id` = `cw`.`product_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `employees_view`
---
-DROP TABLE IF EXISTS `employees_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `employees_view`  AS  select `e`.`id` AS `id`,`e`.`group_id` AS `group_id`,`e`.`location_id` AS `location_id`,`e`.`name` AS `name`,`e`.`email` AS `email`,`e`.`contact` AS `contact`,`e`.`password` AS `password`,`e`.`image` AS `image`,`e`.`status` AS `status`,`e`.`created_by` AS `created_by`,`e`.`created_at` AS `created_at`,`e`.`updated_by` AS `updated_by`,`e`.`updated_at` AS `updated_at`,`eg`.`name` AS `group_name`,`l`.`name` AS `location` from ((`employees` `e` left join `employee_groups` `eg` on((`eg`.`id` = `e`.`group_id`))) left join `locations` `l` on((`l`.`id` = `e`.`location_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `employee_attendances_view`
---
-DROP TABLE IF EXISTS `employee_attendances_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `employee_attendances_view`  AS  select `et`.`id` AS `id`,`et`.`location_id` AS `location_id`,`et`.`date` AS `date`,`et`.`employee_id` AS `employee_id`,`et`.`type` AS `type`,`et`.`status` AS `status`,`et`.`created_at` AS `created_at`,`et`.`updated_at` AS `updated_at`,`l`.`name` AS `location`,`e`.`name` AS `employee` from ((`employee_attendances` `et` left join `locations` `l` on((`l`.`id` = `et`.`location_id`))) left join `employees` `e` on((`e`.`id` = `et`.`employee_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `employee_orders_view`
---
-DROP TABLE IF EXISTS `employee_orders_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `employee_orders_view`  AS  select `eo`.`id` AS `id`,`eo`.`employee_id` AS `employee_id`,`eo`.`order_id` AS `order_id`,`eo`.`remark` AS `remark`,`eo`.`status` AS `status`,`eo`.`created_at` AS `created_at`,`eo`.`updated_at` AS `updated_at`,`e`.`name` AS `employee`,`o`.`name` AS `name`,`o`.`email` AS `email`,`o`.`contact` AS `contact`,`o`.`postcode` AS `postcode`,`o`.`address` AS `address`,`o`.`comment` AS `comment`,`o`.`total` AS `total`,`o`.`total_tax` AS `total_tax`,`ot`.`name` AS `order_type`,`os`.`name` AS `order_status` from ((((`employee_orders` `eo` left join `employees` `e` on((`e`.`id` = `eo`.`employee_id`))) left join `orders` `o` on((`o`.`id` = `eo`.`order_id`))) left join `order_types` `ot` on((`ot`.`id` = `o`.`order_type_id`))) left join `order_statuses` `os` on((`os`.`id` = `o`.`order_status_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `employee_sessions_view`
---
-DROP TABLE IF EXISTS `employee_sessions_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `employee_sessions_view`  AS  select `es`.`id` AS `id`,`es`.`employee_id` AS `employee_id`,`es`.`token` AS `token`,`es`.`created_at` AS `created_at`,`es`.`updated_at` AS `updated_at`,`e`.`name` AS `employee` from (`employee_sessions` `es` left join `employees` `e` on((`e`.`id` = `es`.`employee_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `inquiries_view`
---
-DROP TABLE IF EXISTS `inquiries_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `inquiries_view`  AS  select `i`.`id` AS `id`,`i`.`type_id` AS `type_id`,`i`.`name` AS `name`,`i`.`email` AS `email`,`i`.`contact` AS `contact`,`i`.`text` AS `text`,`i`.`status` AS `status`,`i`.`created_by` AS `created_by`,`i`.`created_at` AS `created_at`,`i`.`updated_by` AS `updated_by`,`i`.`updated_at` AS `updated_at`,`it`.`name` AS `type` from (`inquiries` `i` left join `inquiry_types` `it` on((`it`.`id` = `i`.`type_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `locations_view`
---
-DROP TABLE IF EXISTS `locations_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `locations_view`  AS  select `l`.`id` AS `id`,`l`.`name` AS `name`,`l`.`contact_person` AS `contact_person`,`l`.`contact` AS `contact`,`l`.`email` AS `email`,`l`.`country_id` AS `country_id`,`l`.`zone_id` AS `zone_id`,`l`.`city_id` AS `city_id`,`l`.`postcode` AS `postcode`,`l`.`address` AS `address`,`l`.`sort_order` AS `sort_order`,`l`.`status` AS `status`,`l`.`created_by` AS `created_by`,`l`.`created_at` AS `created_at`,`l`.`updated_by` AS `updated_by`,`l`.`updated_at` AS `updated_at`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city` from (((`locations` `l` left join `countries` `c` on((`c`.`id` = `l`.`country_id`))) left join `zones` `z` on((`z`.`id` = `l`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `l`.`city_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `orders_view`
---
-DROP TABLE IF EXISTS `orders_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `orders_view`  AS  select `o`.`id` AS `id`,`o`.`order_type_id` AS `order_type_id`,`o`.`customer_id` AS `customer_id`,`o`.`name` AS `name`,`o`.`email` AS `email`,`o`.`contact` AS `contact`,`o`.`country_id` AS `country_id`,`o`.`zone_id` AS `zone_id`,`o`.`city_id` AS `city_id`,`o`.`postcode` AS `postcode`,`o`.`address` AS `address`,`o`.`comment` AS `comment`,`o`.`total` AS `total`,`o`.`total_tax` AS `total_tax`,`o`.`order_status_id` AS `order_status_id`,`o`.`status` AS `status`,`o`.`created_by` AS `created_by`,`o`.`created_at` AS `created_at`,`o`.`updated_by` AS `updated_by`,`o`.`updated_at` AS `updated_at`,`ot`.`name` AS `order_type`,`cr`.`name` AS `customer`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city`,`os`.`name` AS `order_status` from ((((((`orders` `o` left join `order_types` `ot` on((`ot`.`id` = `o`.`order_type_id`))) left join `customers` `cr` on((`cr`.`id` = `o`.`customer_id`))) left join `countries` `c` on((`c`.`id` = `o`.`country_id`))) left join `zones` `z` on((`z`.`id` = `o`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `o`.`city_id`))) left join `order_statuses` `os` on((`os`.`id` = `o`.`order_status_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `order_products_view`
---
-DROP TABLE IF EXISTS `order_products_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `order_products_view`  AS  select `op`.`order_id` AS `order_id`,`op`.`product_id` AS `product_id`,`op`.`price` AS `price`,`op`.`quantity` AS `quantity`,`op`.`tax` AS `tax`,`op`.`total` AS `total`,`p`.`name` AS `product` from (`order_products` `op` left join `products` `p` on((`p`.`id` = `op`.`product_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `products_view`
---
-DROP TABLE IF EXISTS `products_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `products_view`  AS  select `p`.`id` AS `id`,`p`.`type_id` AS `type_id`,`p`.`manufacturer_id` AS `manufacturer_id`,`p`.`code` AS `code`,`p`.`model` AS `model`,`p`.`sku` AS `sku`,`p`.`name` AS `name`,`p`.`price_type` AS `price_type`,`p`.`price` AS `price`,`p`.`image` AS `image`,`p`.`description` AS `description`,`p`.`text` AS `text`,`p`.`tax_class_id` AS `tax_class_id`,`p`.`length_class_id` AS `length_class_id`,`p`.`length` AS `length`,`p`.`width` AS `width`,`p`.`height` AS `height`,`p`.`weight_class_id` AS `weight_class_id`,`p`.`weight` AS `weight`,`p`.`viewed` AS `viewed`,`p`.`minimum` AS `minimum`,`p`.`shipping` AS `shipping`,`p`.`inventory` AS `inventory`,`p`.`status` AS `status`,`p`.`created_by` AS `created_by`,`p`.`created_at` AS `created_at`,`p`.`updated_by` AS `updated_by`,`p`.`updated_at` AS `updated_at`,`t`.`name` AS `type`,`m`.`name` AS `manufacturer`,`tc`.`name` AS `tax_class`,`lc`.`name` AS `length_class`,`lc`.`unit` AS `length_unit`,`wc`.`name` AS `weight_class`,`wc`.`unit` AS `weight_unit` from (((((`products` `p` left join `types` `t` on((`t`.`id` = `p`.`type_id`))) left join `manufactures` `m` on((`m`.`id` = `p`.`manufacturer_id`))) left join `tax_classes` `tc` on((`tc`.`id` = `p`.`tax_class_id`))) left join `length_classes` `lc` on((`lc`.`id` = `p`.`length_class_id`))) left join `weight_classes` `wc` on((`wc`.`id` = `p`.`weight_class_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `product_attributes_view`
---
-DROP TABLE IF EXISTS `product_attributes_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `product_attributes_view`  AS  select `pa`.`product_id` AS `product_id`,`pa`.`attribute_id` AS `attribute_id`,`pa`.`text` AS `text`,`p`.`name` AS `product`,`a`.`name` AS `attribute` from ((`product_attributes` `pa` left join `products` `p` on((`p`.`id` = `pa`.`product_id`))) left join `attributes` `a` on((`a`.`id` = `pa`.`attribute_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `product_prices_view`
---
-DROP TABLE IF EXISTS `product_prices_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `product_prices_view`  AS  select `pp`.`id` AS `id`,`pp`.`product_id` AS `product_id`,`pp`.`customer_group_id` AS `customer_group_id`,`pp`.`price` AS `price`,`pp`.`start` AS `start`,`pp`.`end` AS `end`,`pp`.`status` AS `status`,`pp`.`created_by` AS `created_by`,`pp`.`created_at` AS `created_at`,`pp`.`updated_by` AS `updated_by`,`pp`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`cg`.`name` AS `customer_group` from ((`product_prices` `pp` left join `products` `p` on((`p`.`id` = `pp`.`product_id`))) left join `customer_groups` `cg` on((`cg`.`id` = `pp`.`customer_group_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `product_reviews_view`
---
-DROP TABLE IF EXISTS `product_reviews_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `product_reviews_view`  AS  select `pr`.`id` AS `id`,`pr`.`product_id` AS `product_id`,`pr`.`customer_id` AS `customer_id`,`pr`.`rating_id` AS `rating_id`,`pr`.`name` AS `name`,`pr`.`text` AS `text`,`pr`.`status` AS `status`,`pr`.`created_by` AS `created_by`,`pr`.`created_at` AS `created_at`,`pr`.`updated_by` AS `updated_by`,`pr`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`c`.`name` AS `customer`,`r`.`name` AS `rating`,`r`.`sort_order` AS `rate` from (((`product_reviews` `pr` left join `products` `p` on((`p`.`id` = `pr`.`product_id`))) left join `customers` `c` on((`c`.`id` = `pr`.`customer_id`))) left join `ratings` `r` on((`r`.`id` = `pr`.`rating_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `purchases_view`
---
-DROP TABLE IF EXISTS `purchases_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `purchases_view`  AS  select `p`.`id` AS `id`,`p`.`purchase_type_id` AS `purchase_type_id`,`p`.`vendor_id` AS `vendor_id`,`p`.`name` AS `name`,`p`.`email` AS `email`,`p`.`contact` AS `contact`,`p`.`country_id` AS `country_id`,`p`.`zone_id` AS `zone_id`,`p`.`city_id` AS `city_id`,`p`.`postcode` AS `postcode`,`p`.`address` AS `address`,`p`.`comment` AS `comment`,`p`.`total` AS `total`,`p`.`purchase_status_id` AS `purchase_status_id`,`p`.`status` AS `status`,`p`.`created_by` AS `created_by`,`p`.`created_at` AS `created_at`,`p`.`updated_by` AS `updated_by`,`p`.`updated_at` AS `updated_at`,`pt`.`name` AS `purchase_type`,`v`.`name` AS `vendor`,`c`.`name` AS `country`,`z`.`name` AS `zone`,`ct`.`name` AS `city`,`ps`.`name` AS `purchase_status` from ((((((`purchases` `p` left join `purchase_types` `pt` on((`pt`.`id` = `p`.`purchase_type_id`))) left join `vendors` `v` on((`v`.`id` = `p`.`vendor_id`))) left join `countries` `c` on((`c`.`id` = `p`.`country_id`))) left join `zones` `z` on((`z`.`id` = `p`.`zone_id`))) left join `cities` `ct` on((`ct`.`id` = `p`.`city_id`))) left join `purchase_statuses` `ps` on((`ps`.`id` = `p`.`purchase_status_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `purchase_products_view`
---
-DROP TABLE IF EXISTS `purchase_products_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `purchase_products_view`  AS  select `pp`.`purchase_id` AS `purchase_id`,`pp`.`product_id` AS `product_id`,`pp`.`price` AS `price`,`pp`.`quantity` AS `quantity`,`pp`.`total` AS `total`,`p`.`name` AS `product` from (`purchase_products` `pp` left join `products` `p` on((`p`.`id` = `pp`.`product_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `p_carts_view`
---
-DROP TABLE IF EXISTS `p_carts_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `p_carts_view`  AS  select `pc`.`id` AS `id`,`pc`.`token` AS `token`,`pc`.`user_id` AS `user_id`,`pc`.`product_id` AS `product_id`,`pc`.`price` AS `price`,`pc`.`option` AS `option`,`pc`.`quantity` AS `quantity`,`pc`.`tax` AS `tax`,`pc`.`status` AS `status`,`pc`.`created_by` AS `created_by`,`pc`.`created_at` AS `created_at`,`pc`.`updated_by` AS `updated_by`,`pc`.`updated_at` AS `updated_at`,`u`.`name` AS `user`,`p`.`name` AS `product` from ((`p_carts` `pc` left join `users` `u` on((`u`.`id` = `pc`.`user_id`))) left join `products` `p` on((`p`.`id` = `pc`.`product_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `stocks_view`
---
-DROP TABLE IF EXISTS `stocks_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stocks_view`  AS  select `s`.`id` AS `id`,`s`.`product_id` AS `product_id`,`s`.`location_id` AS `location_id`,`s`.`price` AS `price`,`s`.`quantity` AS `quantity`,`s`.`type` AS `type`,`s`.`reference` AS `reference`,`s`.`reference_id` AS `reference_id`,`s`.`text` AS `text`,`s`.`status` AS `status`,`s`.`created_by` AS `created_by`,`s`.`created_at` AS `created_at`,`s`.`updated_by` AS `updated_by`,`s`.`updated_at` AS `updated_at`,`p`.`name` AS `product`,`l`.`name` AS `location` from ((`stocks` `s` left join `products` `p` on((`p`.`id` = `s`.`product_id`))) left join `locations` `l` on((`l`.`id` = `s`.`location_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `tax_rates_view`
---
-DROP TABLE IF EXISTS `tax_rates_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `tax_rates_view`  AS  select `tr`.`id` AS `id`,`tr`.`tax_class_id` AS `tax_class_id`,`tr`.`name` AS `name`,`tr`.`rate` AS `rate`,`tr`.`type` AS `type`,`tr`.`status` AS `status`,`tr`.`created_by` AS `created_by`,`tr`.`created_at` AS `created_at`,`tr`.`updated_by` AS `updated_by`,`tr`.`updated_at` AS `updated_at`,`tc`.`name` AS `tax_class` from (`tax_rates` `tr` left join `tax_classes` `tc` on((`tc`.`id` = `tr`.`tax_class_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `users_view`
---
-DROP TABLE IF EXISTS `users_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `users_view`  AS  select `u`.`id` AS `id`,`u`.`group_id` AS `group_id`,`u`.`name` AS `name`,`u`.`email` AS `email`,`u`.`contact` AS `contact`,`u`.`password` AS `password`,`u`.`image` AS `image`,`u`.`status` AS `status`,`u`.`created_by` AS `created_by`,`u`.`created_at` AS `created_at`,`u`.`updated_by` AS `updated_by`,`u`.`updated_at` AS `updated_at`,`ug`.`name` AS `group_name` from (`users` `u` left join `user_groups` `ug` on((`ug`.`id` = `u`.`group_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `user_sessions_view`
---
-DROP TABLE IF EXISTS `user_sessions_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `user_sessions_view`  AS  select `us`.`id` AS `id`,`us`.`user_id` AS `user_id`,`us`.`token` AS `token`,`us`.`created_at` AS `created_at`,`us`.`updated_at` AS `updated_at`,`u`.`name` AS `user` from (`user_sessions` `us` left join `users` `u` on((`u`.`id` = `us`.`user_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `vendors_view`
---
-DROP TABLE IF EXISTS `vendors_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vendors_view`  AS  select `v`.`id` AS `id`,`v`.`group_id` AS `group_id`,`v`.`name` AS `name`,`v`.`email` AS `email`,`v`.`contact` AS `contact`,`v`.`password` AS `password`,`v`.`image` AS `image`,`v`.`status` AS `status`,`v`.`created_by` AS `created_by`,`v`.`created_at` AS `created_at`,`v`.`updated_by` AS `updated_by`,`v`.`updated_at` AS `updated_at`,`vg`.`name` AS `group_name` from (`vendors` `v` left join `vendor_groups` `vg` on((`vg`.`id` = `v`.`group_id`))) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `zones_view`
---
-DROP TABLE IF EXISTS `zones_view`;
-
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `zones_view`  AS  select `z`.`id` AS `id`,`z`.`country_id` AS `country_id`,`z`.`name` AS `name`,`z`.`code` AS `code`,`z`.`status` AS `status`,`z`.`created_by` AS `created_by`,`z`.`created_at` AS `created_at`,`z`.`updated_by` AS `updated_by`,`z`.`updated_at` AS `updated_at`,`c`.`name` AS `country` from (`zones` `z` left join `countries` `c` on((`c`.`id` = `z`.`country_id`))) ;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `attributes`
---
 ALTER TABLE `attributes`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`group_id`);
 
---
--- Indexes for table `attribute_groups`
---
 ALTER TABLE `attribute_groups`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `banners`
---
 ALTER TABLE `banners`
   ADD PRIMARY KEY (`id`),
   ADD KEY `type_id` (`type_id`);
 
---
--- Indexes for table `banner_images`
---
 ALTER TABLE `banner_images`
   ADD PRIMARY KEY (`id`),
   ADD KEY `banner_id` (`banner_id`);
 
---
--- Indexes for table `carts`
---
 ALTER TABLE `carts`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_id` (`product_id`);
 
---
--- Indexes for table `categories`
---
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `type_id` (`type_id`);
 
---
--- Indexes for table `cities`
---
 ALTER TABLE `cities`
   ADD PRIMARY KEY (`id`),
   ADD KEY `country_id` (`country_id`),
   ADD KEY `zone_id` (`zone_id`);
 
---
--- Indexes for table `countries`
---
 ALTER TABLE `countries`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `currencies`
---
 ALTER TABLE `currencies`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `customers`
---
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`group_id`);
 
---
--- Indexes for table `customer_addresses`
---
 ALTER TABLE `customer_addresses`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`customer_id`),
@@ -6998,107 +5492,65 @@ ALTER TABLE `customer_addresses`
   ADD KEY `zone_id` (`zone_id`),
   ADD KEY `city_id` (`city_id`);
 
---
--- Indexes for table `customer_groups`
---
 ALTER TABLE `customer_groups`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `customer_sessions`
---
 ALTER TABLE `customer_sessions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `customer_id` (`customer_id`);
 
---
--- Indexes for table `customer_wishlists`
---
 ALTER TABLE `customer_wishlists`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`customer_id`),
   ADD KEY `product_id` (`product_id`);
 
---
--- Indexes for table `employees`
---
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`group_id`),
   ADD KEY `location_id` (`location_id`);
 
---
--- Indexes for table `employee_attendances`
---
 ALTER TABLE `employee_attendances`
   ADD PRIMARY KEY (`id`),
   ADD KEY `customer_id` (`employee_id`),
   ADD KEY `location_id` (`location_id`);
 
---
--- Indexes for table `employee_groups`
---
 ALTER TABLE `employee_groups`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `employee_orders`
---
 ALTER TABLE `employee_orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `customer_id` (`employee_id`),
-  ADD KEY `order_id` (`order_id`);
+  ADD KEY `employee_orders_ibfk_2` (`order_id`);
 
---
--- Indexes for table `employee_sessions`
---
+ALTER TABLE `employee_order_histories`
+  ADD KEY `employee_order_id` (`id`);
+
 ALTER TABLE `employee_sessions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `customer_id` (`employee_id`);
 
---
--- Indexes for table `informations`
---
 ALTER TABLE `informations`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `inquiries`
---
 ALTER TABLE `inquiries`
   ADD PRIMARY KEY (`id`),
   ADD KEY `type_id` (`type_id`);
 
---
--- Indexes for table `inquiry_types`
---
 ALTER TABLE `inquiry_types`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `length_classes`
---
 ALTER TABLE `length_classes`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `locations`
---
 ALTER TABLE `locations`
   ADD PRIMARY KEY (`id`),
   ADD KEY `country_id` (`country_id`),
   ADD KEY `zone_id` (`zone_id`),
   ADD KEY `city_id` (`city_id`);
 
---
--- Indexes for table `manufactures`
---
 ALTER TABLE `manufactures`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `orders`
---
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `country_id` (`country_id`),
@@ -7107,34 +5559,23 @@ ALTER TABLE `orders`
   ADD KEY `order_type_id` (`order_type_id`),
   ADD KEY `order_status_id` (`order_status_id`);
 
---
--- Indexes for table `order_products`
---
+ALTER TABLE `order_histories`
+  ADD KEY `order_status_id` (`order_status_id`),
+  ADD KEY `order_histories_ibfk_2` (`id`);
+
 ALTER TABLE `order_products`
   ADD UNIQUE KEY `order_id` (`order_id`,`product_id`),
   ADD KEY `product_id` (`product_id`);
 
---
--- Indexes for table `order_statuses`
---
 ALTER TABLE `order_statuses`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `order_totals`
---
 ALTER TABLE `order_totals`
   ADD UNIQUE KEY `order_id` (`order_id`,`code`);
 
---
--- Indexes for table `order_types`
---
 ALTER TABLE `order_types`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `products`
---
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
   ADD KEY `type_id` (`type_id`),
@@ -7142,46 +5583,28 @@ ALTER TABLE `products`
   ADD KEY `weight_class_id` (`weight_class_id`),
   ADD KEY `tax_class_id` (`tax_class_id`);
 
---
--- Indexes for table `product_attributes`
---
 ALTER TABLE `product_attributes`
   ADD UNIQUE KEY `product_id` (`product_id`,`attribute_id`),
   ADD KEY `attribute_id` (`attribute_id`);
 
---
--- Indexes for table `product_categories`
---
 ALTER TABLE `product_categories`
   ADD UNIQUE KEY `category_id` (`category_id`,`product_id`),
   ADD KEY `product_id` (`product_id`);
 
---
--- Indexes for table `product_images`
---
 ALTER TABLE `product_images`
   ADD PRIMARY KEY (`id`),
   ADD KEY `banner_id` (`product_id`);
 
---
--- Indexes for table `product_prices`
---
 ALTER TABLE `product_prices`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `customer_group_id` (`customer_group_id`);
 
---
--- Indexes for table `product_reviews`
---
 ALTER TABLE `product_reviews`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `rating_id` (`rating_id`);
 
---
--- Indexes for table `purchases`
---
 ALTER TABLE `purchases`
   ADD PRIMARY KEY (`id`),
   ADD KEY `country_id` (`country_id`),
@@ -7190,548 +5613,291 @@ ALTER TABLE `purchases`
   ADD KEY `order_type_id` (`purchase_type_id`),
   ADD KEY `purchase_status_id` (`purchase_status_id`);
 
---
--- Indexes for table `purchase_products`
---
+ALTER TABLE `purchase_carts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
+
+ALTER TABLE `purchase_histories`
+  ADD KEY `purchase_status_id` (`purchase_status_id`),
+  ADD KEY `purchase_id` (`id`);
+
 ALTER TABLE `purchase_products`
   ADD UNIQUE KEY `order_id` (`purchase_id`,`product_id`),
   ADD KEY `product_id` (`product_id`);
 
---
--- Indexes for table `purchase_statuses`
---
 ALTER TABLE `purchase_statuses`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `purchase_totals`
---
 ALTER TABLE `purchase_totals`
-  ADD PRIMARY KEY (`purchase_id`);
+  ADD KEY `purchase_id` (`purchase_id`);
 
---
--- Indexes for table `purchase_types`
---
 ALTER TABLE `purchase_types`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `p_carts`
---
-ALTER TABLE `p_carts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`);
-
---
--- Indexes for table `ratings`
---
 ALTER TABLE `ratings`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `related_products`
---
 ALTER TABLE `related_products`
   ADD KEY `product_id` (`product_id`),
   ADD KEY `related_id` (`related_id`);
 
---
--- Indexes for table `settings`
---
 ALTER TABLE `settings`
   ADD PRIMARY KEY (`key`),
   ADD UNIQUE KEY `code` (`code`,`key`);
 
---
--- Indexes for table `stocks`
---
 ALTER TABLE `stocks`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `location_id` (`location_id`);
 
---
--- Indexes for table `stock_statuses`
---
 ALTER TABLE `stock_statuses`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `tax_classes`
---
 ALTER TABLE `tax_classes`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `tax_rates`
---
 ALTER TABLE `tax_rates`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tax_class_id` (`tax_class_id`);
 
---
--- Indexes for table `types`
---
 ALTER TABLE `types`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `users`
---
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`group_id`);
 
---
--- Indexes for table `user_groups`
---
 ALTER TABLE `user_groups`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `user_sessions`
---
 ALTER TABLE `user_sessions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `customer_id` (`user_id`);
 
---
--- Indexes for table `vendors`
---
 ALTER TABLE `vendors`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`group_id`);
 
---
--- Indexes for table `vendor_groups`
---
 ALTER TABLE `vendor_groups`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `weight_classes`
---
 ALTER TABLE `weight_classes`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `zones`
---
 ALTER TABLE `zones`
   ADD PRIMARY KEY (`id`),
   ADD KEY `country_id` (`country_id`);
 
---
--- AUTO_INCREMENT for dumped tables
---
 
---
--- AUTO_INCREMENT for table `attributes`
---
 ALTER TABLE `attributes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT for table `attribute_groups`
---
 ALTER TABLE `attribute_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `banners`
---
 ALTER TABLE `banners`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `banner_images`
---
 ALTER TABLE `banner_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
---
--- AUTO_INCREMENT for table `carts`
---
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- AUTO_INCREMENT for table `categories`
---
 ALTER TABLE `categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT for table `cities`
---
 ALTER TABLE `cities`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `countries`
---
 ALTER TABLE `countries`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=258;
 
---
--- AUTO_INCREMENT for table `currencies`
---
 ALTER TABLE `currencies`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `customers`
---
 ALTER TABLE `customers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `customer_addresses`
---
 ALTER TABLE `customer_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT for table `customer_groups`
---
 ALTER TABLE `customer_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT for table `customer_sessions`
---
 ALTER TABLE `customer_sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
---
--- AUTO_INCREMENT for table `customer_wishlists`
---
 ALTER TABLE `customer_wishlists`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
---
--- AUTO_INCREMENT for table `employees`
---
 ALTER TABLE `employees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `employee_attendances`
---
 ALTER TABLE `employee_attendances`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
---
--- AUTO_INCREMENT for table `employee_groups`
---
 ALTER TABLE `employee_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `employee_orders`
---
 ALTER TABLE `employee_orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `employee_sessions`
---
 ALTER TABLE `employee_sessions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `informations`
---
 ALTER TABLE `informations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT for table `inquiries`
---
 ALTER TABLE `inquiries`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- AUTO_INCREMENT for table `inquiry_types`
---
 ALTER TABLE `inquiry_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `length_classes`
---
 ALTER TABLE `length_classes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT for table `locations`
---
 ALTER TABLE `locations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `manufactures`
---
 ALTER TABLE `manufactures`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- AUTO_INCREMENT for table `orders`
---
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `order_statuses`
---
 ALTER TABLE `order_statuses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `order_types`
---
 ALTER TABLE `order_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT for table `products`
---
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
---
--- AUTO_INCREMENT for table `product_images`
---
 ALTER TABLE `product_images`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `product_prices`
---
 ALTER TABLE `product_prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
---
--- AUTO_INCREMENT for table `product_reviews`
---
 ALTER TABLE `product_reviews`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `purchases`
---
 ALTER TABLE `purchases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `purchase_statuses`
---
+ALTER TABLE `purchase_carts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 ALTER TABLE `purchase_statuses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `purchase_types`
---
 ALTER TABLE `purchase_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `p_carts`
---
-ALTER TABLE `p_carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `ratings`
---
 ALTER TABLE `ratings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
---
--- AUTO_INCREMENT for table `stocks`
---
 ALTER TABLE `stocks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `stock_statuses`
---
 ALTER TABLE `stock_statuses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `tax_classes`
---
 ALTER TABLE `tax_classes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `tax_rates`
---
 ALTER TABLE `tax_rates`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `types`
---
 ALTER TABLE `types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- AUTO_INCREMENT for table `users`
---
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- AUTO_INCREMENT for table `user_groups`
---
 ALTER TABLE `user_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT for table `user_sessions`
---
 ALTER TABLE `user_sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
---
--- AUTO_INCREMENT for table `vendors`
---
 ALTER TABLE `vendors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `vendor_groups`
---
 ALTER TABLE `vendor_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `weight_classes`
---
 ALTER TABLE `weight_classes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- AUTO_INCREMENT for table `zones`
---
 ALTER TABLE `zones`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4239;
 
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `attributes`
---
 ALTER TABLE `attributes`
   ADD CONSTRAINT `attributes_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `attribute_groups` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `banners`
---
 ALTER TABLE `banners`
   ADD CONSTRAINT `banners_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `types` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `banner_images`
---
 ALTER TABLE `banner_images`
   ADD CONSTRAINT `banner_images_ibfk_1` FOREIGN KEY (`banner_id`) REFERENCES `banners` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `carts`
---
 ALTER TABLE `carts`
   ADD CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `categories`
---
 ALTER TABLE `categories`
   ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `types` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `cities`
---
 ALTER TABLE `cities`
   ADD CONSTRAINT `cities_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `cities_ibfk_2` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `customers`
---
 ALTER TABLE `customers`
   ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `customer_groups` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `customer_addresses`
---
 ALTER TABLE `customer_addresses`
   ADD CONSTRAINT `customer_addresses_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `customer_addresses_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `customer_addresses_ibfk_3` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `customer_addresses_ibfk_4` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `customer_sessions`
---
 ALTER TABLE `customer_sessions`
   ADD CONSTRAINT `customer_sessions_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `customer_wishlists`
---
 ALTER TABLE `customer_wishlists`
   ADD CONSTRAINT `customer_wishlists_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `customer_wishlists_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `employees`
---
 ALTER TABLE `employees`
   ADD CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `employee_groups` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `employees_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `employee_attendances`
---
 ALTER TABLE `employee_attendances`
   ADD CONSTRAINT `employee_attendances_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `employee_attendances_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `employee_orders`
---
 ALTER TABLE `employee_orders`
-  ADD CONSTRAINT `employee_orders_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `employee_orders_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `employee_orders_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `employee_orders_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `employee_sessions`
---
+ALTER TABLE `employee_order_histories`
+  ADD CONSTRAINT `employee_order_histories_ibfk_1` FOREIGN KEY (`id`) REFERENCES `employee_orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 ALTER TABLE `employee_sessions`
   ADD CONSTRAINT `employee_sessions_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `inquiries`
---
 ALTER TABLE `inquiries`
   ADD CONSTRAINT `inquiries_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `inquiry_types` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `locations`
---
 ALTER TABLE `locations`
   ADD CONSTRAINT `locations_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `locations_ibfk_3` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `locations_ibfk_4` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `orders`
---
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON UPDATE CASCADE,
@@ -7739,134 +5905,86 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`order_type_id`) REFERENCES `order_types` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `orders_ibfk_5` FOREIGN KEY (`order_status_id`) REFERENCES `order_statuses` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `order_products`
---
+ALTER TABLE `order_histories`
+  ADD CONSTRAINT `order_histories_ibfk_1` FOREIGN KEY (`order_status_id`) REFERENCES `order_statuses` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_histories_ibfk_2` FOREIGN KEY (`id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 ALTER TABLE `order_products`
-  ADD CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `order_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `order_totals`
---
 ALTER TABLE `order_totals`
   ADD CONSTRAINT `order_totals_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `products`
---
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `types` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`length_class_id`) REFERENCES `length_classes` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `products_ibfk_3` FOREIGN KEY (`weight_class_id`) REFERENCES `weight_classes` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `products_ibfk_4` FOREIGN KEY (`tax_class_id`) REFERENCES `tax_classes` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `product_attributes`
---
 ALTER TABLE `product_attributes`
   ADD CONSTRAINT `product_attributes_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `product_attributes_ibfk_2` FOREIGN KEY (`attribute_id`) REFERENCES `attributes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `product_categories`
---
 ALTER TABLE `product_categories`
   ADD CONSTRAINT `product_categories_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `product_categories_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `product_images`
---
 ALTER TABLE `product_images`
   ADD CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `product_prices`
---
 ALTER TABLE `product_prices`
   ADD CONSTRAINT `product_prices_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `product_prices_ibfk_2` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_groups` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `product_reviews`
---
 ALTER TABLE `product_reviews`
   ADD CONSTRAINT `product_reviews_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `product_reviews_ibfk_2` FOREIGN KEY (`rating_id`) REFERENCES `ratings` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `purchases`
---
 ALTER TABLE `purchases`
-  ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`purchase_type_id`) REFERENCES `purchases` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`purchase_type_id`) REFERENCES `purchase_types` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `purchases_ibfk_3` FOREIGN KEY (`zone_id`) REFERENCES `zones` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `purchases_ibfk_4` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `purchases_ibfk_5` FOREIGN KEY (`purchase_status_id`) REFERENCES `purchase_statuses` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `purchase_products`
---
+ALTER TABLE `purchase_carts`
+  ADD CONSTRAINT `purchase_carts_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `purchase_histories`
+  ADD CONSTRAINT `purchase_histories_ibfk_1` FOREIGN KEY (`id`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `purchase_histories_ibfk_2` FOREIGN KEY (`purchase_status_id`) REFERENCES `purchase_statuses` (`id`) ON UPDATE CASCADE;
+
 ALTER TABLE `purchase_products`
   ADD CONSTRAINT `purchase_products_ibfk_1` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `purchase_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `purchase_totals`
---
 ALTER TABLE `purchase_totals`
   ADD CONSTRAINT `purchase_totals_ibfk_1` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `p_carts`
---
-ALTER TABLE `p_carts`
-  ADD CONSTRAINT `p_carts_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `related_products`
---
 ALTER TABLE `related_products`
   ADD CONSTRAINT `related_products_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `related_products_ibfk_2` FOREIGN KEY (`related_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `stocks`
---
 ALTER TABLE `stocks`
   ADD CONSTRAINT `stocks_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `stocks_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `tax_rates`
---
 ALTER TABLE `tax_rates`
   ADD CONSTRAINT `tax_rates_ibfk_1` FOREIGN KEY (`tax_class_id`) REFERENCES `tax_classes` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `users`
---
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `user_groups` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `user_sessions`
---
 ALTER TABLE `user_sessions`
   ADD CONSTRAINT `user_sessions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `vendors`
---
 ALTER TABLE `vendors`
   ADD CONSTRAINT `vendors_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `vendors` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `zones`
---
 ALTER TABLE `zones`
   ADD CONSTRAINT `zones_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
