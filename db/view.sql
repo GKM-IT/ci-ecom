@@ -139,7 +139,7 @@ FROM orders o
 CREATE OR REPLACE 
  VIEW `order_products_view`
  AS
-SELECT op.*, p.name AS product
+SELECT op.*, p.name AS product,p.image AS product_image
 FROM order_products op
     LEFT JOIN products p ON p.id=op.product_id;
 
@@ -194,15 +194,15 @@ FROM purchases p
 CREATE OR REPLACE
  VIEW `purchase_products_view`
  AS
-SELECT pp.*, p.name AS product
+SELECT pp.*, p.name AS product,p.image AS product_image
 FROM purchase_products pp
     LEFT JOIN products p ON p.id=pp.product_id;
 
 CREATE OR REPLACE
- VIEW `p_carts_view`
+ VIEW `purchase_carts_view`
  AS
 SELECT pc.*, u.name
-AS user,p.name AS product,p.image AS product_image FROM p_carts pc 
+AS user,p.name AS product,p.image AS product_image FROM purchase_carts pc 
 LEFT JOIN users u ON u.id=pc.user_id
 LEFT JOIN products p ON p.id=pc.product_id;
 

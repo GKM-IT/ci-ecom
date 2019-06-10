@@ -6,7 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
-class P_carts extends REST_Controller
+class Purchase_carts extends REST_Controller
 {
 
     private $data = [];
@@ -18,7 +18,7 @@ class P_carts extends REST_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('purchase/p_carts_model');
+        $this->load->model('purchase/purchase_carts_model');
         $this->load->library('form_validation');
         $this->datetime_format = $this->settings_lib->config('config', 'default_date_time_format');
         $this->form_validation->set_error_delimiters('', '');
@@ -37,7 +37,7 @@ class P_carts extends REST_Controller
                 'price' => $this->settings_lib->number_format($object['price']),
                 'quantity' => $this->settings_lib->number_format($object['quantity']),
                 'tax' => $this->settings_lib->number_format($object['tax']),
-                'total' => $this->settings_lib->number_format($this->p_carts_model->getFinalTotal($object)),
+                'total' => $this->settings_lib->number_format($this->purchase_carts_model->getFinalTotal($object)),
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
@@ -53,7 +53,7 @@ class P_carts extends REST_Controller
         $this->data['data'] = [];
         $this->data['status'] = true;
 
-        $list = $this->p_carts_model->getTables();
+        $list = $this->purchase_carts_model->getTables();
 
         $result = [];
         if ($list):
@@ -64,11 +64,11 @@ class P_carts extends REST_Controller
             $this->data['status'] = false;
         endif;
 
-        $total = $this->p_carts_model->getCartTotal();
-        $totalQty = $this->p_carts_model->getCartTotalQty();
+        $total = $this->purchase_carts_model->getCartTotal();
+        $totalQty = $this->purchase_carts_model->getCartTotalQty();
 
-        $this->data['recordsTotal'] = $this->p_carts_model->countAll();
-        $this->data['recordsFiltered'] = $this->p_carts_model->countFiltered();
+        $this->data['recordsTotal'] = $this->purchase_carts_model->countAll();
+        $this->data['recordsFiltered'] = $this->purchase_carts_model->countFiltered();
         $this->data['data'] = $result;
         $this->data['total'] = $this->settings_lib->number_format($total);
         $this->data['total_quantity'] = $this->settings_lib->number_format($totalQty);
@@ -83,7 +83,7 @@ class P_carts extends REST_Controller
         $this->data['data'] = [];
         $this->data['status'] = true;
 
-        $object = $this->p_carts_model->deleteById($id);
+        $object = $this->purchase_carts_model->deleteById($id);
 
         $result = [];
         if ($object):
@@ -111,7 +111,7 @@ class P_carts extends REST_Controller
         $result = [];
         if ($list):
             foreach ($list as $id):
-                $object = $this->p_carts_model->deleteById($id);
+                $object = $this->purchase_carts_model->deleteById($id);
             endforeach;
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
@@ -132,7 +132,7 @@ class P_carts extends REST_Controller
 
         $id = $this->post('id');
 
-        $object = $this->p_carts_model->getById($id);
+        $object = $this->purchase_carts_model->getById($id);
 
         $result = [];
         if ($object):
@@ -156,7 +156,7 @@ class P_carts extends REST_Controller
         $this->data = [];
         $this->data['data'] = [];
 
-        $object = $this->p_carts_model->save();
+        $object = $this->purchase_carts_model->save();
 
         $result = [];
         if ($object):
@@ -175,7 +175,7 @@ class P_carts extends REST_Controller
 
     public function validate_product($field_value)
     {
-        if ($this->p_carts_model->checkProduct($field_value)):
+        if ($this->purchase_carts_model->checkProduct($field_value)):
             $this->form_validation->set_message('validate_product', sprintf($this->lang->line('error_already_exists'), '{field}'));
             return false;
         else:

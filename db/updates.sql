@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 04, 2019 at 06:55 AM
+-- Generation Time: Jun 08, 2019 at 06:18 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -40,10 +40,6 @@ CREATE TABLE `order_histories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `order_histories`
---
-
---
 -- Indexes for dumped tables
 --
 
@@ -52,7 +48,7 @@ CREATE TABLE `order_histories` (
 --
 ALTER TABLE `order_histories`
   ADD KEY `order_status_id` (`order_status_id`),
-  ADD KEY `order_id` (`order_id`);
+  ADD KEY `order_histories_ibfk_2` (`order_id`);
 
 --
 -- Constraints for dumped tables
@@ -63,7 +59,7 @@ ALTER TABLE `order_histories`
 --
 ALTER TABLE `order_histories`
   ADD CONSTRAINT `order_histories_ibfk_1` FOREIGN KEY (`order_status_id`) REFERENCES `order_statuses` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_histories_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `order_histories_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

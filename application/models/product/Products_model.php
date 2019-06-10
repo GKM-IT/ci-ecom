@@ -20,8 +20,12 @@ class Products_model extends CI_Model
 
     private function getSpecialPrice()
     {
-        $this->query_lib->getSpecialPrice();
-        $this->query_lib->table_view = $this->table_view;
+        if ($this->input->post('customer_id')):
+            $customer = $this->db->get_where('customers', ['id' => $this->input->post('customer_id')])->row_array();
+            $this->db->select('*, (SELECT pp.price FROM product_prices pp WHERE pp.product_id=' . $this->table_view . '.id AND pp.start <= date(now()) AND pp.end >= date(now()) AND pp.status=1 AND pp.customer_group_id=' . $customer['group_id'] . ' LIMIT 1) AS special_price');
+        else:
+            $this->db->select('*, 0 AS special_price');
+        endif;        
     }
 
     private function _getTablesQuery()
@@ -58,23 +62,35 @@ class Products_model extends CI_Model
         return $query->num_rows();
     }
 
+    
     public function countAll()
     {
-        $this->db->from($this->table);
+        $this->db->from($this->table_view);
         return $this->db->count_all_results();
     }
 
     public function getById($id)
-    {
+    {                       
         $this->getSpecialPrice();
-        $query = $this->query_lib->getById($id);
-        return $query;
-
+        $this->db->from($this->table_view);
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->row_array();        
     }
 
     public function deleteById($id)
     {
-        return $this->query_lib->deleteById($id);
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->delete($this->table);
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === false):
+            $this->db->trans_rollback();
+            return false;
+        else:
+            $this->db->trans_commit();
+            return true;
+        endif;
     }
 
     public function save()

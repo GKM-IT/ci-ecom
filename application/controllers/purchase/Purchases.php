@@ -141,12 +141,12 @@ class Purchases extends REST_Controller
                 foreach ($products as $key => $product):
                     $productsData[] = [
                         'product_id' => $product['product_id'],
-                        'product_name' => $product['product_name'],
+                        'product' => $product['product'],
                         'product_image' => base_url($product['product_image']),
                         'quantity' => $this->settings_lib->number_format($product['quantity']),
                         'price' => $this->settings_lib->number_format($product['price']),
-                        'total' => $this->settings_lib->number_format($product['total']),
-                        // 'tax' => $product['tax'],
+                        'tax' => $this->settings_lib->number_format($product['tax']),
+                        'total' => $this->settings_lib->number_format($product['total']),                        
                     ];
                 endforeach;
             endif;

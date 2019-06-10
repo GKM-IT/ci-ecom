@@ -44,18 +44,31 @@ class Countries_model extends CI_Model
 
     public function countAll()
     {
-        $this->db->from($this->table);
+        $this->db->from($this->table_view);
         return $this->db->count_all_results();
     }
 
     public function getById($id)
-    {
-        return $this->query_lib->getById($id);
+    {                 
+        $this->db->from($this->table_view);
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->row_array();        
     }
 
     public function deleteById($id)
     {
-        return $this->query_lib->deleteById($id);
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->delete($this->table);
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === false):
+            $this->db->trans_rollback();
+            return false;
+        else:
+            $this->db->trans_commit();
+            return true;
+        endif;
     }
 
     public function save()

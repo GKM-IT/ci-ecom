@@ -47,19 +47,33 @@ class Orders_model extends CI_Model
 
     public function countAll()
     {
-        $this->db->from($this->table);
+        $this->db->from($this->table_view);
         return $this->db->count_all_results();
     }
 
     public function getById($id)
-    {
-        return $this->query_lib->getById($id);
+    {                   
+        $this->db->from($this->table_view);
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->row_array();        
     }
 
     public function deleteById($id)
     {
-        return $this->query_lib->deleteById($id);
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->delete($this->table);
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === false):
+            $this->db->trans_rollback();
+            return false;
+        else:
+            $this->db->trans_commit();
+            return true;
+        endif;
     }
+
     public function save()
     {
         $this->db->trans_start();
@@ -110,13 +124,9 @@ class Orders_model extends CI_Model
     }
 
     public function getProducts($id)
-    {
-        $this->db->select('t.*');
-        $this->db->select('p.name as product_name');
-        $this->db->select('p.image as product_image');
-        $this->db->from('order_products t');
-        $this->db->join('products p', 'p.id=t.product_id');
-        $this->db->where('t.order_id', $id);
+    {        
+        $this->db->from('order_products_view');     
+        $this->db->where('order_id', $id);
         $query = $this->db->get();
         return $query->result_array();
     }
