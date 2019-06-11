@@ -39,6 +39,9 @@ class Products extends REST_Controller
                 $tax = $this->products_model->getTotalTax($object['id'], $object['price']);
                 $final_price = $this->settings_lib->number_format($object['price'] + $tax);
             endif;
+
+            $relatedProducts = $this->products_model->getRelatedProducts($object['id']);                
+
             $result = [
                 'id' => $object['id'],
                 'type_id' => $object['type_id'],
@@ -72,6 +75,7 @@ class Products extends REST_Controller
                 'minimum' => $object['minimum'],
                 'shipping' => $object['shipping'],
                 'inventory' => $object['inventory'],
+                'related_products' => $relatedProducts,
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),

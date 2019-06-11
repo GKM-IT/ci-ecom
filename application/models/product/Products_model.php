@@ -298,4 +298,34 @@ class Products_model extends CI_Model
         return $totalTax;
     }
 
+    public function getRelatedProducts($id){
+        $data = array();                
+        $this->db->from('related_products_view');        
+        $this->db->where('product_id', $id);
+        $query = $this->db->get();        
+        $result = $query->result_array();
+
+        if ($result):
+            foreach ($result as $value):
+                $data[] = array(
+                    'id' => $value['related_id'],
+                    'product_name' => $value['product_name'],
+                    'product_image' => $value['product_image'] ? base_url($value['product_image']) : '',
+                    'price' => $this->settings_lib->number_format($value['price']),
+                    'price_type' => $value['price_type'],                                                        
+                    'weight_class' => $value['weight_class'],
+                    'weight_unit' => $value['weight_unit'],
+                    'weight' => $this->settings_lib->number_format($value['weight']),
+                    'length_class' => $value['length_class'],
+                    'length_unit' => $value['length_unit'],
+                    'length' => $this->settings_lib->number_format($value['length']),
+                    'height' => $this->settings_lib->number_format($value['height']),
+                    'width' => $this->settings_lib->number_format($value['width']),
+                );
+            endforeach;
+        endif;
+
+        return $data;
+    }
+
 }
