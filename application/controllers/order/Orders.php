@@ -50,6 +50,37 @@ class Orders extends REST_Controller
         return $result;
     }
 
+    private function getProductData($objects){
+        $data = [];
+        if ($objects):
+            foreach ($objects as $key => $object):
+                $data[] = [
+                    'product_id' => $object['product_id'],
+                    'product' => $object['product'],
+                    'product_image' => base_url($object['product_image']),
+                    'quantity' => $this->settings_lib->number_format($object['quantity']),
+                    'price' => $this->settings_lib->number_format($object['price']),                        
+                    'tax' => $this->settings_lib->number_format($object['tax']),                        
+                    'total' => $this->settings_lib->number_format($object['total']),                        
+                ];
+            endforeach;
+        endif;
+
+        return $data;
+    }
+
+    private function getTotalsData($objects){
+        $data = [];
+        foreach ($objects as $object):
+            $data[] = [
+                'code' => $object['code'],
+                'title' => $object['title'],                    
+                'value' => $this->settings_lib->number_format($object['value']),                    
+            ];
+        endforeach;
+        return $data;
+    }
+
     public function index_post()
     {
         $this->data = [];
@@ -135,30 +166,10 @@ class Orders extends REST_Controller
         $result = [];
         if ($object):
             $products = $this->orders_model->getProducts($object['id']);
-            $totals = $this->orders_model->getTotals($object['id']);
-            $totalsData = [];
-            foreach ($totals as $total):
-                $totalsData[] = [
-                    'code' => $total['code'],
-                    'title' => $total['title'],                    
-                    'value' => $this->settings_lib->number_format($total['value']),                    
-                ];
-            endforeach;
+            $productsData = $this->getProductData($products);
 
-            $productsData = [];
-            if ($products):
-                foreach ($products as $key => $product):
-                    $productsData[] = [
-                        'product_id' => $product['product_id'],
-                        'product' => $product['product'],
-                        'product_image' => base_url($product['product_image']),
-                        'quantity' => $this->settings_lib->number_format($product['quantity']),
-                        'price' => $this->settings_lib->number_format($product['price']),                        
-                        'tax' => $this->settings_lib->number_format($product['tax']),                        
-                        'total' => $this->settings_lib->number_format($product['total']),                        
-                    ];
-                endforeach;
-            endif;
+            $totals = $this->orders_model->getTotals($object['id']);
+            $totalsData = $this->getTotalsData($totals);            
 
             $result = $this->getData($object);
             $result['products'] = $productsData;
@@ -257,31 +268,11 @@ class Orders extends REST_Controller
         $result = [];
         if ($object):
             $products = $this->orders_model->getProducts($object['id']);
+            $productsData = $this->getProductData($products);
+
             $totals = $this->orders_model->getTotals($object['id']);
-            $totalsData = [];
-            foreach ($totals as $total):
-                $totalsData[] = [
-                    'code' => $total['code'],
-                    'title' => $total['title'],                    
-                    'value' => $this->settings_lib->number_format($total['value']),                    
-                ];
-            endforeach;
-
-            $productsData = [];
-            if ($products):
-                foreach ($products as $key => $product):
-                    $productsData[] = [
-                        'product_id' => $product['product_id'],
-                        'product' => $product['product'],
-                        'product_image' => base_url($product['product_image']),
-                        'quantity' => $this->settings_lib->number_format($product['quantity']),
-                        'price' => $this->settings_lib->number_format($product['price']),                        
-                        'tax' => $this->settings_lib->number_format($product['tax']),                        
-                        'total' => $this->settings_lib->number_format($product['total']),                        
-                    ];
-                endforeach;
-            endif;
-
+            $totalsData = $this->getTotalsData($totals);   
+            
             $result = $this->getData($object);
             $result['products'] = $productsData;
             $result['totals'] = $totalsData;
