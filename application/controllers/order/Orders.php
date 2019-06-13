@@ -257,11 +257,9 @@ class Orders extends REST_Controller
         endif;
     }
 
-    public function print_get(){
+    public function print_get($id){
         $this->data = [];
         $this->data['data'] = [];
-
-        $id = $this->get('id');
 
         $object = $this->orders_model->getById($id);
 
