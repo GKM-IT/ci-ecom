@@ -167,10 +167,8 @@ class Orders extends REST_Controller
         if ($object):
             $products = $this->orders_model->getProducts($object['id']);
             $productsData = $this->getProductData($products);
-
             $totals = $this->orders_model->getTotals($object['id']);
             $totalsData = $this->getTotalsData($totals);            
-
             $result = $this->getData($object);
             $result['products'] = $productsData;
             $result['total'] = $totalsData;
@@ -267,14 +265,11 @@ class Orders extends REST_Controller
         if ($object):
             $products = $this->orders_model->getProducts($object['id']);
             $productsData = $this->getProductData($products);
-
             $totals = $this->orders_model->getTotals($object['id']);
-            $totalsData = $this->getTotalsData($totals);   
-            
+            $totalsData = $this->getTotalsData($totals);               
             $result = $this->getData($object);
             $result['products'] = $productsData;
-            $result['totals'] = $totalsData;
-                    
+            $result['totals'] = $totalsData;                    
         endif;
 
         $this->data = $result;
