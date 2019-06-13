@@ -126,7 +126,16 @@ class Orders_model extends CI_Model
     public function getProducts($id)
     {        
         $this->db->from('order_products_view');     
+        $this->db->where('order_id', $id);    
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function getTotals($id)
+    {        
+        $this->db->from('order_totals');     
         $this->db->where('order_id', $id);
+        $this->db->order_by('sort_order', 'asc');
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -166,6 +175,7 @@ class Orders_model extends CI_Model
         $this->db->delete('order_totals');
         $total = 0;
         $totalTax = 0;
+        $subTotal = 0;
         $filter = [];
         $filter['token'] = $this->input->post('token');
         $filter['customer_id'] = $this->input->post('customer_id');
