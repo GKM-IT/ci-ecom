@@ -5,7 +5,7 @@ class Zones_model extends CI_Model
 
     private $table = 'zones';
     private $table_view = 'zones_view';
-    private $column_search = array('name', 'code', 'updated_at');
+    private $column_search = array('country','name', 'code', 'updated_at');
     private $currectDatetime = '';
 
     public function __construct()
