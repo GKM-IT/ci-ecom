@@ -15,7 +15,7 @@ class Purchases_model extends CI_Model
         $this->query_lib->table = $this->table;
         $this->query_lib->table_view = $this->table_view;
         $this->query_lib->column_search = $this->column_search;
-        $this->load->model('purchase/p_carts_model');
+        $this->load->model('purchase/purchase_carts_model');
     }
 
     private function _getTablesQuery()
@@ -102,7 +102,7 @@ class Purchases_model extends CI_Model
 
         $filter['token'] = $this->input->post('token');
         $filter['user_id'] = $this->input->post('user_id');
-        $total = $this->p_carts_model->getCartTotal($filter);
+        $total = $this->purchase_carts_model->getCartTotal($filter);
         $this->db->set('total', $total);
 
         if ($this->input->post('id')):
@@ -145,7 +145,7 @@ class Purchases_model extends CI_Model
         $filter = [];
         $filter['token'] = $this->input->post('token');
         $filter['user_id'] = $this->input->post('user_id');
-        $products = $this->p_carts_model->getProducts($filter);
+        $products = $this->purchase_carts_model->getProducts($filter);
         // print_r($products);
         // exit;
         if ($products):
@@ -171,7 +171,7 @@ class Purchases_model extends CI_Model
         $filter = [];
         $filter['token'] = $this->input->post('token');
         $filter['user_id'] = $this->input->post('user_id');
-        $products = $this->p_carts_model->getProducts($filter);
+        $products = $this->purchase_carts_model->getProducts($filter);
         if ($products):
             foreach ($products as $value):
                 $total = ($value['price'] * $value['quantity']);

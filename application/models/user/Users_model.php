@@ -162,7 +162,7 @@ class Users_model extends CI_Model
 
         $this->db->set('token', $token);
         $this->db->where('user_id', $id);
-        $this->db->update('p_carts');
+        $this->db->update('purchase_carts');
 
         if ($this->db->trans_status() === false):
             $this->db->trans_rollback();

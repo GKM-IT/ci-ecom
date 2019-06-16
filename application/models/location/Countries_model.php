@@ -44,13 +44,13 @@ class Countries_model extends CI_Model
 
     public function countAll()
     {
-        $this->db->from($this->table_view);
+        $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
     public function getById($id)
     {                 
-        $this->db->from($this->table_view);
+        $this->db->from($this->table);
         $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->row_array();        
