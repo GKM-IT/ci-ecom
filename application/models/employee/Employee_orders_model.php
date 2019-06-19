@@ -82,8 +82,10 @@ class Employee_orders_model extends CI_Model
         $this->db->set('order_id', $this->input->post('order_id'));
         $this->db->set('remark', $this->input->post('remark'));
 
-        if ($this->input->post('status')):
+        if($this->input->post('status')):
             $this->db->set('status', $this->input->post('status'));
+        else:
+            $this->db->set('status', 1);
         endif;
 
         if ($this->input->post('id')):

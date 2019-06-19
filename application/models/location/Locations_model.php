@@ -85,7 +85,12 @@ class Locations_model extends CI_Model
         $this->db->set('postcode', $this->input->post('postcode'));
         $this->db->set('address', $this->input->post('address'));
         $this->db->set('sort_order', $this->input->post('sort_order'));
-        $this->db->set('status', $this->input->post('status'));
+        
+        if($this->input->post('status')):
+            $this->db->set('status', $this->input->post('status'));
+        else:
+            $this->db->set('status', 1);
+        endif;
 
         if ($this->input->post('id')):
             $this->db->set('updated_at', $this->currectDatetime);

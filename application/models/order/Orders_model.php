@@ -93,7 +93,12 @@ class Orders_model extends CI_Model
         $this->db->set('postcode', $this->input->post('postcode'));
         $this->db->set('address', $this->input->post('address'));
         $this->db->set('comment', $this->input->post('comment'));
-        $this->db->set('status', $this->input->post('status'));
+        
+        if($this->input->post('status')):
+            $this->db->set('status', $this->input->post('status'));
+        else:
+            $this->db->set('status', 1);
+        endif;
 
         $filter['token'] = $this->input->post('token');
         $filter['customer_id'] = $this->input->post('customer_id');

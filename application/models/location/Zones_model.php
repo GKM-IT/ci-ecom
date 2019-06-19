@@ -78,7 +78,12 @@ class Zones_model extends CI_Model
         $this->db->set('country_id', $this->input->post('country_id'));
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('code', $this->input->post('code'));
-        $this->db->set('status', $this->input->post('status'));
+        
+        if($this->input->post('status')):
+            $this->db->set('status', $this->input->post('status'));
+        else:
+            $this->db->set('status', 1);
+        endif;
 
         if ($this->input->post('id')):
             $this->db->set('updated_at', $this->currectDatetime);

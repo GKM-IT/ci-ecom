@@ -78,7 +78,12 @@ class Tax_classes_model extends CI_Model
 
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('description', $this->input->post('description'));
-        $this->db->set('status', $this->input->post('status'));
+        
+        if($this->input->post('status')):
+            $this->db->set('status', $this->input->post('status'));
+        else:
+            $this->db->set('status', 1);
+        endif;
 
         if ($this->input->post('id')):
             $this->db->set('updated_at', $this->currectDatetime);

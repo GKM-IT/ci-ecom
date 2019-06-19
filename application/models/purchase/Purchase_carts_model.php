@@ -141,7 +141,12 @@ class Purchase_carts_model extends CI_Model
         $this->db->set('price', $this->input->post('price'));
         $this->db->set('quantity', $this->input->post('quantity'));
         $this->db->set('tax', $this->input->post('tax'));
-        $this->db->set('status', $this->input->post('status'));
+        
+        if($this->input->post('status')):
+            $this->db->set('status', $this->input->post('status'));
+        else:
+            $this->db->set('status', 1);
+        endif;
 
         if ($this->input->post('id')):
             $this->db->set('updated_at', $this->currectDatetime);

@@ -117,7 +117,12 @@ class Products_model extends CI_Model
         $this->db->set('minimum', $this->input->post('minimum'));
         $this->db->set('shipping', $this->input->post('shipping'));
         $this->db->set('inventory', $this->input->post('inventory'));
-        $this->db->set('status', $this->input->post('status'));
+        
+        if($this->input->post('status')):
+            $this->db->set('status', $this->input->post('status'));
+        else:
+            $this->db->set('status', 1);
+        endif;
 
         if ($this->input->post('id')):
             $this->db->set('updated_at', $this->currectDatetime);
