@@ -77,7 +77,7 @@ class Types_model extends CI_Model
         $this->db->trans_start();
 
         $this->db->set('name', $this->input->post('name'));
-        $this->db->set('image', $this->input->post('image'));
+        // $this->db->set('image', $this->input->post('image'));
         $this->db->set('sort_order', $this->input->post('sort_order'));
         if($this->input->post('status')):
             $this->db->set('status', $this->input->post('status'));

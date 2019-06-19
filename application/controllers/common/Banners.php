@@ -185,8 +185,7 @@ class Banners extends REST_Controller
     {
         $this->validations = array(
             'type_id' => 'required',
-            'name' => 'required',
-            'status' => 'required',
+            'name' => 'required',            
         );
         $this->_validation();
     }
