@@ -83,6 +83,11 @@ class Orders_model extends CI_Model
         } else {
             $this->db->set('order_type_id', 1);
         }
+        if ($this->input->post('order_status_id')) {
+            $this->db->set('order_status_id', $this->input->post('order_status_id'));
+        } else {
+            $this->db->set('order_status_id', 1);
+        }
         $this->db->set('customer_id', $this->input->post('customer_id'));
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('email', $this->input->post('email'));

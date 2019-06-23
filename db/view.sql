@@ -59,7 +59,7 @@ FROM customer_sessions cs LEFT JOIN customers c ON c.id=cs.customer_id;
 CREATE OR REPLACE 
  VIEW `customer_wishlists_view`
  AS
-SELECT cw.*, c.name AS customer, p.name AS product
+SELECT cw.*, c.name AS customer_name, p.name AS product_name, p.image AS product_image
 FROM customer_wishlists cw
     LEFT JOIN customers c ON c.id=cw.customer_id
     LEFT JOIN products p ON p.id=cw.product_id;
@@ -139,7 +139,7 @@ FROM orders o
 CREATE OR REPLACE 
  VIEW `order_products_view`
  AS
-SELECT op.*, p.name AS product,p.image AS product_image
+SELECT op.*, p.name AS product, p.image AS product_image
 FROM order_products op
     LEFT JOIN products p ON p.id=op.product_id;
 
@@ -194,7 +194,7 @@ FROM purchases p
 CREATE OR REPLACE
  VIEW `purchase_products_view`
  AS
-SELECT pp.*, p.name AS product,p.image AS product_image
+SELECT pp.*, p.name AS product, p.image AS product_image
 FROM purchase_products pp
     LEFT JOIN products p ON p.id=pp.product_id;
 
@@ -210,12 +210,12 @@ CREATE OR REPLACE
  VIEW `related_products_view`
  AS
 SELECT rp.*,
-r.name AS product_name,r.image AS product_image,r.price_type,r.price,r.weight,r.length,r.height,r.width,
-wc.name weight_class,wc.unit AS weight_unit,lc.name AS length_class,lc.unit AS length_unit
+    r.name AS product_name, r.image AS product_image, r.price_type, r.price, r.weight, r.length, r.height, r.width,
+    wc.name weight_class, wc.unit AS weight_unit, lc.name AS length_class, lc.unit AS length_unit
 FROM related_products rp
-LEFT JOIN products r ON r.id=rp.related_id
-LEFT JOIN weight_classes wc ON wc.id=r.weight_class_id
-LEFT JOIN length_classes lc ON lc.id=r.length_class_id;
+    LEFT JOIN products r ON r.id=rp.related_id
+    LEFT JOIN weight_classes wc ON wc.id=r.weight_class_id
+    LEFT JOIN length_classes lc ON lc.id=r.length_class_id;
 
 CREATE OR REPLACE
  VIEW `stocks_view`
