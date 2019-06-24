@@ -5,7 +5,7 @@ class Customer_wishlists_model extends CI_Model
 
     private $table = 'customer_wishlists';
     private $table_view = 'customer_wishlists_view';
-    private $column_search = array('product', 'customer', 'updated_at');
+    private $column_search = array('product_name', 'customer_name', 'updated_at');
     private $currectDatetime = '';
 
     public function __construct()
