@@ -38,6 +38,8 @@ class Customer_addresses extends REST_Controller
                 'zone' => $object['zone'],
                 'city_id' => $object['city_id'],
                 'city' => $object['city'],
+                'postcode' => $object['postcode'],
+                'address' => $object['address'],
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
