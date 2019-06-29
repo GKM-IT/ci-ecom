@@ -87,8 +87,13 @@ class Categories_model extends CI_Model
 //        $this->db->set('parent_id', $this->input->post('parent_id'));
         $this->db->set('name', $this->input->post('name'));
 //        $this->db->set('image', $this->input->post('image'));
-        $this->db->set('sort_order', $this->input->post('sort_order'));
         
+        
+        if($this->input->post('sort_order')):
+            $this->db->set('sort_order', $this->input->post('sort_order'));
+        else:
+            $this->db->set('sort_order', 1);
+        endif;
         if($this->input->post('status')):
             $this->db->set('status', $this->input->post('status'));
         else:
