@@ -77,6 +77,7 @@ class Locations_model extends CI_Model
         $this->db->trans_start();   
 
         $this->db->set('name', $this->input->post('name'));
+        $this->db->set('contact_person', $this->input->post('contact_person'));
         $this->db->set('contact', $this->input->post('contact'));
         $this->db->set('email', $this->input->post('email'));
         $this->db->set('country_id', $this->input->post('country_id'));
@@ -84,7 +85,12 @@ class Locations_model extends CI_Model
         $this->db->set('city_id', $this->input->post('city_id'));
         $this->db->set('postcode', $this->input->post('postcode'));
         $this->db->set('address', $this->input->post('address'));
-        $this->db->set('sort_order', $this->input->post('sort_order'));
+        
+        if ($this->input->post('sort_order')) :
+            $this->db->set('sort_order', $this->input->post('sort_order'));
+        else :
+            $this->db->set('sort_order', 1);
+        endif;
         
         if($this->input->post('status')):
             $this->db->set('status', $this->input->post('status'));

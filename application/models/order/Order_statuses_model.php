@@ -4,7 +4,7 @@ class Order_statuses_model extends CI_Model
 {
 
     private $table = 'order_statuses';
-    private $table_view = 'order_statuses_view';
+    private $table_view = 'order_statuses';
     private $column_search = array('name', 'status', 'updated_at');
     private $currectDatetime = '';
 

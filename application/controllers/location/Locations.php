@@ -31,6 +31,7 @@ class Locations extends REST_Controller
             $result = [
                 'id' => $object['id'],
                 'name' => $object['name'],
+                'contact_person' => $object['contact_person'],
                 'contact' => $object['contact'],
                 'email' => $object['email'],
                 'country_id' => $object['country_id'],

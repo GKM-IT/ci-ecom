@@ -30,6 +30,8 @@ class Inquiries extends REST_Controller
         if ($object):
             $result = [
                 'id' => $object['id'],
+                'type_id' => $object['type_id'],
+                'type' => $object['type'],
                 'name' => $object['name'],
                 'email' => $object['email'],
                 'contact' => $object['contact'],

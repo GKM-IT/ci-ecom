@@ -76,6 +76,7 @@ class Inquiries_model extends CI_Model
     {
         $this->db->trans_start();
 
+        $this->db->set('type_id', $this->input->post('type_id'));
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('email', $this->input->post('email'));
         $this->db->set('contact', $this->input->post('contact'));
