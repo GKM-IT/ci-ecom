@@ -4,7 +4,7 @@ class Categories_model extends CI_Model
 {
 
     private $table = 'categories';
-    private $table_view = 'categories';
+    private $table_view = 'categories_view';
     private $column_search = array('name', 'updated_at');
     private $currectDatetime = '';
 

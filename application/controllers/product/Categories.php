@@ -31,6 +31,7 @@ class Categories extends REST_Controller
             $result = [
                 'id' => $object['id'],
                 'type_id' => $object['type_id'],
+                'type' => $object['type'],
                 'name' => $object['name'],
                 'image' => $object['image'],
                 'sort_order' => $object['sort_order'],
