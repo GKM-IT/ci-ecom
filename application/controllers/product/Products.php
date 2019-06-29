@@ -27,20 +27,20 @@ class Products extends REST_Controller
     private function getData($object)
     {
         $result = [];
-        if ($object):
-            if ($object['special_price']):
-                $tax = $this->products_model->getTotalTax($object['id'], $object['special_price']);                
+        if ($object) :
+            if ($object['special_price']) :
+                $tax = $this->products_model->getTotalTax($object['id'], $object['special_price']);
                 $special_price = $this->settings_lib->number_format($object['special_price']);
                 $final_price = $this->settings_lib->number_format($object['special_price'] + $tax);
                 $discount = $this->settings_lib->discount($object['price'] + $tax, $object['special_price'] + $tax);
-            else:
+            else :
                 $discount = '';
                 $special_price = false;
                 $tax = $this->products_model->getTotalTax($object['id'], $object['price']);
                 $final_price = $this->settings_lib->number_format($object['price'] + $tax);
             endif;
 
-            $relatedProducts = $this->products_model->getRelatedProducts($object['id']);                
+            $relatedProducts = $this->products_model->getRelatedProducts($object['id']);
 
             $result = [
                 'id' => $object['id'],
@@ -52,6 +52,7 @@ class Products extends REST_Controller
                 'model' => $object['model'],
                 'sku' => $object['sku'],
                 'name' => $object['name'],
+                'price_type' => $object['price_type'],
                 'price' => $this->settings_lib->number_format($object['price']),
                 'special_price' => $special_price,
                 'tax' => $this->settings_lib->number_format($tax),
@@ -94,11 +95,11 @@ class Products extends REST_Controller
         $list = $this->products_model->getTables();
 
         $result = [];
-        if ($list):
-            foreach ($list as $object):
+        if ($list) :
+            foreach ($list as $object) :
                 $result[] = $this->getData($object);
             endforeach;
-        else:
+        else :
             $this->data['status'] = false;
         endif;
 
@@ -119,11 +120,11 @@ class Products extends REST_Controller
         $object = $this->products_model->deleteById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_country'));
         endif;
@@ -142,13 +143,13 @@ class Products extends REST_Controller
         $list = json2arr($this->post('list'));
 
         $result = [];
-        if ($list):
-            foreach ($list as $id):
+        if ($list) :
+            foreach ($list as $id) :
                 $object = $this->products_model->deleteById($id);
             endforeach;
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_country'));
         endif;
@@ -168,7 +169,7 @@ class Products extends REST_Controller
         $object = $this->products_model->getById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
             $categories = $this->products_model->getCategories($id);
             $attributes = $this->products_model->getAttributes($id);
             $result = $this->getData($object);
@@ -176,7 +177,7 @@ class Products extends REST_Controller
             $result['attributes'] = $attributes;
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_not_found'), $this->lang->line('text_country'));
         endif;
@@ -196,11 +197,11 @@ class Products extends REST_Controller
         $object = $this->products_model->save();
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_save'), $this->lang->line('text_country'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_save'), $this->lang->line('text_country'));
         endif;
@@ -228,19 +229,19 @@ class Products extends REST_Controller
     private function _validation()
     {
         $this->data = [];
-        foreach ($this->validations as $key => $validation):
+        foreach ($this->validations as $key => $validation) :
             $field = '';
-            if ($this->lang->line('text_' . $key)):
+            if ($this->lang->line('text_' . $key)) :
                 $field = $this->lang->line('text_' . $key);
-            else:
+            else :
                 $field = humanize($key);
             endif;
             $this->form_validation->set_rules($key, $field, $validation);
         endforeach;
 
-        if ($this->form_validation->run() == false):
-            foreach ($this->validations as $key => $validation):
-                if (form_error($key, '', '')):
+        if ($this->form_validation->run() == false) :
+            foreach ($this->validations as $key => $validation) :
+                if (form_error($key, '', '')) :
                     $this->error[] = array(
                         'id' => $key,
                         'text' => form_error($key, '', ''),
@@ -271,15 +272,15 @@ class Products extends REST_Controller
 
         $this->load->library('upload', $config);
 
-        if (!$this->upload->do_upload('userfile')):
+        if (!$this->upload->do_upload('userfile')) :
             $this->data['status'] = false;
             $this->data['error'] = $this->upload->display_errors();
-        else:
+        else :
             $fileData = $this->upload->data();
 
-            if ($fileData['file_name']):
+            if ($fileData['file_name']) :
                 $filename = $fileData['file_name'];
-            else:
+            else :
                 $filename = '';
             endif;
             $data = [];
@@ -290,5 +291,4 @@ class Products extends REST_Controller
 
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
-
 }
