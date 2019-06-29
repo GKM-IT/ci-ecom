@@ -28,16 +28,15 @@ class Product_reviews extends REST_Controller
     private function getData($object)
     {
         $result = [];
-        if ($object):
+        if ($object) :
             $result = [
                 'id' => $object['id'],
                 'product_id' => $object['product_id'],
-                // 'product' => $object['product'],
+                'product' => $object['product'],
                 'customer_id' => $object['customer_id'],
-                // 'customer' => $object['customer'],
+                'customer' => $object['customer'],
                 'rating_id' => $object['rating_id'],
-                // 'rating' => $object['rating'],
-                'name' => $object['name'],
+                'rating' => $object['rating'],
                 'text' => $object['text'],
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
@@ -57,11 +56,11 @@ class Product_reviews extends REST_Controller
         $list = $this->product_reviews_model->getTables();
 
         $result = [];
-        if ($list):
-            foreach ($list as $object):
+        if ($list) :
+            foreach ($list as $object) :
                 $result[] = $this->getData($object);
             endforeach;
-        else:
+        else :
             $this->data['status'] = false;
         endif;
 
@@ -82,11 +81,11 @@ class Product_reviews extends REST_Controller
         $object = $this->product_reviews_model->deleteById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_country'));
         endif;
@@ -105,13 +104,13 @@ class Product_reviews extends REST_Controller
         $list = json2arr($this->post('list'));
 
         $result = [];
-        if ($list):
-            foreach ($list as $id):
+        if ($list) :
+            foreach ($list as $id) :
                 $object = $this->product_reviews_model->deleteById($id);
             endforeach;
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_country'));
         endif;
@@ -131,11 +130,11 @@ class Product_reviews extends REST_Controller
         $object = $this->product_reviews_model->getById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
             $result = $this->getData($object);
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_not_found'), $this->lang->line('text_country'));
         endif;
@@ -155,11 +154,11 @@ class Product_reviews extends REST_Controller
         $object = $this->product_reviews_model->save();
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_save'), $this->lang->line('text_country'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_save'), $this->lang->line('text_country'));
         endif;
@@ -173,8 +172,8 @@ class Product_reviews extends REST_Controller
     {
         $this->validations = array(
             'product_id' => 'required',
+            'customer_id' => 'required',
             'rating_id' => 'required',
-            'name' => 'required',
         );
         $this->_validation();
     }
@@ -182,19 +181,19 @@ class Product_reviews extends REST_Controller
     private function _validation()
     {
         $this->data = [];
-        foreach ($this->validations as $key => $validation):
+        foreach ($this->validations as $key => $validation) :
             $field = '';
-            if ($this->lang->line('text_' . $key)):
+            if ($this->lang->line('text_' . $key)) :
                 $field = $this->lang->line('text_' . $key);
-            else:
+            else :
                 $field = humanize($key);
             endif;
             $this->form_validation->set_rules($key, $field, $validation);
         endforeach;
 
-        if ($this->form_validation->run() == false):
-            foreach ($this->validations as $key => $validation):
-                if (form_error($key, '', '')):
+        if ($this->form_validation->run() == false) :
+            foreach ($this->validations as $key => $validation) :
+                if (form_error($key, '', '')) :
                     $this->error[] = array(
                         'id' => $key,
                         'text' => form_error($key, '', ''),
@@ -209,5 +208,4 @@ class Product_reviews extends REST_Controller
             exit;
         endif;
     }
-
 }
