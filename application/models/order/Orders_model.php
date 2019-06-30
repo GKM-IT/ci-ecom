@@ -52,11 +52,11 @@ class Orders_model extends CI_Model
     }
 
     public function getById($id)
-    {                   
+    {
         $this->db->from($this->table_view);
         $this->db->where('id', $id);
         $query = $this->db->get();
-        return $query->row_array();        
+        return $query->row_array();
     }
 
     public function deleteById($id)
@@ -65,10 +65,10 @@ class Orders_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->delete($this->table);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
@@ -89,19 +89,12 @@ class Orders_model extends CI_Model
             $this->db->set('order_status_id', 1);
         }
         $this->db->set('customer_id', $this->input->post('customer_id'));
-        $this->db->set('name', $this->input->post('name'));
-        $this->db->set('email', $this->input->post('email'));
-        $this->db->set('contact', $this->input->post('contact'));
-        $this->db->set('country_id', $this->input->post('country_id'));
-        $this->db->set('zone_id', $this->input->post('zone_id'));
-        $this->db->set('city_id', $this->input->post('city_id'));
-        $this->db->set('postcode', $this->input->post('postcode'));
-        $this->db->set('address', $this->input->post('address'));
+        $this->db->set('address_id', $this->input->post('address_id'));
         $this->db->set('comment', $this->input->post('comment'));
-        
-        if($this->input->post('status')):
+
+        if ($this->input->post('status')) :
             $this->db->set('status', $this->input->post('status'));
-        else:
+        else :
             $this->db->set('status', 1);
         endif;
 
@@ -110,12 +103,12 @@ class Orders_model extends CI_Model
         $total = $this->carts_model->getCartTotal($filter);
         $this->db->set('total', $total);
 
-        if ($this->input->post('id')):
+        if ($this->input->post('id')) :
             $this->db->set('updated_at', $this->currectDatetime);
             $id = $this->input->post('id');
             $this->db->where('id', $id);
             $this->db->update($this->table);
-        else:
+        else :
             $this->db->set('created_at', $this->currectDatetime);
             $this->db->insert($this->table);
             $id = $this->db->insert_id();
@@ -124,26 +117,26 @@ class Orders_model extends CI_Model
         $this->setProducts($id);
         $this->setTotals($id);
 
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
     }
 
     public function getProducts($id)
-    {        
-        $this->db->from('order_products_view');     
-        $this->db->where('order_id', $id);    
+    {
+        $this->db->from('order_products_view');
+        $this->db->where('order_id', $id);
         $query = $this->db->get();
         return $query->result_array();
     }
 
     public function getTotals($id)
-    {        
-        $this->db->from('order_totals');     
+    {
+        $this->db->from('order_totals');
         $this->db->where('order_id', $id);
         $this->db->order_by('sort_order', 'asc');
         $query = $this->db->get();
@@ -161,8 +154,8 @@ class Orders_model extends CI_Model
         $products = $this->carts_model->getProducts($filter);
         // print_r($products);
         // exit;
-        if ($products):
-            foreach ($products as $value):
+        if ($products) :
+            foreach ($products as $value) :
                 $subTotal = ($value['price'] * $value['quantity']);
                 $totalTax = $this->products_model->getTotalTax($value['product_id'], $subTotal);
                 $total = $subTotal + $totalTax;
@@ -190,8 +183,8 @@ class Orders_model extends CI_Model
         $filter['token'] = $this->input->post('token');
         $filter['customer_id'] = $this->input->post('customer_id');
         $products = $this->carts_model->getProducts($filter);
-        if ($products):
-            foreach ($products as $value):
+        if ($products) :
+            foreach ($products as $value) :
                 $subTotal += ($value['price'] * $value['quantity']);
                 $totalTax += $this->products_model->getTotalTax($value['product_id'], $subTotal);
                 $total += $subTotal + $totalTax;
@@ -237,5 +230,4 @@ class Orders_model extends CI_Model
         $this->db->set('value', $total);
         $this->db->insert('order_totals');
     }
-
 }

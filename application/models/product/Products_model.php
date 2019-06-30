@@ -20,23 +20,23 @@ class Products_model extends CI_Model
 
     private function getSpecialPrice()
     {
-        if ($this->input->post('customer_id')):
+        if ($this->input->post('customer_id')) :
             $customer = $this->db->get_where('customers', ['id' => $this->input->post('customer_id')])->row_array();
             $this->db->select('*, (SELECT pp.price FROM product_prices pp WHERE pp.product_id=' . $this->table_view . '.id AND pp.start <= date(now()) AND pp.end >= date(now()) AND pp.status=1 AND pp.customer_group_id=' . $customer['group_id'] . ' LIMIT 1) AS special_price');
-        else:
+        else :
             $this->db->select('*, 0 AS special_price');
-        endif;        
+        endif;
     }
 
     private function _getTablesQuery()
     {
         $this->getSpecialPrice();
         $this->db->from($this->table_view);
-        if ($this->input->post('category_id')):
+        if ($this->input->post('category_id')) :
             $this->db->where('id IN(SELECT product_id FROM product_categories WHERE category_id=' . $this->input->post('category_id') . ')');
         endif;
 
-        if ($this->input->post('manufacturer_id')):
+        if ($this->input->post('manufacturer_id')) :
             $this->db->where('manufacturer_id', $this->input->post('manufacturer_id'));
         endif;
         $this->query_lib->where();
@@ -62,7 +62,7 @@ class Products_model extends CI_Model
         return $query->num_rows();
     }
 
-    
+
     public function countAll()
     {
         $this->db->from($this->table_view);
@@ -70,12 +70,12 @@ class Products_model extends CI_Model
     }
 
     public function getById($id)
-    {                       
+    {
         $this->getSpecialPrice();
         $this->db->from($this->table_view);
         $this->db->where('id', $id);
         $query = $this->db->get();
-        return $query->row_array();        
+        return $query->row_array();
     }
 
     public function deleteById($id)
@@ -84,10 +84,10 @@ class Products_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->delete($this->table);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
@@ -98,7 +98,7 @@ class Products_model extends CI_Model
         $this->db->trans_start();
 
         $this->db->set('type_id', $this->input->post('type_id'));
-        $this->db->set('manufacturer_id', $this->input->post('manufacturer_id'));
+        $this->db->set('manufacture_id', $this->input->post('manufacture_id'));
         $this->db->set('code', $this->input->post('code'));
         $this->db->set('model', $this->input->post('model'));
         $this->db->set('sku', $this->input->post('sku'));
@@ -117,19 +117,19 @@ class Products_model extends CI_Model
         $this->db->set('minimum', $this->input->post('minimum'));
         $this->db->set('shipping', $this->input->post('shipping'));
         $this->db->set('inventory', $this->input->post('inventory'));
-        
-        if($this->input->post('status')):
+
+        if ($this->input->post('status')) :
             $this->db->set('status', $this->input->post('status'));
-        else:
+        else :
             $this->db->set('status', 1);
         endif;
 
-        if ($this->input->post('id')):
+        if ($this->input->post('id')) :
             $this->db->set('updated_at', $this->currectDatetime);
             $id = $this->input->post('id');
             $this->db->where('id', $id);
             $this->db->update($this->table);
-        else:
+        else :
             $this->db->set('created_at', $this->currectDatetime);
             $this->db->insert($this->table);
             $id = $this->db->insert_id();
@@ -138,10 +138,10 @@ class Products_model extends CI_Model
         $this->db->where('product_id', $id);
         $this->db->delete('product_categories');
 
-        if ($this->input->post('categories')):
+        if ($this->input->post('categories')) :
             $categories = json2arr($this->input->post('categories'));
-            if ($categories):
-                foreach ($categories as $category):
+            if ($categories) :
+                foreach ($categories as $category) :
                     $this->db->set('product_id', $id);
                     $this->db->set('category_id', $category['category_id']);
                     $this->db->insert('product_categories');
@@ -152,10 +152,10 @@ class Products_model extends CI_Model
         $this->db->where('product_id', $id);
         $this->db->delete('product_attributes');
 
-        if ($this->input->post('attributes')):
+        if ($this->input->post('attributes')) :
             $attributes = json2arr($this->input->post('attributes'));
-            if ($attributes):
-                foreach ($attributes as $attribute):
+            if ($attributes) :
+                foreach ($attributes as $attribute) :
                     $this->db->set('product_id', $id);
                     $this->db->set('attribute_id', $attribute['attribute_id']);
                     $this->db->set('text', $attribute['text']);
@@ -167,10 +167,10 @@ class Products_model extends CI_Model
         $this->db->where('product_id', $id);
         $this->db->delete('product_prices');
 
-        if ($this->input->post('prices')):
+        if ($this->input->post('prices')) :
             $prices = json2arr($this->input->post('prices'));
-            if ($prices):
-                foreach ($prices as $price):
+            if ($prices) :
+                foreach ($prices as $price) :
                     $this->db->set('product_id', $id);
                     $this->db->set('customer_group_id', $price['customer_group_id']);
                     $this->db->set('price', $price['price']);
@@ -185,10 +185,10 @@ class Products_model extends CI_Model
         $this->db->where('product_id', $id);
         $this->db->delete('related_products');
 
-        if ($this->input->post('related_products')):
+        if ($this->input->post('related_products')) :
             $related_products = json2arr($this->input->post('related_products'));
-            if ($related_products):
-                foreach ($related_products as $related_product):
+            if ($related_products) :
+                foreach ($related_products as $related_product) :
                     $this->db->set('product_id', $id);
                     $this->db->set('related_id', $related_product['related_id']);
                     $this->db->insert('related_products');
@@ -196,10 +196,10 @@ class Products_model extends CI_Model
             endif;
         endif;
 
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
@@ -216,8 +216,8 @@ class Products_model extends CI_Model
         $query = $this->db->get();
         $result = $query->result_array();
 
-        if ($result):
-            foreach ($result as $value):
+        if ($result) :
+            foreach ($result as $value) :
                 $data[] = array(
                     'id' => $value['category_id'],
                     'name' => $value['name'],
@@ -239,8 +239,8 @@ class Products_model extends CI_Model
         $query = $this->db->get();
         $result = $query->result_array();
 
-        if ($result):
-            foreach ($result as $value):
+        if ($result) :
+            foreach ($result as $value) :
                 $data[] = array(
                     'attribute_id' => $value['attribute_id'],
                     'attribute' => $value['attribute'],
@@ -256,16 +256,16 @@ class Products_model extends CI_Model
     {
         $array = [];
         $product = $this->getById($id);
-        if ($product):
+        if ($product) :
             $this->db->from('tax_rates');
             $this->db->where('tax_class_id', $product['tax_class_id']);
             $query = $this->db->get()->result_array();
-            if ($query):
-                foreach ($query as $value):
+            if ($query) :
+                foreach ($query as $value) :
                     $totalTax = 0;
-                    if ($value['type'] == 'P'):
+                    if ($value['type'] == 'P') :
                         $totalTax = ($total * $value['rate']) / 100;
-                    else:
+                    else :
                         $totalTax = $total + $value['rate'];
                     endif;
 
@@ -285,16 +285,16 @@ class Products_model extends CI_Model
     {
         $totalTax = 0;
         $product = $this->getById($id);
-        if ($product):
+        if ($product) :
             $this->db->from('tax_rates');
             $this->db->where('tax_class_id', $product['tax_class_id']);
             $query = $this->db->get()->result_array();
 
-            if ($query):
-                foreach ($query as $value):
-                    if ($value['type'] == 'P'):
+            if ($query) :
+                foreach ($query as $value) :
+                    if ($value['type'] == 'P') :
                         $totalTax += ($total * $value['rate']) / 100;
-                    else:
+                    else :
                         $totalTax += $total + $value['rate'];
                     endif;
                 endforeach;
@@ -303,21 +303,22 @@ class Products_model extends CI_Model
         return $totalTax;
     }
 
-    public function getRelatedProducts($id){
-        $data = array();                
-        $this->db->from('related_products_view');        
+    public function getRelatedProducts($id)
+    {
+        $data = array();
+        $this->db->from('related_products_view');
         $this->db->where('product_id', $id);
-        $query = $this->db->get();        
+        $query = $this->db->get();
         $result = $query->result_array();
 
-        if ($result):
-            foreach ($result as $value):
+        if ($result) :
+            foreach ($result as $value) :
                 $data[] = array(
                     'id' => $value['related_id'],
                     'product_name' => $value['product_name'],
                     'product_image' => $value['product_image'] ? base_url($value['product_image']) : '',
                     'price' => $this->settings_lib->number_format($value['price']),
-                    'price_type' => $value['price_type'],                                                        
+                    'price_type' => $value['price_type'],
                     'weight_class' => $value['weight_class'],
                     'weight_unit' => $value['weight_unit'],
                     'weight' => $this->settings_lib->number_format($value['weight']),
@@ -332,5 +333,4 @@ class Products_model extends CI_Model
 
         return $data;
     }
-
 }

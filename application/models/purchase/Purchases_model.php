@@ -82,15 +82,7 @@ class Purchases_model extends CI_Model
         } else {
             $this->db->set('purchase_type_id', 1);
         }
-        $this->db->set('vendor_id', $this->input->post('vendor_id'));
-        $this->db->set('name', $this->input->post('name'));
-        $this->db->set('email', $this->input->post('email'));
-        $this->db->set('contact', $this->input->post('contact'));
-        $this->db->set('country_id', $this->input->post('country_id'));
-        $this->db->set('zone_id', $this->input->post('zone_id'));
-        $this->db->set('city_id', $this->input->post('city_id'));
-        $this->db->set('postcode', $this->input->post('postcode'));
-        $this->db->set('address', $this->input->post('address'));
+        $this->db->set('vendor_id', $this->input->post('vendor_id'));        
         $this->db->set('comment', $this->input->post('comment'));
         
         if($this->input->post('status')):

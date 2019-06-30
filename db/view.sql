@@ -127,14 +127,15 @@ FROM locations l
 CREATE OR REPLACE 
  VIEW `orders_view`
  AS
-SELECT o.*, ot.name AS order_type, cr.name AS customer, c.name AS country, z.name AS zone, ct.name AS city, os.name AS order_status
+SELECT o.*, ot.name AS order_type, cr.name, cr.email, cr.contact, ca.name AS person_name, ca.contact AS person_contact, ca.country_id, cot.name AS country, ca.zone_id, z.name AS zone, ca.city_id, cit.name AS city, ca.postcode, ca.address, os.name AS order_status
 FROM orders o
     LEFT JOIN order_types ot ON ot.id=o.order_type_id
     LEFT JOIN customers cr ON cr.id=o.customer_id
-    LEFT JOIN countries c ON c.id=o.country_id
-    LEFT JOIN zones z ON z.id=o.zone_id
-    LEFT JOIN cities ct on ct.id=o.city_id
-    LEFT JOIN order_statuses os ON os.id=o.order_status_id;
+    LEFT JOIN customer_addresses ca ON ca.id=o.address_id
+    LEFT JOIN order_statuses os ON os.id=o.order_status_id
+    LEFT JOIN countries cot ON cot.id=ca.country_id
+    LEFT JOIN zones z ON z.id=ca.zone_id
+    LEFT JOIN cities cit ON cit.id=ca.city_id;
 
 CREATE OR REPLACE 
  VIEW `order_products_view`
@@ -149,7 +150,7 @@ CREATE OR REPLACE
 SELECT p.*, t.name AS type, m.name AS manufacture, tc.name AS tax_class, lc.name length_class, lc.unit AS length_unit, wc.name AS weight_class, wc.unit AS weight_unit
 FROM products p
     LEFT JOIN types t ON t.id=p.type_id
-    LEFT JOIN manufactures m ON m.id=p.manufacturer_id
+    LEFT JOIN manufactures m ON m.id=p.manufacture_id
     LEFT JOIN tax_classes tc ON tc.id=p.tax_class_id
     LEFT JOIN length_classes lc ON lc.id=p.length_class_id
     LEFT JOIN weight_classes wc ON wc.id=p.weight_class_id;
@@ -182,13 +183,10 @@ FROM product_reviews pr
 CREATE OR REPLACE
  VIEW `purchases_view`
  AS
-SELECT p.*, pt.name AS purchase_type, v.name AS vendor, c.name AS country, z.name AS zone, ct.name AS city, ps.name AS purchase_status
+SELECT p.*, pt.name AS purchase_type, v.name,v.email,v.contact, ps.name AS purchase_status
 FROM purchases p
     LEFT JOIN purchase_types pt ON pt.id=p.purchase_type_id
     LEFT JOIN vendors v ON v.id=p.vendor_id
-    LEFT JOIN countries c ON c.id=p.country_id
-    LEFT JOIN zones z ON z.id=p.zone_id
-    LEFT JOIN cities ct ON ct.id=p.city_id
     LEFT JOIN purchase_statuses ps ON ps.id=p.purchase_status_id;
 
 CREATE OR REPLACE
