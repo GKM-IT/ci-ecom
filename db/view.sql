@@ -91,13 +91,10 @@ FROM employee_attendances et
 CREATE OR REPLACE 
  VIEW `employee_orders_view`
  AS
-SELECT eo.*, e.name AS employee, o.invoice_no, o.name, o.email, o.contact, c.name AS country, z.name AS zone, ct.name AS city, o.postcode, o.address, o.comment, o.total, o.total_tax, ot.name AS order_type, os.name AS order_status
+SELECT eo.*, e.name AS employee, o.invoice_no, o.comment, o.total, o.total_tax, ot.name AS order_type, os.name AS order_status
 FROM employee_orders eo
     LEFT JOIN employees e ON e.id=eo.employee_id
-    LEFT JOIN orders o ON o.id=eo.order_id
-    LEFT JOIN countries c ON c.id=o.country_id
-    LEFT JOIN zones z ON z.id=o.zone_id
-    LEFT JOIN cities ct ON ct.id=o.city_id
+    LEFT JOIN orders o ON o.id=eo.order_id    
     LEFT JOIN order_types ot ON ot.id=o.order_type_id
     LEFT JOIN order_statuses os ON os.id=o.order_status_id;
 
