@@ -27,6 +27,11 @@ class Carts extends REST_Controller
 
     private function getData($object)
     {
+        $subTotal=0;
+        $priceSubTotal=0;
+        $tax=0;
+        $total=0;
+        
         $result = [];
         if ($object) :
 
@@ -37,14 +42,14 @@ class Carts extends REST_Controller
                 $special_price = $this->settings_lib->number_format($subTotal);
                 $total = $subTotal + $tax;
                 $discount = $this->settings_lib->discount($priceSubTotal + $tax, $subTotal + $tax);
-                $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $total);
+                $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $subTotal);
             else :
                 $subTotal = ($object['price'] * $object['quantity']);
                 $discount = '';
                 $special_price = false;
                 $tax = $this->products_model->getTotalTax($object['id'], $subTotal);
                 $total = $subTotal + $tax;
-                $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $total);
+                $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $subTotal);
             endif;
 
             $result = [
@@ -91,22 +96,16 @@ class Carts extends REST_Controller
         $result = [];
         if ($list) :
             foreach ($list as $object) :
-                if ($object['special_price']) :
-                    $subTotal += ($object['special_price'] * $object['quantity']);
-                    $subtax = $this->products_model->getTotalTax($object['id'], ($object['special_price'] * $object['quantity']));
-                    $tax +=  $subtax;
-                else :
-                    $subTotal += ($object['price'] * $object['quantity']);
-                    $subtax = $this->products_model->getTotalTax($object['id'], ($object['special_price'] * $object['quantity']));
-                    $tax +=  $subtax;
-                endif;
                 $result[] = $this->getData($object);
+                foreach ($result as  $value) :
+                    $subTotal += $value['sub_total'];
+                    $tax += $value['total_tax'];
+                    $total += $value['total'];
+                endforeach;
             endforeach;
         else :
             $this->data['status'] = false;
         endif;
-
-        $total = $subTotal + $tax;
 
         $this->data['recordsTotal'] = $this->carts_model->countAll();
         $this->data['recordsFiltered'] = $this->carts_model->countFiltered();

@@ -263,7 +263,7 @@ class Products_model extends CI_Model
             if ($query) :
                 foreach ($query as $value) :
                     $totalTax = 0;
-                    if ($value['type'] == 'P') :
+                    if ($value['type'] == 'P' || $value['type'] == 'p') :
                         $totalTax = ($total * $value['rate']) / 100;
                     else :
                         $totalTax = $total + $value['rate'];
@@ -273,6 +273,7 @@ class Products_model extends CI_Model
                         'name' => $value['name'],
                         'rate' => $this->settings_lib->number_format($value['rate']),
                         'type' => $value['type'],
+                        'amount' => $this->settings_lib->number_format($total),
                         'total' => $this->settings_lib->number_format($totalTax),
                     ];
                 endforeach;
@@ -292,8 +293,8 @@ class Products_model extends CI_Model
 
             if ($query) :
                 foreach ($query as $value) :
-                    if ($value['type'] == 'P') :
-                        $totalTax += ($total * $value['rate']) / 100;
+                    if ($value['type'] == 'P' || $value['type'] == 'p') :
+                        $totalTax += (($total * $value['rate']) / 100);
                     else :
                         $totalTax += $total + $value['rate'];
                     endif;
