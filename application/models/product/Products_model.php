@@ -143,7 +143,7 @@ class Products_model extends CI_Model
             if ($categories) :
                 foreach ($categories as $category) :
                     $this->db->set('product_id', $id);
-                    $this->db->set('category_id', $category['category_id']);
+                    $this->db->set('category_id', $category);
                     $this->db->insert('product_categories');
                 endforeach;
             endif;
