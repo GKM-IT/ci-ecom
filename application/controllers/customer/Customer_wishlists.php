@@ -19,6 +19,7 @@ class Customer_wishlists extends REST_Controller
     {
         parent::__construct();
         $this->load->model('customer/customer_wishlists_model');
+        $this->load->model('product/products_model');
         $this->load->library('form_validation');
         $this->datetime_format = $this->settings_lib->config('config', 'default_date_time_format');
         $this->form_validation->set_error_delimiters('', '');
@@ -28,11 +29,27 @@ class Customer_wishlists extends REST_Controller
     {
         $result = [];
         if ($object):
+            if ($object['special_price']) :
+                $tax = $this->products_model->getTotalTax($object['id'], $object['special_price']);
+                $special_price = $this->settings_lib->number_format($object['special_price']);
+                $final_price = $this->settings_lib->number_format($object['special_price'] + $tax);
+                $discount = $this->settings_lib->discount($object['price'] + $tax, $object['special_price'] + $tax);
+            else :
+                $discount = '';
+                $special_price = false;
+                $tax = $this->products_model->getTotalTax($object['id'], $object['price']);
+                $final_price = $this->settings_lib->number_format($object['price'] + $tax);
+            endif;
             $result = [
                 'id' => $object['id'],
                 'customer_id' => $object['customer_id'],
                 'customer_name' => $object['customer_name'],
-                'product_id' => $object['product_id'],
+                'product_id' => $object['product_id'],                
+                'price' => $this->settings_lib->number_format($object['price']),
+                'special_price' => $special_price,
+                'tax' => $this->settings_lib->number_format($tax),
+                'final_price' => $final_price,
+                'discount' => $discount,
                 'product_name' => $object['product_name'],
                 'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
                 'status' => $object['status'],

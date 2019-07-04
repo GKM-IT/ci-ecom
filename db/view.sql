@@ -59,7 +59,7 @@ FROM customer_sessions cs LEFT JOIN customers c ON c.id=cs.customer_id;
 CREATE OR REPLACE 
  VIEW `customer_wishlists_view`
  AS
-SELECT cw.*, c.name AS customer_name, p.name AS product_name, p.image AS product_image
+SELECT cw.*, c.name AS customer_name, p.name AS product_name, p.price, p.image AS product_image
 FROM customer_wishlists cw
     LEFT JOIN customers c ON c.id=cw.customer_id
     LEFT JOIN products p ON p.id=cw.product_id;
@@ -94,7 +94,7 @@ CREATE OR REPLACE
 SELECT eo.*, e.name AS employee, o.invoice_no, o.comment, o.total, o.total_tax, ot.name AS order_type, os.name AS order_status
 FROM employee_orders eo
     LEFT JOIN employees e ON e.id=eo.employee_id
-    LEFT JOIN orders o ON o.id=eo.order_id    
+    LEFT JOIN orders o ON o.id=eo.order_id
     LEFT JOIN order_types ot ON ot.id=o.order_type_id
     LEFT JOIN order_statuses os ON os.id=o.order_status_id;
 
@@ -180,7 +180,7 @@ FROM product_reviews pr
 CREATE OR REPLACE
  VIEW `purchases_view`
  AS
-SELECT p.*, pt.name AS purchase_type, v.name,v.email,v.contact, ps.name AS purchase_status
+SELECT p.*, pt.name AS purchase_type, v.name, v.email, v.contact, ps.name AS purchase_status
 FROM purchases p
     LEFT JOIN purchase_types pt ON pt.id=p.purchase_type_id
     LEFT JOIN vendors v ON v.id=p.vendor_id

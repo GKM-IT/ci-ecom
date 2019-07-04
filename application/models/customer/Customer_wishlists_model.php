@@ -17,8 +17,19 @@ class Customer_wishlists_model extends CI_Model
         $this->query_lib->column_search = $this->column_search;
     }
 
+    private function getSpecialPrice()
+    {        
+        if ($this->input->post('where[customer_id]')) :
+            $customer = $this->db->get_where('customers', ['id' => $this->input->post('where[customer_id]')])->row_array();
+            $this->db->select('*, (SELECT pp.price FROM product_prices pp WHERE pp.product_id=' . $this->table_view . '.id AND pp.start <= date(now()) AND pp.end >= date(now()) AND pp.status=1 AND pp.customer_group_id=' . $customer['group_id'] . ' LIMIT 1) AS special_price');
+        else :
+            $this->db->select('*, 0 AS special_price');
+        endif;
+    }
+
     private function _getTablesQuery()
     {
+        $this->getSpecialPrice();
         $this->db->from($this->table_view);
         $this->query_lib->where();
         $this->query_lib->like();
