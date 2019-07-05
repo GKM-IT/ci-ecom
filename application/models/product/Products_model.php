@@ -140,8 +140,9 @@ class Products_model extends CI_Model
 
         if ($this->input->post('categories')) :
             $categories = json2arr($this->input->post('categories'));
+            
             if ($categories) :
-                foreach ($categories as $category) :
+                foreach ($categories as $category) :                    
                     $this->db->set('product_id', $id);
                     $this->db->set('category_id', $category);
                     $this->db->insert('product_categories');
