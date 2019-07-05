@@ -25,8 +25,8 @@ FROM carts ct LEFT JOIN customers c ON c.id=ct.customer_id LEFT JOIN products p 
 CREATE OR REPLACE 
  VIEW `categories_view`
  AS
-SELECT c.*, t.name AS type
-FROM categories c LEFT JOIN types t ON t.id=c.type_id;
+SELECT c.*,p.name AS parent, t.name AS type
+FROM categories c LEFT JOIN types t ON t.id=c.type_id LEFT JOIN categories p ON p.id=c.parent_id;
 
 CREATE OR REPLACE 
  VIEW `cities_view`

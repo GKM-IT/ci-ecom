@@ -84,7 +84,7 @@ class Categories_model extends CI_Model
         $this->db->trans_start();
 
         $this->db->set('type_id', $this->input->post('type_id'));
-//        $this->db->set('parent_id', $this->input->post('parent_id'));
+       $this->db->set('parent_id', $this->input->post('parent_id'));
         $this->db->set('name', $this->input->post('name'));
 //        $this->db->set('image', $this->input->post('image'));
         
