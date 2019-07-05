@@ -158,7 +158,7 @@ class Products_model extends CI_Model
             if ($attributes) :
                 foreach ($attributes as $attribute) :
                     $this->db->set('product_id', $id);
-                    $this->db->set('attribute_id', $attribute['attribute_id']);
+                    $this->db->set('attribute_id', $attribute['attributeId']);
                     $this->db->set('text', $attribute['text']);
                     $this->db->insert('product_attributes');
                 endforeach;
