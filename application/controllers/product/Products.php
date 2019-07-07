@@ -105,6 +105,25 @@ class Products extends REST_Controller
             $this->data['status'] = false;
         endif;
 
+
+        $sort_order = array();
+
+        if ($this->input->post('sortByPrice')) :
+            if ($this->input->post('sortByPrice') == 'asc') :
+                $sort = SORT_ASC;
+            else :
+                $sort = SORT_DESC;
+            endif;
+
+            foreach ($result as $key => $value) :
+                $sort_order[$key] = $value['final_price'];
+            endforeach;
+
+            array_multisort($sort_order, $sort, $result);
+        endif;
+
+
+
         $this->data['recordsTotal'] = $this->products_model->countAll();
         $this->data['recordsFiltered'] = $this->products_model->countFiltered();
         $this->data['data'] = $result;

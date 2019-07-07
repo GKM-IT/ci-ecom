@@ -43,6 +43,12 @@ class Products_model extends CI_Model
         $this->query_lib->like();
         $this->query_lib->getSearch();
         $this->query_lib->getSort();
+
+        if ($this->input->post('filterType') == 'special') :
+            if ($this->input->post('customer_id')) :
+                $this->db->having('special_price !=', NUll);
+            endif;
+        endif;
     }
 
     public function getTables()
@@ -140,9 +146,9 @@ class Products_model extends CI_Model
 
         if ($this->input->post('categories')) :
             $categories = json2arr($this->input->post('categories'));
-            
+
             if ($categories) :
-                foreach ($categories as $category) :                    
+                foreach ($categories as $category) :
                     $this->db->set('product_id', $id);
                     $this->db->set('category_id', $category);
                     $this->db->insert('product_categories');
