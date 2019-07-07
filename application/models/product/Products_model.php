@@ -36,8 +36,8 @@ class Products_model extends CI_Model
             $this->db->where('id IN(SELECT product_id FROM product_categories WHERE category_id=' . $this->input->post('category_id') . ')');
         endif;
 
-        if ($this->input->post('manufacturer_id')) :
-            $this->db->where('manufacturer_id', $this->input->post('manufacturer_id'));
+        if ($this->input->post('manufacture_id')) :
+            $this->db->where('manufacture_id', $this->input->post('manufacture_id'));
         endif;
         $this->query_lib->where();
         $this->query_lib->like();
