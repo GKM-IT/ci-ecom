@@ -25,7 +25,7 @@ FROM carts ct LEFT JOIN customers c ON c.id=ct.customer_id LEFT JOIN products p 
 CREATE OR REPLACE 
  VIEW `categories_view`
  AS
-SELECT c.*,p.name AS parent, t.name AS type
+SELECT c.*, p.name AS parent, t.name AS type
 FROM categories c LEFT JOIN types t ON t.id=c.type_id LEFT JOIN categories p ON p.id=c.parent_id;
 
 CREATE OR REPLACE 
@@ -253,3 +253,59 @@ CREATE OR REPLACE
  AS
 SELECT z.*, c.name AS country
 FROM zones z LEFT JOIN countries c ON c.id=z.country_id;
+
+CREATE OR REPLACE
+ VIEW `totalSalesYear`
+ AS
+SELECT
+    SUM(op.price) AS totalPrice,
+    SUM(op.quantity) AS totalQty,
+    SUM(op.tax) AS totalTax,
+    SUM(op.total) AS total,
+    YEAR(o.created_at) AS year
+FROM order_products op
+    LEFT JOIN orders o ON o.id=op.order_id
+GROUP BY year;
+
+CREATE OR REPLACE
+ VIEW `totalSalesDate`
+ AS
+SELECT
+    SUM(op.price) AS totalPrice,
+    SUM(op.quantity) AS totalQty,
+    SUM(op.tax) AS totalTax,
+    SUM(op.total) AS total,
+    DATE(o.created_at) AS date
+FROM order_products op
+    LEFT JOIN orders o ON o.id=op.order_id
+GROUP BY date;
+
+CREATE OR REPLACE
+ VIEW `totalSalesMonth`
+ AS
+SELECT
+    SUM(op.price) AS totalPrice,
+    SUM(op.quantity) AS totalQty,
+    SUM(op.tax) AS totalTax,
+    SUM(op.total) AS total,
+    MONTHNAME(o.created_at) AS month,
+    YEAR(o.created_at) AS year
+FROM order_products op
+    LEFT JOIN orders o ON o.id=op.order_id
+GROUP BY month,year;
+
+CREATE OR REPLACE
+ VIEW `totalSalesDay`
+ AS
+SELECT
+    SUM(op.price) AS totalPrice,
+    SUM(op.quantity) AS totalQty,
+    SUM(op.tax) AS totalTax,
+    SUM(op.total) AS total,
+    DAYNAME(o.created_at) AS day,
+    MONTHNAME(o.created_at) AS month,
+    YEAR(o.created_at) AS year
+FROM order_products op
+    LEFT JOIN orders o ON o.id=op.order_id
+GROUP BY day,month,year;
+
