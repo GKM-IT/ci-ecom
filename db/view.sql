@@ -255,7 +255,7 @@ SELECT z.*, c.name AS country
 FROM zones z LEFT JOIN countries c ON c.id=z.country_id;
 
 CREATE OR REPLACE
- VIEW `totalSalesYear`
+ VIEW `totalsalesyear`
  AS
 SELECT
     SUM(op.price) AS totalPrice,
@@ -268,7 +268,7 @@ FROM order_products op
 GROUP BY year;
 
 CREATE OR REPLACE
- VIEW `totalSalesDate`
+ VIEW `totalsalesdate`
  AS
 SELECT
     SUM(op.price) AS totalPrice,
@@ -281,7 +281,7 @@ FROM order_products op
 GROUP BY date;
 
 CREATE OR REPLACE
- VIEW `totalSalesMonth`
+ VIEW `totalsalesmonth`
  AS
 SELECT
     SUM(op.price) AS totalPrice,
@@ -295,7 +295,7 @@ FROM order_products op
 GROUP BY month,year;
 
 CREATE OR REPLACE
- VIEW `totalSalesDay`
+ VIEW `totalsalesday`
  AS
 SELECT
     SUM(op.price) AS totalPrice,
