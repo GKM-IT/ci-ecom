@@ -33,13 +33,14 @@ class Products extends REST_Controller
                 $special_price = $this->settings_lib->number_format($object['special_price']);
                 $final_price = $this->settings_lib->number_format($object['special_price'] + $tax);
                 $discount = $this->settings_lib->discount($object['price'] + $tax, $object['special_price'] + $tax);
+
             else :
                 $discount = '';
                 $special_price = false;
                 $tax = $this->products_model->getTotalTax($object['id'], $object['price']);
                 $final_price = $this->settings_lib->number_format($object['price'] + $tax);
             endif;
-
+            $margin = $this->settings_lib->margin($object['mrp'], $object['price']);
             $relatedProducts = $this->products_model->getRelatedProducts($object['id']);
 
             $result = [
@@ -53,7 +54,9 @@ class Products extends REST_Controller
                 'sku' => $object['sku'],
                 'name' => $object['name'],
                 'price_type' => $object['price_type'],
+                'mrp' => $this->settings_lib->number_format($object['mrp']),
                 'price' => $this->settings_lib->number_format($object['price']),
+                'margin' => $margin,
                 'special_price' => $special_price,
                 'tax' => $this->settings_lib->number_format($tax),
                 'final_price' => $final_price,

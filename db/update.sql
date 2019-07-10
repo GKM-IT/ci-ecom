@@ -1,0 +1,1 @@
+ALTER TABLE `products`  ADD `mrp` DECIMAL(15,8) NOT NULL  AFTER `price_type`;

@@ -7,12 +7,14 @@ class Products_model extends CI_Model
     private $table_view = 'products_view';
     private $column_search = array('name', 'code', 'model', 'sku', 'updated_at');
     private $currectDatetime = '';
+    private $datetime_format = '';
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('customer/customers_model');
         $this->currectDatetime = date('Y-m-d h:i:s');
+        $this->datetime_format = $this->settings_lib->config('config', 'default_date_time_format');
         $this->query_lib->table = $this->table;
         $this->query_lib->table_view = $this->table_view;
         $this->query_lib->column_search = $this->column_search;
@@ -39,6 +41,18 @@ class Products_model extends CI_Model
         if ($this->input->post('manufacture_id')) :
             $this->db->where('manufacture_id', $this->input->post('manufacture_id'));
         endif;
+
+        if ($this->input->post('categories')) :
+            $categories = json2arr($this->input->post('categories'));
+            $categories = implode(',', $categories);
+            $this->db->where('id IN(SELECT product_id FROM product_categories WHERE category_id IN(' . $categories . '))');
+        endif;
+
+        if ($this->input->post('manufactures')) :
+            $manufactures = json2arr($this->input->post('manufactures'));
+            $this->db->where_in('manufacture_id', $manufactures);
+        endif;
+
         $this->query_lib->where();
         $this->query_lib->like();
         $this->query_lib->getSearch();
@@ -109,6 +123,7 @@ class Products_model extends CI_Model
         $this->db->set('model', $this->input->post('model'));
         $this->db->set('sku', $this->input->post('sku'));
         $this->db->set('name', $this->input->post('name'));
+        $this->db->set('mrp', $this->input->post('mrp'));
         $this->db->set('price', $this->input->post('price'));
         $this->db->set('image', $this->input->post('image'));
         $this->db->set('description', $this->input->post('description'));
@@ -314,27 +329,71 @@ class Products_model extends CI_Model
     public function getRelatedProducts($id)
     {
         $data = array();
-        $this->db->from('related_products_view');
-        $this->db->where('product_id', $id);
+        $this->getSpecialPrice();
+        $this->db->from('products_view');        
+        $this->db->where('id IN(SELECT related_id FROM related_products WHERE product_id=' . $id. ')');
         $query = $this->db->get();
+        // print_r( $this->db->last_query());
+        // exit;
         $result = $query->result_array();
 
         if ($result) :
-            foreach ($result as $value) :
+            foreach ($result as $object) :
+                if ($object['special_price']) :
+                    $tax = $this->products_model->getTotalTax($object['id'], $object['special_price']);
+                    $special_price = $this->settings_lib->number_format($object['special_price']);
+                    $final_price = $this->settings_lib->number_format($object['special_price'] + $tax);
+                    $discount = $this->settings_lib->discount($object['price'] + $tax, $object['special_price'] + $tax);
+
+                else :
+                    $discount = '';
+                    $special_price = false;
+                    $tax = $this->products_model->getTotalTax($object['id'], $object['price']);
+                    $final_price = $this->settings_lib->number_format($object['price'] + $tax);
+                endif;
+                $margin = $this->settings_lib->margin($object['mrp'], $object['price']);
+
                 $data[] = array(
-                    'id' => $value['related_id'],
-                    'product_name' => $value['product_name'],
-                    'product_image' => $value['product_image'] ? base_url($value['product_image']) : '',
-                    'price' => $this->settings_lib->number_format($value['price']),
-                    'price_type' => $value['price_type'],
-                    'weight_class' => $value['weight_class'],
-                    'weight_unit' => $value['weight_unit'],
-                    'weight' => $this->settings_lib->number_format($value['weight']),
-                    'length_class' => $value['length_class'],
-                    'length_unit' => $value['length_unit'],
-                    'length' => $this->settings_lib->number_format($value['length']),
-                    'height' => $this->settings_lib->number_format($value['height']),
-                    'width' => $this->settings_lib->number_format($value['width']),
+                    'id' => $object['id'],
+                    'type_id' => $object['type_id'],
+                    'type' => $object['type'],
+                    'manufacture_id' => $object['manufacture_id'],
+                    'manufacture' => $object['manufacture'],
+                    'code' => $object['code'],
+                    'model' => $object['model'],
+                    'sku' => $object['sku'],
+                    'name' => $object['name'],
+                    'price_type' => $object['price_type'],
+                    'mrp' => $this->settings_lib->number_format($object['mrp']),
+                    'price' => $this->settings_lib->number_format($object['price']),
+                    'margin' => $margin,
+                    'special_price' => $special_price,
+                    'tax' => $this->settings_lib->number_format($tax),
+                    'final_price' => $final_price,
+                    'discount' => $discount,
+                    'image' => base_url($object['image']),
+                    'image_thumb' => base_url($object['image']),
+                    'description' => $object['description'],
+                    'tax_class_id' => $object['tax_class_id'],
+                    'tax_class' => $object['tax_class'],
+                    'length_class_id' => $object['length_class_id'],
+                    'length_class' => $object['length_class'],
+                    'length_unit' => $object['length_unit'],
+                    'length' => $this->settings_lib->number_format($object['length']),
+                    'width' => $this->settings_lib->number_format($object['width']),
+                    'height' => $this->settings_lib->number_format($object['height']),
+                    'weight_class_id' => $object['weight_class_id'],
+                    'weight_class' => $object['weight_class'],
+                    'weight_unit' => $object['weight_unit'],
+                    'weight' => $this->settings_lib->number_format($object['weight']),
+                    'viewed' => $object['viewed'],
+                    'minimum' => $object['minimum'],
+                    'shipping' => $object['shipping'],
+                    'inventory' => $object['inventory'],
+                    'status' => $object['status'],
+                    'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
+                    'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
+                    'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
                 );
             endforeach;
         endif;

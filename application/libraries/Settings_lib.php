@@ -43,7 +43,7 @@ class Settings_lib
     }
     public function nice_number($n)
     {
-        if ($n):
+        if ($n) :
             // first strip any formatting;
             $n = (0 + str_replace(",", "", $n));
             // is this a number?
@@ -55,15 +55,15 @@ class Settings_lib
             if ($n > 1000000000000) {
                 return round(($n / 1000000000000), 2) . ' T';
             } elseif ($n > 1000000000) {
-            return round(($n / 1000000000), 2) . ' B';
-        } elseif ($n > 1000000) {
-            return round(($n / 1000000), 2) . ' M';
-        } elseif ($n > 1000) {
-            return round(($n / 1000), 2) . ' K';
-        }
+                return round(($n / 1000000000), 2) . ' B';
+            } elseif ($n > 1000000) {
+                return round(($n / 1000000), 2) . ' M';
+            } elseif ($n > 1000) {
+                return round(($n / 1000), 2) . ' K';
+            }
 
-        return number_format($n);
-        else:
+            return number_format($n);
+        else :
             return 0;
         endif;
     }
@@ -114,7 +114,20 @@ class Settings_lib
     public function discount($price, $discount)
     {
         $total = 0;
-        $total = (($discount / $price) * 100);
+        if ($price != 0 && $discount != 0) :
+            $total = (($discount / $price) * 100);
+        endif;
+        return $this->number_format($total) . '%';
+    }
+    
+    public function margin($mrp, $price)
+    {
+        $total = 0;
+        $finalPrice = 0;
+        if ($mrp != 0 && $price != 0) :
+            $finalPrice = ($mrp - $price);
+            $total = (($finalPrice / $price) * 100);
+        endif;
         return $this->number_format($total) . '%';
     }
 }

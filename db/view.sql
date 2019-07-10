@@ -201,16 +201,6 @@ AS user,p.name AS product,p.image AS product_image FROM purchase_carts pc
 LEFT JOIN users u ON u.id=pc.user_id
 LEFT JOIN products p ON p.id=pc.product_id;
 
-CREATE OR REPLACE
- VIEW `related_products_view`
- AS
-SELECT rp.*,
-    r.name AS product_name, r.image AS product_image, r.price_type, r.price, r.weight, r.length, r.height, r.width,
-    wc.name weight_class, wc.unit AS weight_unit, lc.name AS length_class, lc.unit AS length_unit
-FROM related_products rp
-    LEFT JOIN products r ON r.id=rp.related_id
-    LEFT JOIN weight_classes wc ON wc.id=r.weight_class_id
-    LEFT JOIN length_classes lc ON lc.id=r.length_class_id;
 
 CREATE OR REPLACE
  VIEW `stocks_view`
@@ -309,3 +299,19 @@ FROM order_products op
     LEFT JOIN orders o ON o.id=op.order_id
 GROUP BY day,month,year;
 
+
+
+CREATE OR REPLACE
+ VIEW `productsales`
+ AS
+SELECT 
+p.name AS productName,
+p.image AS productImage,
+SUM(op.price) AS totalPrice,
+SUM(op.quantity) AS totalQty,
+SUM(op.tax) AS totalTax,
+SUM(op.total) AS total
+FROM order_products op
+LEFT JOIN products p ON p.id=op.product_id
+LEFT JOIN orders o ON o.id=op.order_id
+GROUP BY op.product_id;
