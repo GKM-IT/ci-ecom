@@ -68,7 +68,7 @@ class Zones extends REST_Controller
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
-    public function index_delete($id)
+    public function delete_get($id)
     {
         $this->data = [];
         $this->data['data'] = [];
