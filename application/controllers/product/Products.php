@@ -61,7 +61,7 @@ class Products extends REST_Controller
                 'tax' => $this->settings_lib->number_format($tax),
                 'final_price' => $final_price,
                 'discount' => $discount,
-                'image' => base_url($object['image']),
+                'image' => $object['image'],
                 'image_thumb' => base_url($object['image']),
                 'description' => $object['description'],
                 'text' => $object['text'],

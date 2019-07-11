@@ -31,7 +31,7 @@ class Manufactures extends REST_Controller
             $result = [
                 'id' => $object['id'],
                 'name' => $object['name'],
-                'image' => base_url($object['image']),
+                'image' => $object['image'],
                 'image_thumb' => base_url($object['image']),
                 'sort_order' => $object['sort_order'],
                 'status' => $object['status'],

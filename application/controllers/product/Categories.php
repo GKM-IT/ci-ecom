@@ -35,7 +35,7 @@ class Categories extends REST_Controller
                 'parent_id' => $object['parent_id'],
                 'parent' => $object['parent'],
                 'name' => $object['name'],
-                'image' => base_url($object['image']),
+                'image' => $object['image'],
                 'image_thumb' => base_url($object['image']),
                 'sort_order' => $object['sort_order'],
                 'status' => $object['status'],
