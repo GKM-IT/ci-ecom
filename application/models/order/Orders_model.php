@@ -122,6 +122,7 @@ class Orders_model extends CI_Model
             return false;
         else :
             $this->db->trans_commit();
+            $this->clearCart($this->input->post('token'));
             return true;
         endif;
     }
@@ -229,5 +230,11 @@ class Orders_model extends CI_Model
         $this->db->set('title', 'Total Tax');
         $this->db->set('value', $total);
         $this->db->insert('order_totals');
+    }
+
+    public function clearCart($token)
+    {
+        $this->db->where('token', $token);
+        $this->db->delete('carts');
     }
 }

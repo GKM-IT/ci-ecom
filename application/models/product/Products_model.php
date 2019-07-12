@@ -196,8 +196,8 @@ class Products_model extends CI_Model
                     $this->db->set('product_id', $id);
                     $this->db->set('customer_group_id', $price['customerGroupId']);
                     $this->db->set('price', $price['price']);
-                    $this->db->set('start', date('Y-m-d', strtotime($price['start'])),);
-                    $this->db->set('end', date('Y-m-d', strtotime($price['end'])),);
+                    $this->db->set('start', date('Y-m-d', strtotime($price['start'])));
+                    $this->db->set('end', date('Y-m-d', strtotime($price['end'])));
                     if (isset($price['status'])) :
                         $this->db->set('status', $price['status']);
                     endif;
