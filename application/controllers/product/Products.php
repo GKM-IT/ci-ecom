@@ -42,6 +42,7 @@ class Products extends REST_Controller
             endif;
             $margin = $this->settings_lib->margin($object['mrp'], $object['price']);
             $relatedProducts = $this->products_model->getRelatedProducts($object['id']);
+            $getPrices = $this->products_model->getPrices($object['id']);
 
             $result = [
                 'id' => $object['id'],
@@ -82,6 +83,7 @@ class Products extends REST_Controller
                 'shipping' => $object['shipping'],
                 'inventory' => $object['inventory'],
                 'related_products' => $relatedProducts,
+                'prices' => $getPrices,
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),

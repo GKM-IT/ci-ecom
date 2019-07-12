@@ -194,11 +194,13 @@ class Products_model extends CI_Model
             if ($prices) :
                 foreach ($prices as $price) :
                     $this->db->set('product_id', $id);
-                    $this->db->set('customer_group_id', $price['customer_group_id']);
+                    $this->db->set('customer_group_id', $price['customerGroupId']);
                     $this->db->set('price', $price['price']);
-                    $this->db->set('start', $price['start']);
-                    $this->db->set('end', $price['end']);
-                    $this->db->set('status', $price['status']);
+                    $this->db->set('start', date('Y-m-d', strtotime($price['start'])),);
+                    $this->db->set('end', date('Y-m-d', strtotime($price['end'])),);
+                    if (isset($price['status'])) :
+                        $this->db->set('status', $price['status']);
+                    endif;
                     $this->db->insert('product_prices');
                 endforeach;
             endif;
@@ -225,6 +227,28 @@ class Products_model extends CI_Model
             $this->db->trans_commit();
             return true;
         endif;
+    }
+
+    public function getPrices($id)
+    {
+        $data = array();
+        $this->db->from('product_prices');
+        $this->db->where('product_id', $id);
+        $query = $this->db->get();
+        $result = $query->result_array();
+
+        if ($result) :
+            foreach ($result as $value) :
+                $data[] = array(
+                    'customer_group_id' => $value['customer_group_id'],
+                    'price' => $value['price'],
+                    'start' =>  $value['start'],
+                    'end' => $value['end'],
+                );
+            endforeach;
+        endif;
+
+        return $data;
     }
 
     public function getCategories($id)
@@ -330,8 +354,8 @@ class Products_model extends CI_Model
     {
         $data = array();
         $this->getSpecialPrice();
-        $this->db->from('products_view');        
-        $this->db->where('id IN(SELECT related_id FROM related_products WHERE product_id=' . $id. ')');
+        $this->db->from('products_view');
+        $this->db->where('id IN(SELECT related_id FROM related_products WHERE product_id=' . $id . ')');
         $query = $this->db->get();
         // print_r( $this->db->last_query());
         // exit;
