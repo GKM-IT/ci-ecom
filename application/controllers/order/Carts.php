@@ -27,32 +27,41 @@ class Carts extends REST_Controller
 
     private function getData($object)
     {
-        $subTotal=0;
-        $priceSubTotal=0;
-        $tax=0;
-        $total=0;
-        
+        $total = 0;
+
         $result = [];
         if ($object) :
 
+            $mrp = $this->settings_lib->number_format($object['mrp']);
+            $totalMrp = $this->settings_lib->number_format($object['mrp'] * $object['quantity']);
+
+            $price = $this->settings_lib->number_format($object['price']);
+            $totalPrice = $this->settings_lib->number_format($object['price'] * $object['quantity']);
+
             if ($object['special_price']) :
-                $subTotal = ($object['special_price'] * $object['quantity']);
-                $priceSubTotal = ($object['price'] * $object['quantity']);
-                $tax = $this->products_model->getTotalTax($object['id'], $subTotal);
-                $special_price = $this->settings_lib->number_format($subTotal);
-                $total = $subTotal + $tax;
-                $discount = $this->settings_lib->discount($priceSubTotal + $tax, $subTotal + $tax);
-                $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $subTotal);
+                $specialPrice = $this->settings_lib->number_format($object['special_price']);
+                $totalSpecialPrice = $this->settings_lib->number_format($object['special_price'] * $object['quantity']);
+                $finalPrice = $specialPrice;
+                $totalFinalPrice = $totalSpecialPrice;
             else :
-                $subTotal = ($object['price'] * $object['quantity']);
-                $discount = '';
-                $special_price = false;
-                $tax = $this->products_model->getTotalTax($object['id'], $subTotal);
-                $total = $subTotal + $tax;
-                $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $subTotal);
+                $specialPrice = $this->settings_lib->number_format(0);
+                $totalSpecialPrice = $this->settings_lib->number_format(0);
+                $finalPrice = $price;
+                $totalFinalPrice = $totalPrice;
             endif;
 
-            $mrp = $this->settings_lib->number_format($object['mrp'] * $object['quantity']);
+
+            $totalTax = $this->products_model->getTotalTax($object['product_id'], $totalFinalPrice);
+            $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $totalFinalPrice);
+
+            $discount = $this->settings_lib->discount($totalPrice + $totalTax, $totalSpecialPrice + $totalTax);
+            $totalDiscount = $this->settings_lib->totalDiscount($totalPrice + $totalTax, $totalSpecialPrice + $totalTax);
+
+            $margin = $this->settings_lib->margin($totalMrp + $totalTax, $totalFinalPrice + $totalTax);
+            $totalMargin = $this->settings_lib->totalMargin($totalMrp + $totalTax, $totalFinalPrice + $totalTax);
+
+            $total = $totalFinalPrice + $totalTax;
+
 
             $result = [
                 'id' => $object['id'],
@@ -60,19 +69,26 @@ class Carts extends REST_Controller
                 'product_id' => $object['product_id'],
                 'product' => $object['product'],
                 'product_image' => $object['product_image'] ? base_url($object['product_image']) : '',
-                'price' => $this->settings_lib->number_format($object['price']),
-                'special_price' => $special_price,
-                'discount' => $discount,
-                'mrp' => $mrp,
                 'quantity' => $this->settings_lib->number_format($object['quantity']),
-                'sub_total' => $this->settings_lib->number_format($subTotal),
-                'total_tax' => $this->settings_lib->number_format($tax),
+                'mrp' => $mrp,
+                'totalMrp' => $totalMrp,
+                'price' => $price,
+                'totalPrice' => $totalPrice,
+                'specialPrice' => $specialPrice,
+                'totalSpecialPrice' => $totalSpecialPrice,
+                'finalPrice' => $finalPrice,
+                'totalFinalPrice' => $totalFinalPrice,
+                'margin' => $margin,
+                'totalMargin' => $totalMargin,
+                'discount' => $discount,
+                'totalDiscount' => $totalDiscount,
+                'totalTax' => $this->settings_lib->number_format($totalTax),
                 'total' => $this->settings_lib->number_format($total),
-                'tax_details' => $totalTaxDetails,
+                'taxDetails' => $totalTaxDetails,
                 'status' => $object['status'],
-                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
-                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
-                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
+                'statusText' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
+                'createdAt' => date($this->datetime_format, strtotime($object['created_at'])),
+                'updatedAt' => date($this->datetime_format, strtotime($object['updated_at'])),
             ];
         endif;
         return $result;
@@ -84,9 +100,12 @@ class Carts extends REST_Controller
         $this->data['data'] = [];
         $this->data['status'] = true;
 
-        $mrp = 0;
-        $subTotal = 0;
-        $tax = 0;
+        $totalMrp = 0;
+        $totalPrice = 0;
+        $totalFinalPrice = 0;
+        $totalMargin = 0;
+        $totalDiscount = 0;
+        $totalTax = 0;
         $total = 0;
 
         $list = $this->carts_model->getTables();
@@ -102,10 +121,13 @@ class Carts extends REST_Controller
             foreach ($list as $object) :
                 $result[] = $this->getData($object);
                 foreach ($result as  $value) :
-                    $subTotal += $value['sub_total'];
-                    $tax += $value['total_tax'];
+                    $totalMrp += $value['totalMrp'];
+                    $totalPrice += $value['totalPrice'];
+                    $totalFinalPrice += $value['totalFinalPrice'];
+                    $totalMargin += $value['totalMargin'];
+                    $totalTax += $value['totalTax'];
+                    $totalDiscount += $value['totalDiscount'];
                     $total += $value['total'];
-                    $mrp += $value['mrp'];
                 endforeach;
             endforeach;
         else :
@@ -114,13 +136,43 @@ class Carts extends REST_Controller
 
         $this->data['recordsTotal'] = $this->carts_model->countAll();
         $this->data['recordsFiltered'] = $this->carts_model->countFiltered();
-        $this->data['totalMrp'] = $this->settings_lib->number_format($mrp);
-        $this->data['subTotal'] = $this->settings_lib->number_format($subTotal);
-        $this->data['tax'] = $this->settings_lib->number_format($tax);
         $this->data['total'] = $this->settings_lib->number_format($total);
-        $this->data['data'] = $result;
         $this->data['total_quantity'] = $this->settings_lib->number_format($getCartTotalQty);
+        $this->data['data'] = $result;
+
         $this->data['message'] = $this->lang->line('text_loading');
+
+
+        $this->data['totals'] = [
+            [
+                'text' => 'Total Mrp',
+                'value' => $this->settings_lib->number_format($totalMrp)
+            ],
+            [
+                'text' => 'Total Price',
+                'value' => $this->settings_lib->number_format($totalPrice)
+            ],
+            [
+                'text' => 'Total Margin',
+                'value' => $this->settings_lib->number_format($totalMargin)
+            ],
+            [
+                'text' => 'Total Discount',
+                'value' => $this->settings_lib->number_format($totalDiscount)
+            ],
+            [
+                'text' => 'Total tax',
+                'value' => $this->settings_lib->number_format($totalTax)
+            ],
+            [
+                'text' => 'Sub Total',
+                'value' => $this->settings_lib->number_format($totalFinalPrice)
+            ],
+            [
+                'text' => 'Net Total',
+                'value' => $this->settings_lib->number_format($total)
+            ]
+        ];
 
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }

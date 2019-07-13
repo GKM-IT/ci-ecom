@@ -115,11 +115,20 @@ class Settings_lib
     {
         $total = 0;
         if ($price != 0 && $discount != 0) :
-            $total = (($discount / $price) * 100);
+            $total = (($price - $discount) / $price) * 100;
         endif;
         return $this->number_format($total) . '%';
     }
-    
+
+    public function totalDiscount($price, $discount)
+    {
+        $total = 0;
+        if ($price != 0 && $discount != 0) :
+            $total = ($price - $discount);
+        endif;
+        return $this->number_format($total);
+    }
+
     public function margin($mrp, $price)
     {
         $total = 0;
@@ -129,5 +138,13 @@ class Settings_lib
             $total = (($finalPrice / $price) * 100);
         endif;
         return $this->number_format($total) . '%';
+    }
+    public function totalMargin($mrp, $price)
+    {
+        $finalPrice = 0;
+        if ($mrp != 0 && $price != 0) :
+            $finalPrice = ($mrp - $price);
+        endif;
+        return $this->number_format($finalPrice);
     }
 }
