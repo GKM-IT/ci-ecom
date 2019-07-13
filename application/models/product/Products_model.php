@@ -200,6 +200,8 @@ class Products_model extends CI_Model
                     $this->db->set('end', date('Y-m-d', strtotime($price['end'])));
                     if (isset($price['status'])) :
                         $this->db->set('status', $price['status']);
+                    else :
+                        $this->db->set('status', 1);
                     endif;
                     $this->db->insert('product_prices');
                 endforeach;

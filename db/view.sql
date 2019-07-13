@@ -19,7 +19,7 @@ FROM banner_images bi LEFT JOIN banners b ON b.id=bi.banner_id;
 CREATE OR REPLACE 
  VIEW `carts_view`
  AS
-SELECT ct.*, c.name AS customer, p.name AS product, p.image AS product_image, p.price
+SELECT ct.*, c.name AS customer, p.name AS product, p.image AS product_image, p.mrp, p.price
 FROM carts ct LEFT JOIN customers c ON c.id=ct.customer_id LEFT JOIN products p ON p.id=ct.product_id;
 
 CREATE OR REPLACE 

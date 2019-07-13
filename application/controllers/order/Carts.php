@@ -52,6 +52,8 @@ class Carts extends REST_Controller
                 $totalTaxDetails = $this->products_model->getTaxDetails($object['product_id'], $subTotal);
             endif;
 
+            $mrp = $this->settings_lib->number_format($object['mrp'] * $object['quantity']);
+
             $result = [
                 'id' => $object['id'],
                 'token' => $object['token'],
@@ -61,6 +63,7 @@ class Carts extends REST_Controller
                 'price' => $this->settings_lib->number_format($object['price']),
                 'special_price' => $special_price,
                 'discount' => $discount,
+                'mrp' => $mrp,
                 'quantity' => $this->settings_lib->number_format($object['quantity']),
                 'sub_total' => $this->settings_lib->number_format($subTotal),
                 'total_tax' => $this->settings_lib->number_format($tax),
@@ -81,6 +84,7 @@ class Carts extends REST_Controller
         $this->data['data'] = [];
         $this->data['status'] = true;
 
+        $mrp = 0;
         $subTotal = 0;
         $tax = 0;
         $total = 0;
@@ -101,6 +105,7 @@ class Carts extends REST_Controller
                     $subTotal += $value['sub_total'];
                     $tax += $value['total_tax'];
                     $total += $value['total'];
+                    $mrp += $value['mrp'];
                 endforeach;
             endforeach;
         else :
@@ -109,6 +114,7 @@ class Carts extends REST_Controller
 
         $this->data['recordsTotal'] = $this->carts_model->countAll();
         $this->data['recordsFiltered'] = $this->carts_model->countFiltered();
+        $this->data['totalMrp'] = $this->settings_lib->number_format($mrp);
         $this->data['subTotal'] = $this->settings_lib->number_format($subTotal);
         $this->data['tax'] = $this->settings_lib->number_format($tax);
         $this->data['total'] = $this->settings_lib->number_format($total);

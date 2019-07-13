@@ -184,7 +184,7 @@ class Orders extends REST_Controller
             $totalsData = $this->getTotalsData($totals);
             $result = $this->getData($object);
             $result['products'] = $productsData;
-            $result['total'] = $totalsData;
+            $result['totals'] = $totalsData;
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
         else :
