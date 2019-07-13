@@ -47,7 +47,7 @@ class Orders extends REST_Controller
                 'zone' => $object['zone'],
                 'city_id' => $object['city_id'],
                 'city' => $object['city'],
-                'postcode' => $object['postcode'],
+                'postcode' => $object['postcode'],                
                 'address' => $object['address'],
                 'comment' => $object['comment'],
                 'total_tax' => $this->settings_lib->number_format($object['total_tax']),

@@ -124,15 +124,14 @@ FROM locations l
 CREATE OR REPLACE 
  VIEW `orders_view`
  AS
-SELECT o.*, ot.name AS order_type, cr.name, cr.email, cr.contact, ca.name AS person_name, ca.contact AS person_contact, ca.country_id, cot.name AS country, ca.zone_id, z.name AS zone, ca.city_id, cit.name AS city, ca.postcode, ca.address, os.name AS order_status
+SELECT o.*, ot.name AS order_type, cr.name, cr.email, cr.contact, cot.name AS country, z.name AS zone,cit.name AS city, os.name AS order_status
 FROM orders o
     LEFT JOIN order_types ot ON ot.id=o.order_type_id
-    LEFT JOIN customers cr ON cr.id=o.customer_id
-    LEFT JOIN customer_addresses ca ON ca.id=o.address_id
+    LEFT JOIN customers cr ON cr.id=o.customer_id    
     LEFT JOIN order_statuses os ON os.id=o.order_status_id
-    LEFT JOIN countries cot ON cot.id=ca.country_id
-    LEFT JOIN zones z ON z.id=ca.zone_id
-    LEFT JOIN cities cit ON cit.id=ca.city_id;
+    LEFT JOIN countries cot ON cot.id=o.country_id
+    LEFT JOIN zones z ON z.id=o.zone_id
+    LEFT JOIN cities cit ON cit.id=o.city_id;
 
 CREATE OR REPLACE 
  VIEW `order_products_view`

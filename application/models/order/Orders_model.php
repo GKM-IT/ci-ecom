@@ -17,6 +17,7 @@ class Orders_model extends CI_Model
         $this->query_lib->column_search = $this->column_search;
         $this->load->model('order/carts_model');
         $this->load->model('product/products_model');
+        $this->load->model('customer/customer_addresses_model');
     }
 
     private function _getTablesQuery()
@@ -78,6 +79,8 @@ class Orders_model extends CI_Model
     {
         $this->db->trans_start();
 
+        $customer_id = $this->input->post('customer_id');
+
         if ($this->input->post('order_type_id')) {
             $this->db->set('order_type_id', $this->input->post('order_type_id'));
         } else {
@@ -88,8 +91,18 @@ class Orders_model extends CI_Model
         } else {
             $this->db->set('order_status_id', 1);
         }
-        $this->db->set('customer_id', $this->input->post('customer_id'));
-        $this->db->set('address_id', $this->input->post('address_id'));
+        $this->db->set('customer_id', $customer_id);        
+
+        $address = $this->customer_addresses_model->getById($this->input->post('address_id'));
+
+        $this->db->set('person_name', $address['name']);
+        $this->db->set('person_contact', $address['contact']);
+        $this->db->set('country_id', $address['country_id']);
+        $this->db->set('zone_id', $address['zone_id']);
+        $this->db->set('city_id', $address['city_id']);
+        $this->db->set('postcode', $address['postcode']);
+        $this->db->set('address', $address['address']);
+
         $this->db->set('comment', $this->input->post('comment'));
 
         if ($this->input->post('status')) :
@@ -99,7 +112,7 @@ class Orders_model extends CI_Model
         endif;
 
         $filter['token'] = $this->input->post('token');
-        $filter['customer_id'] = $this->input->post('customer_id');
+        $filter['customer_id'] = $customer_id;
         $total = $this->carts_model->getCartTotal($filter);
         $this->db->set('total', $total);
 
@@ -117,6 +130,7 @@ class Orders_model extends CI_Model
         $this->setProducts($id);
         $this->setTotals($id);
 
+
         if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
@@ -126,6 +140,8 @@ class Orders_model extends CI_Model
             return true;
         endif;
     }
+
+
 
     public function getProducts($id)
     {
