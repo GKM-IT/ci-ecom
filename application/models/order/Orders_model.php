@@ -92,6 +92,7 @@ class Orders_model extends CI_Model
             $this->db->set('order_status_id', 1);
         }
         $this->db->set('customer_id', $customer_id);        
+        $this->db->set('address_id', $this->input->post('address_id'));
 
         $address = $this->customer_addresses_model->getById($this->input->post('address_id'));
 

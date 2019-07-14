@@ -34,6 +34,7 @@ class Orders extends REST_Controller
                 'order_type_id' => $object['order_type_id'],
                 'order_type' => $object['order_type'],
                 'customer_id' => $object['customer_id'],
+                'address_id' => $object['address_id'],
                 'order_status_id' => $object['order_status_id'],
                 'order_status' => $object['order_status'],
                 'name' => $object['name'],
