@@ -21,6 +21,7 @@ $lang['success_login'] = '%s login successfully';
 
 //error
 $lang['error_not_found'] = '%s not found!';
+$lang['error_not_match'] = '%s not match!';
 $lang['error_save'] = '%s saving failed!';
 $lang['error_already_exists'] = '%s already exists!';
 $lang['error_delete'] = '%s delete failed!';

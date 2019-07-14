@@ -43,7 +43,7 @@ class Customers_model extends CI_Model
         return $query->num_rows();
     }
 
-   
+
     public function countAll()
     {
         $this->db->from($this->table_view);
@@ -51,11 +51,11 @@ class Customers_model extends CI_Model
     }
 
     public function getById($id)
-    {                       
+    {
         $this->db->from($this->table_view);
         $this->db->where('id', $id);
         $query = $this->db->get();
-        return $query->row_array();        
+        return $query->row_array();
     }
 
     public function deleteById($id)
@@ -64,10 +64,10 @@ class Customers_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->delete($this->table);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
@@ -78,7 +78,7 @@ class Customers_model extends CI_Model
     {
         $this->db->from($this->table_view);
         $this->db->where('email', $email);
-        if ($this->input->post('id')):
+        if ($this->input->post('id')) :
             $this->db->where('id !=', $this->input->post('id'));
         endif;
         $query = $this->db->get();
@@ -89,7 +89,7 @@ class Customers_model extends CI_Model
     {
         $this->db->from($this->table_view);
         $this->db->where('contact', $contact);
-        if ($this->input->post('id')):
+        if ($this->input->post('id')) :
             $this->db->where('id !=', $this->input->post('id'));
         endif;
         $query = $this->db->get();
@@ -104,28 +104,28 @@ class Customers_model extends CI_Model
         $this->db->set('email', $this->input->post('email'));
         $this->db->set('contact', $this->input->post('contact'));
         $this->db->set('password', md5($this->input->post('password')));
-        
-        if($this->input->post('status')):
+
+        if ($this->input->post('status')) :
             $this->db->set('status', $this->input->post('status'));
-        else:
+        else :
             $this->db->set('status', 1);
         endif;
 
-        if ($this->input->post('id')):
+        if ($this->input->post('id')) :
             $this->db->set('updated_at', $this->currectDatetime);
             $id = $this->input->post('id');
             $this->db->where('id', $id);
             $this->db->update($this->table);
-        else:
+        else :
             $this->db->set('created_at', $this->currectDatetime);
             $this->db->insert($this->table);
             $id = $this->db->insert_id();
         endif;
 
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
@@ -154,6 +154,33 @@ class Customers_model extends CI_Model
         return $query->row_array();
     }
 
+    public function checkOldPass($pass)
+    {
+        $this->db->from($this->table_view);
+        $this->db->where('id', $this->input->post('id'));
+        $this->db->where('password', md5($pass));
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+
+    public function updatePassword()
+    {
+        $this->db->trans_start();
+
+        $this->db->where('id', $this->input->post('id'));
+        $this->db->set('password', md5($this->input->post('newPass')));
+        $this->db->update($this->table);
+
+        if ($this->db->trans_status() === false) :
+            $this->db->trans_rollback();
+            return false;
+        else :
+            $this->db->trans_commit();
+            return true;
+        endif;
+    }
+
     public function setToken($id)
     {
         $this->db->trans_start();
@@ -171,13 +198,12 @@ class Customers_model extends CI_Model
         $this->db->where('customer_id', $id);
         $this->db->update('carts');
 
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return $token;
         endif;
     }
-
 }

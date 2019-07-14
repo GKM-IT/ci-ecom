@@ -27,7 +27,32 @@ class Customer_addresses extends REST_Controller
     private function getData($object)
     {
         $result = [];
-        if ($object):
+        if ($object) :
+
+            $format = '{name}' . "\n" . '{address}'  . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
+
+            $find = array(
+                '{name}',
+                '{address}',
+                '{city}',
+                '{postcode}',
+                '{zone}',
+                '{country}'
+            );
+
+            $replace = array(
+                'name' => $object['name'],
+                'address' => $object['address'],
+                'city' => $object['city'],
+                'postcode' => $object['postcode'],
+                'zone' => $object['zone'],
+                'country' => $object['country'],
+            );
+
+            $text = str_replace(array("\r\n", "\r", "\n"), ', ', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), ', ', trim(str_replace($find, $replace, $format))));
+
+
+
             $result = [
                 'id' => $object['id'],
                 'name' => $object['name'],
@@ -40,6 +65,7 @@ class Customer_addresses extends REST_Controller
                 'city' => $object['city'],
                 'postcode' => $object['postcode'],
                 'address' => $object['address'],
+                'text' => $text,
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
@@ -55,9 +81,9 @@ class Customer_addresses extends REST_Controller
 
         $this->data['status'] = true;
 
-        if ($this->post('draw')):
+        if ($this->post('draw')) :
             $this->data['draw'] = $this->post('draw');
-        else:
+        else :
             $this->data['draw'] = 0;
         endif;
 
@@ -66,11 +92,11 @@ class Customer_addresses extends REST_Controller
         $list = $this->customer_addresses_model->getTables();
 
         $result = [];
-        if ($list):
-            foreach ($list as $object):
+        if ($list) :
+            foreach ($list as $object) :
                 $result[] = $this->getData($object);
             endforeach;
-        else:
+        else :
             $this->data['status'] = false;
         endif;
 
@@ -91,11 +117,11 @@ class Customer_addresses extends REST_Controller
         $object = $this->customer_addresses_model->deleteById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_customer_address'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_customer_address'));
         endif;
@@ -113,11 +139,11 @@ class Customer_addresses extends REST_Controller
         $object = $this->customer_addresses_model->getById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
             $result = $this->getData($object);
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_not_found'), $this->lang->line('text_customer_address'));
         endif;
@@ -137,11 +163,11 @@ class Customer_addresses extends REST_Controller
         $object = $this->customer_addresses_model->save();
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_save'), $this->lang->line('text_customer_address'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_save'), $this->lang->line('text_customer_address'));
         endif;
@@ -163,19 +189,19 @@ class Customer_addresses extends REST_Controller
     private function _validation()
     {
         $this->data = [];
-        foreach ($this->validations as $key => $validation):
+        foreach ($this->validations as $key => $validation) :
             $field = '';
-            if ($this->lang->line('text_' . $key)):
+            if ($this->lang->line('text_' . $key)) :
                 $field = $this->lang->line('text_' . $key);
-            else:
+            else :
                 $field = humanize($key);
             endif;
             $this->form_validation->set_rules($key, $field, $validation);
         endforeach;
 
-        if ($this->form_validation->run() == false):
-            foreach ($this->validations as $key => $validation):
-                if (form_error($key, '', '')):
+        if ($this->form_validation->run() == false) :
+            foreach ($this->validations as $key => $validation) :
+                if (form_error($key, '', '')) :
                     $this->error[] = array(
                         'id' => $key,
                         'text' => form_error($key, '', ''),
@@ -190,5 +216,4 @@ class Customer_addresses extends REST_Controller
             exit;
         endif;
     }
-
 }

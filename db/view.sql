@@ -127,7 +127,7 @@ CREATE OR REPLACE
 SELECT o.*, ot.name AS order_type, cr.name, cr.email, cr.contact, cot.name AS country, z.name AS zone,cit.name AS city, os.name AS order_status
 FROM orders o
     LEFT JOIN order_types ot ON ot.id=o.order_type_id
-    LEFT JOIN customers cr ON cr.id=o.customer_id    
+    LEFT JOIN customers cr ON cr.id=o.customer_id  
     LEFT JOIN order_statuses os ON os.id=o.order_status_id
     LEFT JOIN countries cot ON cot.id=o.country_id
     LEFT JOIN zones z ON z.id=o.zone_id

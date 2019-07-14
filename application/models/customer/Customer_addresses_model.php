@@ -20,6 +20,11 @@ class Customer_addresses_model extends CI_Model
     private function _getTablesQuery()
     {
         $this->db->from($this->table_view);
+
+        if($this->input->post('customer_id')):
+            $this->db->where('customer_id', $this->input->post('customer_id'));        
+        endif;
+
         $this->query_lib->where();
         $this->query_lib->like();
         $this->query_lib->getSearch();
