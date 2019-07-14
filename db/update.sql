@@ -1,1 +1,0 @@
-ALTER TABLE `orders`  ADD `address_id` INT NOT NULL  AFTER `customer_id`;
