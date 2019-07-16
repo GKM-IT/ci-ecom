@@ -27,7 +27,7 @@ class Locations extends REST_Controller
     private function getData($object)
     {
         $result = [];
-        if ($object):
+        if ($object) :
             $result = [
                 'id' => $object['id'],
                 'name' => $object['name'],
@@ -42,6 +42,9 @@ class Locations extends REST_Controller
                 'city' => $object['city'],
                 'postcode' => $object['postcode'],
                 'address' => $object['address'],
+                'latitude' =>  $object['latitude'],
+                'longitude' =>  $object['longitude'],
+                'distance' =>  $this->settings_lib->number_format($object['distance']),
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
@@ -60,11 +63,11 @@ class Locations extends REST_Controller
         $list = $this->locations_model->getTables();
 
         $result = [];
-        if ($list):
-            foreach ($list as $object):
+        if ($list) :
+            foreach ($list as $object) :
                 $result[] = $this->getData($object);
             endforeach;
-        else:
+        else :
             $this->data['status'] = false;
         endif;
 
@@ -85,11 +88,11 @@ class Locations extends REST_Controller
         $object = $this->locations_model->deleteById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_country'));
         endif;
@@ -109,11 +112,11 @@ class Locations extends REST_Controller
         $object = $this->locations_model->getById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
             $result = $this->getData($object);
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_not_found'), $this->lang->line('text_country'));
         endif;
@@ -133,11 +136,11 @@ class Locations extends REST_Controller
         $object = $this->locations_model->save();
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_save'), $this->lang->line('text_country'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_save'), $this->lang->line('text_country'));
         endif;
@@ -165,19 +168,19 @@ class Locations extends REST_Controller
     private function _validation()
     {
         $this->data = [];
-        foreach ($this->validations as $key => $validation):
+        foreach ($this->validations as $key => $validation) :
             $field = '';
-            if ($this->lang->line('text_' . $key)):
+            if ($this->lang->line('text_' . $key)) :
                 $field = $this->lang->line('text_' . $key);
-            else:
+            else :
                 $field = humanize($key);
             endif;
             $this->form_validation->set_rules($key, $field, $validation);
         endforeach;
 
-        if ($this->form_validation->run() == false):
-            foreach ($this->validations as $key => $validation):
-                if (form_error($key, '', '')):
+        if ($this->form_validation->run() == false) :
+            foreach ($this->validations as $key => $validation) :
+                if (form_error($key, '', '')) :
                     $this->error[] = array(
                         'id' => $key,
                         'text' => form_error($key, '', ''),
@@ -192,5 +195,4 @@ class Locations extends REST_Controller
             exit;
         endif;
     }
-
 }

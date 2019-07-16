@@ -124,10 +124,10 @@ FROM locations l
 CREATE OR REPLACE 
  VIEW `orders_view`
  AS
-SELECT o.*, ot.name AS order_type, cr.name, cr.email, cr.contact, cot.name AS country, z.name AS zone,cit.name AS city, os.name AS order_status
+SELECT o.*, ot.name AS order_type, cr.name, cr.email, cr.contact, cot.name AS country, z.name AS zone, cit.name AS city, os.name AS order_status
 FROM orders o
     LEFT JOIN order_types ot ON ot.id=o.order_type_id
-    LEFT JOIN customers cr ON cr.id=o.customer_id  
+    LEFT JOIN customers cr ON cr.id=o.customer_id
     LEFT JOIN order_statuses os ON os.id=o.order_status_id
     LEFT JOIN countries cot ON cot.id=o.country_id
     LEFT JOIN zones z ON z.id=o.zone_id
@@ -303,14 +303,14 @@ GROUP BY day,month,year;
 CREATE OR REPLACE
  VIEW `productsales`
  AS
-SELECT 
-p.name AS productName,
-p.image AS productImage,
-SUM(op.price) AS totalPrice,
-SUM(op.quantity) AS totalQty,
-SUM(op.tax) AS totalTax,
-SUM(op.total) AS total
+SELECT
+    p.name AS productName,
+    p.image AS productImage,
+    SUM(op.price) AS totalPrice,
+    SUM(op.quantity) AS totalQty,
+    SUM(op.tax) AS totalTax,
+    SUM(op.total) AS total
 FROM order_products op
-LEFT JOIN products p ON p.id=op.product_id
-LEFT JOIN orders o ON o.id=op.order_id
+    LEFT JOIN products p ON p.id=op.product_id
+    LEFT JOIN orders o ON o.id=op.order_id
 GROUP BY op.product_id;

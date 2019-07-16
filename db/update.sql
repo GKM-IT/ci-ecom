@@ -1,0 +1,1 @@
+ALTER TABLE `locations`  ADD `latitude` DECIMAL(9,6) NOT NULL  AFTER `address`,  ADD `longitude` DECIMAL(9,6) NOT NULL  AFTER `latitude`;
