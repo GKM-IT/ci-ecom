@@ -54,6 +54,31 @@ class Locations extends REST_Controller
         return $result;
     }
 
+    public function search_get()
+    {
+        $this->data = [];
+        $this->data['data'] = [];
+        $this->data['status'] = true;
+
+        $list = $this->locations_model->getTables();
+
+        $result = [];
+        if ($list) :
+            foreach ($list as $object) :
+                $result[] = $this->getData($object);
+            endforeach;
+        else :
+            $this->data['status'] = false;
+        endif;
+
+        $this->data['recordsTotal'] = $this->locations_model->countAll();
+        $this->data['recordsFiltered'] = $this->locations_model->countFiltered();
+        $this->data['data'] = $result;
+        $this->data['message'] = $this->lang->line('text_loading');
+
+        $this->set_response($this->data, REST_Controller::HTTP_OK);
+    }
+
     public function index_post()
     {
         $this->data = [];

@@ -27,7 +27,7 @@ class Purchases extends REST_Controller
     private function getData($object)
     {
         $result = [];
-        if ($object):
+        if ($object) :
             $result = [
                 'id' => $object['id'],
                 'purchase_type_id' => $object['purchase_type_id'],
@@ -35,11 +35,13 @@ class Purchases extends REST_Controller
                 'vendor_id' => $object['vendor_id'],
                 'name' => $object['name'],
                 'email' => $object['email'],
-                'contact' => $object['contact'],                
+                'contact' => $object['contact'],
                 'comment' => $object['comment'],
                 'total_tax' => $this->settings_lib->number_format($object['total_tax']),
                 'total' => $this->settings_lib->number_format($object['total']),
                 'status' => $object['status'],
+                'purchase_status_id' => $object['purchase_status_id'],
+                'purchase_status' => $object['purchase_status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
                 'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
@@ -57,11 +59,11 @@ class Purchases extends REST_Controller
         $list = $this->purchases_model->getTables();
 
         $result = [];
-        if ($list):
-            foreach ($list as $object):
+        if ($list) :
+            foreach ($list as $object) :
                 $result[] = $this->getData($object);
             endforeach;
-        else:
+        else :
             $this->data['status'] = false;
         endif;
 
@@ -82,11 +84,11 @@ class Purchases extends REST_Controller
         $object = $this->purchases_model->deleteById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_country'));
         endif;
@@ -105,13 +107,13 @@ class Purchases extends REST_Controller
         $list = json2arr($this->post('list'));
 
         $result = [];
-        if ($list):
-            foreach ($list as $id):
+        if ($list) :
+            foreach ($list as $id) :
                 $object = $this->purchases_model->deleteById($id);
             endforeach;
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_country'));
         endif;
@@ -131,12 +133,12 @@ class Purchases extends REST_Controller
         $object = $this->purchases_model->getById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
 
             $products = $this->purchases_model->getProducts($object['id']);
             $productsData = [];
-            if ($products):
-                foreach ($products as $key => $product):
+            if ($products) :
+                foreach ($products as $key => $product) :
                     $productsData[] = [
                         'product_id' => $product['product_id'],
                         'product' => $product['product'],
@@ -144,7 +146,7 @@ class Purchases extends REST_Controller
                         'quantity' => $this->settings_lib->number_format($product['quantity']),
                         'price' => $this->settings_lib->number_format($product['price']),
                         'tax' => $this->settings_lib->number_format($product['tax']),
-                        'total' => $this->settings_lib->number_format($product['total']),                        
+                        'total' => $this->settings_lib->number_format($product['total']),
                     ];
                 endforeach;
             endif;
@@ -153,7 +155,7 @@ class Purchases extends REST_Controller
             $result['products'] = $productsData;
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_not_found'), $this->lang->line('text_country'));
         endif;
@@ -173,11 +175,11 @@ class Purchases extends REST_Controller
         $object = $this->purchases_model->save();
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_save'), $this->lang->line('text_country'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_save'), $this->lang->line('text_country'));
         endif;
@@ -191,14 +193,8 @@ class Purchases extends REST_Controller
     {
         $this->validations = array(
             'purchase_type_id' => 'required',
-            'name' => 'required',
-            'email' => 'required',
-            'contact' => 'required',
-            'country_id' => 'required',
-            'zone_id' => 'required',
-            'city_id' => 'required',
-            'postcode' => 'required',
-            'address' => 'required',
+            'vendor_id' => 'required',
+            'purchase_status_id' => 'required',
         );
         $this->_validation();
     }
@@ -206,19 +202,19 @@ class Purchases extends REST_Controller
     private function _validation()
     {
         $this->data = [];
-        foreach ($this->validations as $key => $validation):
+        foreach ($this->validations as $key => $validation) :
             $field = '';
-            if ($this->lang->line('text_' . $key)):
+            if ($this->lang->line('text_' . $key)) :
                 $field = $this->lang->line('text_' . $key);
-            else:
+            else :
                 $field = humanize($key);
             endif;
             $this->form_validation->set_rules($key, $field, $validation);
         endforeach;
 
-        if ($this->form_validation->run() == false):
-            foreach ($this->validations as $key => $validation):
-                if (form_error($key, '', '')):
+        if ($this->form_validation->run() == false) :
+            foreach ($this->validations as $key => $validation) :
+                if (form_error($key, '', '')) :
                     $this->error[] = array(
                         'id' => $key,
                         'text' => form_error($key, '', ''),
@@ -233,5 +229,4 @@ class Purchases extends REST_Controller
             exit;
         endif;
     }
-
 }

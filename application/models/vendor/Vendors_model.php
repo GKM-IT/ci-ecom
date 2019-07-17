@@ -50,11 +50,11 @@ class Vendors_model extends CI_Model
     }
 
     public function getById($id)
-    {                               
+    {
         $this->db->from($this->table_view);
         $this->db->where('id', $id);
         $query = $this->db->get();
-        return $query->row_array();        
+        return $query->row_array();
     }
 
     public function deleteById($id)
@@ -63,10 +63,10 @@ class Vendors_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->delete($this->table);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
@@ -76,7 +76,7 @@ class Vendors_model extends CI_Model
     {
         $this->db->from($this->table_view);
         $this->db->where('email', $email);
-        if ($this->input->post('id')):
+        if ($this->input->post('id')) :
             $this->db->where('id !=', $this->input->post('id'));
         endif;
         $query = $this->db->get();
@@ -87,7 +87,7 @@ class Vendors_model extends CI_Model
     {
         $this->db->from($this->table_view);
         $this->db->where('contact', $contact);
-        if ($this->input->post('id')):
+        if ($this->input->post('id')) :
             $this->db->where('id !=', $this->input->post('id'));
         endif;
         $query = $this->db->get();
@@ -101,24 +101,31 @@ class Vendors_model extends CI_Model
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('email', $this->input->post('email'));
         $this->db->set('contact', $this->input->post('contact'));
-        $this->db->set('password', $this->input->post('password'));
-        $this->db->set('status', $this->input->post('status'));
+        if ($this->input->post('password')) :
+            $this->db->set('password', md5($this->input->post('password')));
+        endif;
 
-        if ($this->input->post('id')):
+        if ($this->input->post('status')) :
+            $this->db->set('status', $this->input->post('status'));
+        else :
+            $this->db->set('status', 1);
+        endif;
+
+        if ($this->input->post('id')) :
             $this->db->set('updated_at', $this->currectDatetime);
             $id = $this->input->post('id');
             $this->db->where('id', $id);
             $this->db->update($this->table);
-        else:
+        else :
             $this->db->set('created_at', $this->currectDatetime);
             $this->db->insert($this->table);
             $id = $this->db->insert_id();
         endif;
 
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
@@ -146,5 +153,4 @@ class Vendors_model extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
-
 }
