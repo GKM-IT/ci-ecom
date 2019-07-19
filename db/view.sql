@@ -204,10 +204,9 @@ LEFT JOIN products p ON p.id=pc.product_id;
 CREATE OR REPLACE
  VIEW `stocks_view`
  AS
-SELECT s.*, p.name AS product, l.name AS location
-FROM stocks s
-    LEFT JOIN products p ON p.id=s.product_id
-    LEFT JOIN locations l ON l.id=s.location_id;
+SELECT s.*,p.name AS product,p.image AS productImage,l.name AS location FROM stocks s
+LEFT JOIN products p ON p.id=s.product_id
+LEFT JOIN locations l ON l.id=s.location_id;
 
 CREATE OR REPLACE
  VIEW `tax_rates_view`

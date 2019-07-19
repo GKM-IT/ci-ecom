@@ -371,7 +371,95 @@ class Products_model extends CI_Model
 
         return $data;
     }
+    public function getTypeRelatedProducts($id)
+    {
+        $data = array();
+        $this->getSpecialPrice();
+        $this->db->from('products_view');
+        $this->db->where('id IN(SELECT related_id FROM related_products WHERE product_id=' . $id . ')');
+        $query = $this->db->get();
+        // print_r( $this->db->last_query());
+        // exit;
+        $result = $query->result_array();
 
+        if ($result) :
+            foreach ($result as $object) :
+                $data[] = $this->getTypeData($object);
+            endforeach;
+        endif;
+
+        return $data;
+    }
+
+    public function getTypeData($object)
+    {
+        $result = [];
+        if ($object) :
+            $mrp = $this->settings_lib->number_format($object['mrp']);
+            $price = $this->settings_lib->number_format($object['price']);
+
+            if ($object['special_price']) :
+                $specialPrice = $this->settings_lib->number_format($object['special_price']);
+                $finalPrice = $specialPrice;
+            else :
+                $specialPrice = $this->settings_lib->number_format(0);
+                $finalPrice = $price;
+            endif;
+
+
+            $totalTax = $this->products_model->getTotalTax($object['id'], $finalPrice);
+            $totalTaxDetails = $this->products_model->getTaxDetails($object['id'], $finalPrice);
+
+            $discount = $this->settings_lib->discount($finalPrice + $totalTax, $specialPrice + $totalTax);
+
+            $margin = $this->settings_lib->margin($mrp + $totalTax, $finalPrice + $totalTax);
+
+            $result = [
+                'id' => $object['id'],
+                'type_id' => $object['type_id'],
+                'type' => $object['type'],
+                'manufacture_id' => $object['manufacture_id'],
+                'manufacture' => $object['manufacture'],
+                'code' => $object['code'],
+                'model' => $object['model'],
+                'sku' => $object['sku'],
+                'name' => $object['name'],
+                'price_type' => $object['price_type'],
+                'image' => $object['image'],
+                'image_thumb' => base_url($object['image']),
+                'description' => $object['description'],                
+                'tax_class_id' => $object['tax_class_id'],
+                'tax_class' => $object['tax_class'],
+                'length_class_id' => $object['length_class_id'],
+                'length_class' => $object['length_class'],
+                'length_unit' => $object['length_unit'],
+                'length' => $this->settings_lib->number_format($object['length']),
+                'width' => $this->settings_lib->number_format($object['width']),
+                'height' => $this->settings_lib->number_format($object['height']),
+                'weight_class_id' => $object['weight_class_id'],
+                'weight_class' => $object['weight_class'],
+                'weight_unit' => $object['weight_unit'],
+                'weight' => $this->settings_lib->number_format($object['weight']),
+                'viewed' => $object['viewed'],
+                'minimum' => $object['minimum'],
+                'shipping' => $object['shipping'],
+                'inventory' => $object['inventory'],
+                'mrp' => $mrp,
+                'price' => $price,
+                'special_price' => $specialPrice,
+                'final_price' => $finalPrice,
+                'margin' => $margin,
+                'discount' => $discount,
+                'total_tax' => $this->settings_lib->number_format($totalTax),
+                'tax_details' => $totalTaxDetails,                
+                'status' => $object['status'],
+                'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
+                'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
+                'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
+            ];
+        endif;
+        return $result;
+    }
 
     public function getFullData($object)
     {
@@ -471,7 +559,7 @@ class Products_model extends CI_Model
             $discount = $this->settings_lib->discount($price + $totalTax, $specialPrice + $totalTax);
 
             $margin = $this->settings_lib->margin($mrp + $totalTax, $finalPrice + $totalTax);
-
+            $relatedProducts = $this->products_model->getTypeRelatedProducts($object['id']);
             $result = [
                 'id' => $object['id'],
                 'type_id' => $object['type_id'],
@@ -510,7 +598,8 @@ class Products_model extends CI_Model
                 'margin' => $margin,
                 'discount' => $discount,
                 'total_tax' => $this->settings_lib->number_format($totalTax),
-                'tax_details' => $totalTaxDetails,                                
+                'tax_details' => $totalTaxDetails,  
+                'related_products' => $relatedProducts,                              
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
