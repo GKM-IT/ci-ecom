@@ -81,6 +81,7 @@ class Stocks_model extends CI_Model
         $this->db->set('price', $this->input->post('price'));
         $this->db->set('quantity', $this->input->post('quantity'));
         $this->db->set('type', $this->input->post('type'));
+        $this->db->set('text', $this->input->post('text'));
 
         if ($this->input->post('status')) :
             $this->db->set('status', $this->input->post('status'));
