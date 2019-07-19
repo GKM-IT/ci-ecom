@@ -12,6 +12,9 @@ $lang['text_contact'] = 'contact';
 $lang['text_enable'] = 'enable';
 $lang['text_disable'] = 'disable';
 
+$lang['text_in'] = 'In';
+$lang['text_out'] = 'Out';
+
 $lang['text_loading'] = 'loading...';
 
 //success
