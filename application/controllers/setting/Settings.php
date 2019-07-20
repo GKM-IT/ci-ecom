@@ -25,30 +25,30 @@ class Settings extends REST_Controller
 
     public function index_get()
     {
-        $result['default_name'] = $this->settings_lib->config('config', 'default_name');
-        $result['default_email'] = $this->settings_lib->config('config', 'default_email');
-        $result['default_country'] = $this->settings_lib->config('config', 'default_country');
-        $result['default_zone'] = $this->settings_lib->config('config', 'default_zone');
-        $result['default_city'] = $this->settings_lib->config('config', 'default_city');
-        $result['default_address'] = $this->settings_lib->config('config', 'default_address');
-        $result['default_date_format'] = $this->settings_lib->config('config', 'default_date_format');
-        $result['default_date_time_format'] = $this->settings_lib->config('config', 'default_date_time_format');
-        $result['default_decimal_place'] = $this->settings_lib->config('config', 'default_decimal_place');
-        $result['default_order_type'] = $this->settings_lib->config('config', 'default_order_type');
-        $result['default_purchase_type'] = $this->settings_lib->config('config', 'default_purchase_type');
-        $result['default_length_class'] = $this->settings_lib->config('config', 'default_length_class');
-        $result['default_weight_class'] = $this->settings_lib->config('config', 'default_weight_class');
-        $result['default_customer_group'] = $this->settings_lib->config('config', 'default_customer_group');
-        $result['default_employee_group'] = $this->settings_lib->config('config', 'default_employee_group');
-        $result['default_user_group'] = $this->settings_lib->config('config', 'default_user_group');
-        $result['default_location'] = $this->settings_lib->config('config', 'default_location');
+        $result['defaultName'] = $this->settings_lib->config('config', 'default_name');
+        $result['defaultEmail'] = $this->settings_lib->config('config', 'default_email');
+        $result['defaultCountry'] = $this->settings_lib->config('config', 'default_country');
+        $result['defaultZone'] = $this->settings_lib->config('config', 'default_zone');
+        $result['defaultCity'] = $this->settings_lib->config('config', 'default_city');
+        $result['defaultAddress'] = $this->settings_lib->config('config', 'default_address');
+        $result['defaultDateFormat'] = $this->settings_lib->config('config', 'default_date_format');
+        $result['defaultDateTimeFormat'] = $this->settings_lib->config('config', 'default_date_time_format');
+        $result['defaultDecimalPlace'] = $this->settings_lib->config('config', 'default_decimal_place');
+        $result['defaultOrderType'] = $this->settings_lib->config('config', 'default_order_type');
+        $result['defaultPurchaseType'] = $this->settings_lib->config('config', 'default_purchase_type');
+        $result['defaultLengthClass'] = $this->settings_lib->config('config', 'default_length_class');
+        $result['defaultWeightClass'] = $this->settings_lib->config('config', 'default_weight_class');
+        $result['defaultCustomerGroup'] = $this->settings_lib->config('config', 'default_customer_group');
+        $result['defaultEmployeeGroup'] = $this->settings_lib->config('config', 'default_employee_group');
+        $result['defaultUserGroup'] = $this->settings_lib->config('config', 'default_user_group');
+        $result['defaultLocation'] = $this->settings_lib->config('config', 'default_location');
 
         if ($result) {
             $this->data['status'] = TRUE;
-            $this->data['result'] = $result;
+            $this->data['data'] = $result;
             $this->data['message'] = 'modified successfully';
         } else {
-            $this->data['result'] = [];
+            $this->data['data'] = [];
             $this->data['status'] = FALSE;
             $this->data['message'] = 'modified failed!';
         }
