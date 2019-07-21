@@ -87,6 +87,10 @@ class Categories_model extends CI_Model
         $this->db->set('type_id', $this->input->post('type_id'));
         $this->db->set('parent_id', $this->input->post('parent_id'));
         $this->db->set('name', $this->input->post('name'));
+        $this->db->set('mobile_menu', $this->input->post('mobile_menu'));
+        $this->db->set('top', $this->input->post('top'));
+        $this->db->set('bottom', $this->input->post('bottom'));
+
         if ($this->input->post('image')) :
             $this->db->set('image', $this->input->post('image'));
         endif;

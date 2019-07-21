@@ -19,22 +19,22 @@ class Carts_model extends CI_Model
 
     private function getSpecialPrice()
     {
-        if ($this->input->post('customer_id')):
+        if ($this->input->post('customer_id')) :
             $customer = $this->db->get_where('customers', ['id' => $this->input->post('customer_id')])->row_array();
             $this->db->select('*, (SELECT pp.price FROM product_prices pp WHERE pp.product_id=' . $this->table_view . '.product_id AND pp.start <= date(now()) AND pp.end >= date(now()) AND pp.status=1 AND pp.customer_group_id=' . $customer['group_id'] . ' LIMIT 1) AS special_price');
-        else:
+        else :
             $this->db->select('*, 0 AS special_price');
-        endif;        
+        endif;
     }
 
     private function _getTablesQuery()
-    {        
-        $this->getSpecialPrice();        
+    {
+        $this->getSpecialPrice();
         $this->db->from($this->table_view);
-        if ($this->input->post('token')):
+        if ($this->input->post('token')) :
             $this->db->where('token', $this->input->post('token'));
         endif;
-        if ($this->input->post('customer_id')):
+        if ($this->input->post('customer_id')) :
             $this->db->where('customer_id', $this->input->post('customer_id'));
         endif;
         $this->query_lib->where();
@@ -67,12 +67,12 @@ class Carts_model extends CI_Model
     }
 
     public function getById($id)
-    {        
-        $this->getSpecialPrice();        
+    {
+        $this->getSpecialPrice();
         $this->db->from($this->table_view);
         $this->db->where('id', $id);
         $query = $this->db->get();
-        return $query->row_array();        
+        return $query->row_array();
     }
 
     public function deleteById($id)
@@ -81,18 +81,18 @@ class Carts_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->delete($this->table);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
     }
 
     public function getProducts($data)
-    {        
-        $this->db->from($this->table_view);     
+    {
+        $this->db->from($this->table_view);
         $this->db->where('token', $data['token']);
         $this->db->where('customer_id', $data['customer_id']);
         $query = $this->db->get();
@@ -106,19 +106,14 @@ class Carts_model extends CI_Model
         $this->db->from($this->table);
 
         $this->db->where('token', $data['token']);
-        if (isset($data['customer_id'])):
+        if (isset($data['customer_id'])) :
             $this->db->where('customer_id', $data['customer_id']);
         endif;
         $query = $this->db->get()->row_array();
-        if ($query):
+        if ($query) :
             $quantity = $query['quantity'];
         endif;
         return $quantity;
-    }
-
-    public function getCartTotal()
-    {
-        return 0;
     }
 
     public function checkProduct($id)
@@ -139,31 +134,106 @@ class Carts_model extends CI_Model
         $this->db->set('product_id', $this->input->post('product_id'));
         $this->db->set('price_type', $this->input->post('price_type'));
         $this->db->set('quantity', $this->input->post('quantity'));
-        
-        if($this->input->post('status')):
+
+        if ($this->input->post('status')) :
             $this->db->set('status', $this->input->post('status'));
-        else:
+        else :
             $this->db->set('status', 1);
         endif;
 
-        if ($this->input->post('id')):
+        if ($this->input->post('id')) :
             $this->db->set('updated_at', $this->currectDatetime);
             $id = $this->input->post('id');
             $this->db->where('id', $id);
             $this->db->update($this->table);
-        else:
+        else :
             $this->db->set('created_at', $this->currectDatetime);
             $this->db->insert($this->table);
             $id = $this->db->insert_id();
         endif;
 
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
     }
 
+    public function getTotalMrp()
+    {
+        $total = 0;
+        $list = $this->carts_model->getTables();
+        if ($list) :
+            foreach ($list as $object) :
+                $totalPrice = $this->settings_lib->number_format($object['mrp'] * $object['quantity']);
+                $total += $totalPrice;
+            endforeach;
+        endif;
+        return $total;
+    }
+    public function getTotalPrice()
+    {
+        $total = 0;
+        $list = $this->carts_model->getTables();
+        if ($list) :
+            foreach ($list as $object) :
+                $totalPrice = $this->settings_lib->number_format($object['price'] * $object['quantity']);
+                $total += $totalPrice;
+            endforeach;
+        endif;
+        return $total;
+    }
+    public function getSubTotal()
+    {
+        $total = 0;
+        $list = $this->carts_model->getTables();
+        if ($list) :
+            foreach ($list as $object) :
+                if ($object['special_price']) :
+                    $totalPrice = $this->settings_lib->number_format($object['special_price'] * $object['quantity']);
+                else :
+                    $totalPrice = $this->settings_lib->number_format($object['price'] * $object['quantity']);
+                endif;
+                $total += $totalPrice;
+            endforeach;
+        endif;
+        return $total;
+    }
+
+
+    public function getTaxTotal()
+    {
+        $total = 0;
+        $list = $this->carts_model->getTables();
+        if ($list) :
+            foreach ($list as $object) :
+                if ($object['special_price']) :
+                    $totalPrice = $this->settings_lib->number_format($object['special_price'] * $object['quantity']);
+                else :
+                    $totalPrice = $this->settings_lib->number_format($object['price'] * $object['quantity']);
+                endif;
+                $totalTax = $this->products_model->getTotalTax($object['product_id'], $totalPrice);
+                $total += $totalTax;
+            endforeach;
+        endif;
+        return $total;
+    }
+    public function getTotalSpecialPrice()
+    {
+        $total = 0;
+        $list = $this->carts_model->getTables();
+        if ($list) :
+            foreach ($list as $object) :
+                if ($object['special_price']) :
+                    $totalPrice = $this->settings_lib->number_format($object['special_price'] * $object['quantity']);
+                else :
+                    $totalPrice = 0;
+                endif;
+                $total += $totalPrice;
+            endforeach;
+        endif;
+        return $total;
+    }
 }

@@ -1,11 +1,11 @@
 <?php
 
-class Manufactures_model extends CI_Model
+class Coupons_model extends CI_Model
 {
 
-    private $table = 'manufactures';
-    private $table_view = 'manufactures';
-    private $column_search = array('name', 'updated_at');
+    private $table = 'coupons';
+    private $table_view = 'coupons_view';
+    private $column_search = array('customer_group', 'start_date', 'end_date', 'discount_type', 'discount', 'used_limit', 'name', 'status', 'updated_at');
     private $currectDatetime = '';
 
     public function __construct()
@@ -76,16 +76,14 @@ class Manufactures_model extends CI_Model
     {
         $this->db->trans_start();
 
+        $this->db->set('code', $this->input->post('code'));
+        $this->db->set('customer_group_id', $this->input->post('customer_group_id'));
+        $this->db->set('start_date', $this->input->post('start_date'));
+        $this->db->set('end_date', $this->input->post('end_date'));
         $this->db->set('name', $this->input->post('name'));
-        $this->db->set('mobile_menu', $this->input->post('mobile_menu'));
-        $this->db->set('top', $this->input->post('top'));
-        $this->db->set('bottom', $this->input->post('bottom'));
-        if ($this->input->post('image')) :
-            $this->db->set('image', $this->input->post('image'));
-        endif;
-        if ($this->input->post('sort_order')) :
-            $this->db->set('sort_order', $this->input->post('sort_order'));
-        endif;
+        $this->db->set('discount_type', $this->input->post('discount_type'));
+        $this->db->set('discount', $this->input->post('discount'));
+        $this->db->set('used_limit', $this->input->post('used_limit'));
 
         if ($this->input->post('status')) :
             $this->db->set('status', $this->input->post('status'));

@@ -15,6 +15,16 @@ $lang['text_disable'] = 'disable';
 $lang['text_in'] = 'In';
 $lang['text_out'] = 'Out';
 
+$lang['text_sub_total'] = 'Sub Total';
+$lang['text_total_tax'] = 'Total Tax';
+$lang['text_total_mrp'] = 'Total Mrp';
+$lang['text_total_price'] = 'Total Price';
+$lang['text_total_margin'] = 'Total Margin';
+$lang['text_total_special'] = 'Total Special Price';
+$lang['text_total_discount'] = 'Total Discount';
+$lang['text_total'] = 'Total';
+$lang['text_coupon'] = 'Coupon';
+
 $lang['text_loading'] = 'loading...';
 
 //success
@@ -30,6 +40,3 @@ $lang['error_already_exists'] = '%s already exists!';
 $lang['error_delete'] = '%s delete failed!';
 $lang['error_validation'] = 'validation error!';
 $lang['error_login'] = '%s login failed!';
-
-
-

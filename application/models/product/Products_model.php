@@ -5,7 +5,7 @@ class Products_model extends CI_Model
 
     private $table = 'products';
     private $table_view = 'products_view';
-    private $column_search = array('name', 'code', 'model', 'sku', 'updated_at');
+    private $column_search = array('name', 'code', 'model', 'sku', 'mrp', 'price', 'description', 'type', 'manufacture', 'tax_class', 'length_class', 'weight_class', 'weight_unit', 'updated_at');
     private $currectDatetime = '';
     private $datetime_format = '';
 
@@ -138,6 +138,8 @@ class Products_model extends CI_Model
         $this->db->set('minimum', $this->input->post('minimum'));
         $this->db->set('shipping', $this->input->post('shipping'));
         $this->db->set('inventory', $this->input->post('inventory'));
+        $this->db->set('stock', $this->input->post('stock'));
+        $this->db->set('featured', $this->input->post('featured'));
 
         if ($this->input->post('status')) :
             $this->db->set('status', $this->input->post('status'));
@@ -427,7 +429,7 @@ class Products_model extends CI_Model
                 'price_type' => $object['price_type'],
                 'image' => $object['image'],
                 'image_thumb' => base_url($object['image']),
-                'description' => $object['description'],                
+                'description' => $object['description'],
                 'tax_class_id' => $object['tax_class_id'],
                 'tax_class' => $object['tax_class'],
                 'length_class_id' => $object['length_class_id'],
@@ -451,7 +453,7 @@ class Products_model extends CI_Model
                 'margin' => $margin,
                 'discount' => $discount,
                 'total_tax' => $this->settings_lib->number_format($totalTax),
-                'tax_details' => $totalTaxDetails,                
+                'tax_details' => $totalTaxDetails,
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
@@ -598,8 +600,8 @@ class Products_model extends CI_Model
                 'margin' => $margin,
                 'discount' => $discount,
                 'total_tax' => $this->settings_lib->number_format($totalTax),
-                'tax_details' => $totalTaxDetails,  
-                'related_products' => $relatedProducts,                              
+                'tax_details' => $totalTaxDetails,
+                'related_products' => $relatedProducts,
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),

@@ -57,8 +57,8 @@ class Carts extends REST_Controller
             $discount = $this->settings_lib->discount($totalPrice + $totalTax, $totalSpecialPrice + $totalTax);
             $totalDiscount = $this->settings_lib->totalDiscount($totalPrice + $totalTax, $totalSpecialPrice + $totalTax);
 
-            $margin = $this->settings_lib->margin($totalMrp + $totalTax, $totalFinalPrice + $totalTax);
-            $totalMargin = $this->settings_lib->totalMargin($totalMrp + $totalTax, $totalFinalPrice + $totalTax);
+            $margin = $this->settings_lib->margin($totalMrp, $totalFinalPrice);
+            $totalMargin = $this->settings_lib->totalMargin($totalMrp, $totalFinalPrice);
 
             $total = $totalFinalPrice + $totalTax;
 
@@ -100,12 +100,6 @@ class Carts extends REST_Controller
         $this->data['data'] = [];
         $this->data['status'] = true;
 
-        $totalMrp = 0;
-        $totalPrice = 0;
-        $totalFinalPrice = 0;
-        $totalMargin = 0;
-        $totalDiscount = 0;
-        $totalTax = 0;
         $total = 0;
 
         $list = $this->carts_model->getTables();
@@ -120,15 +114,6 @@ class Carts extends REST_Controller
         if ($list) :
             foreach ($list as $object) :
                 $result[] = $this->getData($object);
-                foreach ($result as  $value) :
-                    $totalMrp += $value['totalMrp'];
-                    $totalPrice += $value['totalPrice'];
-                    $totalFinalPrice += $value['totalFinalPrice'];
-                    $totalMargin += $value['totalMargin'];
-                    $totalTax += $value['totalTax'];
-                    $totalDiscount += $value['totalDiscount'];
-                    $total += $value['total'];
-                endforeach;
             endforeach;
         else :
             $this->data['status'] = false;
@@ -136,43 +121,62 @@ class Carts extends REST_Controller
 
         $this->data['recordsTotal'] = $this->carts_model->countAll();
         $this->data['recordsFiltered'] = $this->carts_model->countFiltered();
-        $this->data['total'] = $this->settings_lib->number_format($total);
+
         $this->data['total_quantity'] = $this->settings_lib->number_format($getCartTotalQty);
         $this->data['data'] = $result;
 
         $this->data['message'] = $this->lang->line('text_loading');
 
+        $totals = [];
+        $taxes = $this->carts_model->getTaxTotal();
+        $total = 0;
 
-        $this->data['totals'] = [
-            [
-                'text' => 'Total Mrp',
-                'value' => $this->settings_lib->number_format($totalMrp)
-            ],
-            [
-                'text' => 'Total Price',
-                'value' => $this->settings_lib->number_format($totalPrice)
-            ],
-            [
-                'text' => 'Total Margin',
-                'value' => $this->settings_lib->number_format($totalMargin)
-            ],
-            [
-                'text' => 'Total Discount',
-                'value' => $this->settings_lib->number_format($totalDiscount)
-            ],
-            [
-                'text' => 'Total tax',
-                'value' => $this->settings_lib->number_format($totalTax)
-            ],
-            [
-                'text' => 'Sub Total',
-                'value' => $this->settings_lib->number_format($totalFinalPrice)
-            ],
-            [
-                'text' => 'Net Total',
-                'value' => $this->settings_lib->number_format($total)
-            ]
+        $total_data = [
+            'totals' => &$totals,
+            'taxes' => &$taxes,
+            'total' => &$total
         ];
+
+        $extensions = [
+            'total_mrp',
+            'total_price',
+            'total_special_price',
+            'sub_total',
+            'total_tax',
+            'coupon',
+            'total',
+        ];
+
+        foreach ($extensions as $extension) :
+            $this->load->model('order/total/' . $extension . '_model');
+            $this->{$extension . '_model'}->getTotal($total_data);
+        endforeach;
+
+        $this->data['totals'] = [];
+
+        foreach ($totals as $totalValue) :
+            if ($totalValue['title'] == 'Total') :
+                $total = $totalValue['value'];
+            endif;
+            $this->data['totals'][] = [
+                'text' => $totalValue['title'],
+                'value' => $this->settings_lib->number_format($totalValue['value'])
+            ];
+        endforeach;
+
+
+        $this->data['total'] = $this->settings_lib->number_format($total);
+
+        // $this->data['totals'] = [        
+        //     [
+        //         'text' => 'Total Margin',
+        //         'value' => $this->settings_lib->number_format($totalMargin)
+        //     ],
+        //     [
+        //         'text' => 'Total Discount',
+        //         'value' => $this->settings_lib->number_format($totalDiscount)
+        //     ],            
+        // ];
 
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }

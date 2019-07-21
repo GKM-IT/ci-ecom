@@ -313,3 +313,10 @@ FROM order_products op
     LEFT JOIN products p ON p.id=op.product_id
     LEFT JOIN orders o ON o.id=op.order_id
 GROUP BY op.product_id;
+
+CREATE OR REPLACE
+ VIEW `coupons_view`
+ AS
+SELECT c.*,cg.name AS customer_group FROM coupons c LEFT JOIN customer_groups cg ON cg.id=c.customer_group_id;
+
+

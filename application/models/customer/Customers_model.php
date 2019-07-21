@@ -103,7 +103,18 @@ class Customers_model extends CI_Model
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('email', $this->input->post('email'));
         $this->db->set('contact', $this->input->post('contact'));
-        $this->db->set('password', md5($this->input->post('password')));
+
+        if ($this->input->post('gst_number')) :
+            $this->db->set('gst_number', $this->input->post('gst_number'));
+        endif;
+
+        if ($this->input->post('pan_number')) :
+            $this->db->set('pan_number', $this->input->post('pan_number'));
+        endif;
+
+        if ($this->input->post('password')) :
+            $this->db->set('password', md5($this->input->post('password')));
+        endif;
 
         if ($this->input->post('status')) :
             $this->db->set('status', $this->input->post('status'));
