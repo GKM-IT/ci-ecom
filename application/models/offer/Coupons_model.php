@@ -12,6 +12,7 @@ class Coupons_model extends CI_Model
     {
         parent::__construct();
         $this->currectDatetime = date('Y-m-d h:i:s');
+        $this->load->model('customer/customers_model');
         $this->query_lib->table = $this->table;
         $this->query_lib->table_view = $this->table_view;
         $this->query_lib->column_search = $this->column_search;
@@ -53,6 +54,17 @@ class Coupons_model extends CI_Model
     {
         $this->db->from($this->table_view);
         $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    public function checkCode($code)
+    {
+        $this->db->from($this->table_view);
+        if ($this->input->post('id')) :
+            $this->db->where('id !=', $this->input->post('id'));
+        endif;
+        $this->db->where('code', $code);
         $query = $this->db->get();
         return $query->row_array();
     }
@@ -109,5 +121,29 @@ class Coupons_model extends CI_Model
             $this->db->trans_commit();
             return true;
         endif;
+    }
+
+
+    private function getCustomer()
+    { }
+
+    public function checkCoupon($code)
+    {
+        $customer = [];
+        if ($this->input->post('customer_id')) :
+            $customer = $this->customers_model->getById($this->input->post('customer_id'));
+        endif;
+
+        $this->db->from($this->table_view);
+        if ($customer['group_id']) :
+            $this->db->where('customer_group_id', $customer['group_id']);
+        endif;
+        $this->db->where('code', $code);
+        $this->db->where('DATE(start_date) <= DATE(now())');
+        $this->db->where('DATE(end_date) >= DATE(now())');
+        $query = $this->db->get()->row_array();
+        // print_r($this->db->last_query());
+        // exit;
+        return $query;
     }
 }

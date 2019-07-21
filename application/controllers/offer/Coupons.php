@@ -169,10 +169,20 @@ class Coupons extends REST_Controller
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
+    public function validate_code($field_value)
+    {
+        if ($this->coupons_model->checkCode($field_value)) :
+            $this->form_validation->set_message('validate_code', sprintf($this->lang->line('error_already_exists'), '{field}'));
+            return false;
+        else :
+            return true;
+        endif;
+    }
+
     public function validation()
     {
         $this->validations = array(
-            'code' => 'required',
+            'code' => 'required|callback_validate_code',
             'customer_group_id' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
@@ -212,5 +222,34 @@ class Coupons extends REST_Controller
             echo json_encode($this->data);
             exit;
         endif;
+    }
+
+    public function applyValidation()
+    {
+        $this->validations = array(
+            'code' => 'required',
+            'customer_id' => 'required',
+        );
+        $this->_validation();
+    }
+
+    public function apply_post()
+    {
+        $this->applyValidation();
+        $this->data = [];
+        $this->data['data'] = [];
+
+        $object = $this->coupons_model->checkCoupon($this->input->post('code'));
+
+        if ($object) :
+            $this->data['status'] = true;
+            $this->data['message'] = sprintf($this->lang->line('success_save'), $this->lang->line('text_coupon'));
+            $this->session->set_userdata('coupon', $object['code']);
+        else :
+            $this->data['status'] = false;
+            $this->data['error'] = sprintf($this->lang->line('error_save'), $this->lang->line('text_coupon'));
+        endif;
+
+        $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 }
