@@ -244,9 +244,10 @@ class Coupons extends REST_Controller
         if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_save'), $this->lang->line('text_coupon'));
-            $this->session->set_userdata('coupon', $object['code']);
+            $this->data['data'] = $object['code'];
         else :
             $this->data['status'] = false;
+            $this->data['data'] = '';
             $this->data['error'] = sprintf($this->lang->line('error_save'), $this->lang->line('text_coupon'));
         endif;
 

@@ -124,9 +124,6 @@ class Coupons_model extends CI_Model
     }
 
 
-    private function getCustomer()
-    { }
-
     public function checkCoupon($code)
     {
         $customer = [];

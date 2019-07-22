@@ -12,11 +12,10 @@ class Coupon_model extends CI_Model
 
     public function getTotal($total)
     {
-        // print_r($total);
-        // exit;
-        if ($this->session->userdata('coupon')) :
+        $coupon = $this->input->post('coupon');
+        if ($coupon) :
             $sub_total = 0;
-            $coupon = $this->coupons_model->checkCoupon($this->session->userdata('coupon'));
+            $coupon = $this->coupons_model->checkCoupon($coupon);
             if ($coupon) :
                 if ($coupon['discount_type'] == 'P') :
                     $sub_total = ($total['total'] * $coupon['discount']) / 100;

@@ -165,7 +165,7 @@ class Carts extends REST_Controller
         endforeach;
 
 
-        $this->data['total'] = $this->settings_lib->number_format($total);
+        $this->data['total'] = $this->settings_lib->number_format($total);        
 
         // $this->data['totals'] = [        
         //     [
