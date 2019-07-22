@@ -197,6 +197,7 @@ class Orders_model extends CI_Model
         $totals = [];
         $taxes = $this->carts_model->getTaxTotal();
         $total = 0;
+        $totalTax = 0;
 
         $total_data = [
             'totals' => &$totals,
@@ -220,7 +221,10 @@ class Orders_model extends CI_Model
         endforeach;
 
         foreach ($totals as $totalValue) :
-            if ($totalValue['title'] == 'Total') :
+            if ($totalValue['code'] == 'total_tax') :
+                $totalTax = $totalValue['value'];
+            endif;
+            if ($totalValue['code'] == 'total') :
                 $total = $totalValue['value'];
             endif;
 
@@ -233,6 +237,7 @@ class Orders_model extends CI_Model
         endforeach;
 
         $this->db->set('total', $total);
+        $this->db->set('total_tax', $totalTax);
         $this->db->where('id', $id);
         $this->db->update('orders');
     }
