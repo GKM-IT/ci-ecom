@@ -57,6 +57,15 @@ class Manufactures_model extends CI_Model
         return $query->row_array();
     }
 
+    public function getMobileMenu()
+    {
+        $this->db->from($this->table_view);
+        $this->db->where('mobile_menu', true);
+        $this->db->order_by('sort_order', 'asc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function deleteById($id)
     {
         $this->db->trans_start();
@@ -77,9 +86,24 @@ class Manufactures_model extends CI_Model
         $this->db->trans_start();
 
         $this->db->set('name', $this->input->post('name'));
-        $this->db->set('mobile_menu', $this->input->post('mobile_menu'));
-        $this->db->set('top', $this->input->post('top'));
-        $this->db->set('bottom', $this->input->post('bottom'));
+
+        if ($this->input->post('mobile_menu')) :
+            $this->db->set('mobile_menu', true);
+        else :
+            $this->db->set('mobile_menu', false);
+        endif;
+        if ($this->input->post('top')) :
+            $this->db->set('top', true);
+        else :
+            $this->db->set('top', false);
+        endif;
+        if ($this->input->post('bottom')) :
+            $this->db->set('bottom', true);
+        else :
+            $this->db->set('bottom', false);
+        endif;
+
+
         if ($this->input->post('image')) :
             $this->db->set('image', $this->input->post('image'));
         endif;

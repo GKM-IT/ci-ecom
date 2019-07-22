@@ -76,6 +76,17 @@ class Categories_model extends CI_Model
     {
         $this->db->from($this->table_view);
         $this->db->where('type_id', $id);
+        $this->db->where('mobile_menu', $id);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function getByMobileMenu($id)
+    {
+        $this->db->from($this->table_view);
+        $this->db->where('type_id', $id);
+        $this->db->where('mobile_menu', true);
+        $this->db->order_by('sort_order', 'asc');
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -87,9 +98,22 @@ class Categories_model extends CI_Model
         $this->db->set('type_id', $this->input->post('type_id'));
         $this->db->set('parent_id', $this->input->post('parent_id'));
         $this->db->set('name', $this->input->post('name'));
-        $this->db->set('mobile_menu', $this->input->post('mobile_menu'));
-        $this->db->set('top', $this->input->post('top'));
-        $this->db->set('bottom', $this->input->post('bottom'));
+
+        if ($this->input->post('mobile_menu')) :
+            $this->db->set('mobile_menu', true);
+        else :
+            $this->db->set('mobile_menu', false);
+        endif;
+        if ($this->input->post('top')) :
+            $this->db->set('top', true);
+        else :
+            $this->db->set('top', false);
+        endif;
+        if ($this->input->post('bottom')) :
+            $this->db->set('bottom', true);
+        else :
+            $this->db->set('bottom', false);
+        endif;
 
         if ($this->input->post('image')) :
             $this->db->set('image', $this->input->post('image'));
@@ -117,6 +141,9 @@ class Categories_model extends CI_Model
             $this->db->insert($this->table);
             $id = $this->db->insert_id();
         endif;
+
+        // print_r($this->db->last_query());
+        // exit;
 
         if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();

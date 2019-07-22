@@ -20,6 +20,7 @@ class Types extends REST_Controller
         parent::__construct();
         $this->load->model('common/types_model');
         $this->load->model('product/categories_model');
+        $this->load->model('product/manufactures_model');
         $this->load->library('form_validation');
         $this->datetime_format = $this->settings_lib->config('config', 'default_date_time_format');
         $this->form_validation->set_error_delimiters('', '');
@@ -28,7 +29,7 @@ class Types extends REST_Controller
     private function getData($object)
     {
         $result = [];
-        if ($object):
+        if ($object) :
             $result = [
                 'id' => $object['id'],
                 'name' => $object['name'],
@@ -52,11 +53,11 @@ class Types extends REST_Controller
         $list = $this->types_model->getTables();
 
         $result = [];
-        if ($list):
-            foreach ($list as $object):
+        if ($list) :
+            foreach ($list as $object) :
                 $result[] = $this->getData($object);
             endforeach;
-        else:
+        else :
             $this->data['status'] = false;
         endif;
 
@@ -77,11 +78,11 @@ class Types extends REST_Controller
         $object = $this->types_model->deleteById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_country'));
         endif;
@@ -100,13 +101,13 @@ class Types extends REST_Controller
         $list = json2arr($this->post('list'));
 
         $result = [];
-        if ($list):
-            foreach ($list as $id):
+        if ($list) :
+            foreach ($list as $id) :
                 $object = $this->types_model->deleteById($id);
             endforeach;
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_country'));
         endif;
@@ -126,11 +127,11 @@ class Types extends REST_Controller
         $object = $this->types_model->getById($id);
 
         $result = [];
-        if ($object):
+        if ($object) :
             $result = $this->getData($object);
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_not_found'), $this->lang->line('text_country'));
         endif;
@@ -150,11 +151,11 @@ class Types extends REST_Controller
         $object = $this->types_model->save();
 
         $result = [];
-        if ($object):
+        if ($object) :
             $this->data['status'] = true;
             $this->data['message'] = sprintf($this->lang->line('success_save'), $this->lang->line('text_country'));
             $result = $object;
-        else:
+        else :
             $this->data['status'] = false;
             $this->data['error'] = sprintf($this->lang->line('error_save'), $this->lang->line('text_country'));
         endif;
@@ -175,19 +176,19 @@ class Types extends REST_Controller
     private function _validation()
     {
         $this->data = [];
-        foreach ($this->validations as $key => $validation):
+        foreach ($this->validations as $key => $validation) :
             $field = '';
-            if ($this->lang->line('text_' . $key)):
+            if ($this->lang->line('text_' . $key)) :
                 $field = $this->lang->line('text_' . $key);
-            else:
+            else :
                 $field = humanize($key);
             endif;
             $this->form_validation->set_rules($key, $field, $validation);
         endforeach;
 
-        if ($this->form_validation->run() == false):
-            foreach ($this->validations as $key => $validation):
-                if (form_error($key, '', '')):
+        if ($this->form_validation->run() == false) :
+            foreach ($this->validations as $key => $validation) :
+                if (form_error($key, '', '')) :
                     $this->error[] = array(
                         'id' => $key,
                         'text' => form_error($key, '', ''),
@@ -212,12 +213,12 @@ class Types extends REST_Controller
         $list = $this->types_model->getTables();
 
         $result = [];
-        if ($list):
-            foreach ($list as $object):
+        if ($list) :
+            foreach ($list as $object) :
                 $categoriesData = [];
                 $categories = $this->categories_model->getByType($object['id']);
-                if ($categories):
-                    foreach ($categories as $value):
+                if ($categories) :
+                    foreach ($categories as $value) :
                         $categoriesData[] = [
                             'id' => $value['id'],
                             'name' => $value['name'],
@@ -235,7 +236,7 @@ class Types extends REST_Controller
                     'categories' => $categoriesData,
                 ];
             endforeach;
-        else:
+        else :
             $this->data['status'] = false;
         endif;
 
@@ -247,4 +248,59 @@ class Types extends REST_Controller
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
+
+    public function mobile_menu_post()
+    {
+        $this->data = [];
+        $this->data['types'] = [];
+        $this->data['manufactures'] = [];
+        $this->data['status'] = true;
+
+        $list = $this->types_model->getTables();
+        $manufactures = $this->manufactures_model->getMobileMenu();
+        $manufactureResult = [];
+        if ($manufactures) :
+            foreach ($manufactures as $key => $manufacture) :
+                $manufactureResult[] = [
+                    'id' => $manufacture['id'],
+                    'name' => $manufacture['name'],
+                    'image' => base_url($manufacture['image']),
+                ];;
+            endforeach;
+        endif;
+
+        $result = [];
+        if ($list) :
+            foreach ($list as $object) :
+                $categoriesData = [];
+                $categories = $this->categories_model->getByMobileMenu($object['id']);
+                if ($categories) :
+                    foreach ($categories as $value) :
+                        $categoriesData[] = [
+                            'id' => $value['id'],
+                            'name' => $value['name'],
+                            'image' => base_url($value['image']),
+                        ];
+                    endforeach;
+                endif;
+
+                $result[] = [
+                    'id' => $object['id'],
+                    'name' => $object['name'],
+                    'image' => base_url($value['image']),
+                    'categories' => $categoriesData,
+                ];
+            endforeach;
+        else :
+            $this->data['status'] = false;
+        endif;
+
+        $this->data['recordsTotal'] = $this->types_model->countAll();
+        $this->data['recordsFiltered'] = $this->types_model->countFiltered();
+        $this->data['types'] = $result;
+        $this->data['manufactures'] = $manufactureResult;
+        $this->data['message'] = $this->lang->line('text_loading');
+
+        $this->set_response($this->data, REST_Controller::HTTP_OK);
+    }
 }

@@ -35,6 +35,8 @@ class Customers extends REST_Controller
                 'name' => $object['name'],
                 'email' => $object['email'],
                 'contact' => $object['contact'],
+                'pan_number' => $object['pan_number'],
+                'gst_number' => $object['gst_number'],
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
