@@ -91,7 +91,7 @@ class Orders_model extends CI_Model
         } else {
             $this->db->set('order_status_id', 1);
         }
-        $this->db->set('customer_id', $customer_id);        
+        $this->db->set('customer_id', $customer_id);
         $this->db->set('address_id', $this->input->post('address_id'));
 
         $address = $this->customer_addresses_model->getById($this->input->post('address_id'));
@@ -114,8 +114,7 @@ class Orders_model extends CI_Model
 
         $filter['token'] = $this->input->post('token');
         $filter['customer_id'] = $customer_id;
-        $total = $this->carts_model->getCartTotal($filter);
-        $this->db->set('total', $total);
+
 
         if ($this->input->post('id')) :
             $this->db->set('updated_at', $this->currectDatetime);
@@ -194,60 +193,50 @@ class Orders_model extends CI_Model
     {
         $this->db->where('order_id', $id);
         $this->db->delete('order_totals');
+
+        $totals = [];
+        $taxes = $this->carts_model->getTaxTotal();
         $total = 0;
-        $totalTax = 0;
-        $subTotal = 0;
-        $filter = [];
-        $filter['token'] = $this->input->post('token');
-        $filter['customer_id'] = $this->input->post('customer_id');
-        $products = $this->carts_model->getProducts($filter);
-        if ($products) :
-            foreach ($products as $value) :
-                $subTotal += ($value['price'] * $value['quantity']);
-                $totalTax += $this->products_model->getTotalTax($value['product_id'], $subTotal);
-                $total += $subTotal + $totalTax;
-            endforeach;
-        endif;
 
-        $this->setTotalTax($id, $totalTax);
-        $this->setTotal($id, $total);
-    }
+        $total_data = [
+            'totals' => &$totals,
+            'taxes' => &$taxes,
+            'total' => &$total
+        ];
 
-    public function setTotal($id, $total)
-    {
+        $extensions = [
+            'total_mrp',
+            'total_price',
+            'total_special_price',
+            'sub_total',
+            'total_tax',
+            'coupon',
+            'total',
+        ];
+
+        foreach ($extensions as $extension) :
+            $this->load->model('order/total/' . $extension . '_model');
+            $this->{$extension . '_model'}->getTotal($total_data);
+        endforeach;
+
+        foreach ($totals as $totalValue) :
+            if ($totalValue['title'] == 'Total') :
+                $total = $totalValue['value'];
+            endif;
+
+            $this->db->set('order_id', $id);
+            $this->db->set('code', $totalValue['code']);
+            $this->db->set('title', $totalValue['title']);
+            $this->db->set('value', $totalValue['value']);
+            $this->db->set('sort_order', $totalValue['sort_order']);
+            $this->db->insert('order_totals');
+        endforeach;
 
         $this->db->set('total', $total);
         $this->db->where('id', $id);
         $this->db->update('orders');
-
-        $this->db->where('order_id', $id);
-        $this->db->where('code', 'total');
-        $this->db->delete('order_totals');
-
-        $this->db->set('order_id', $id);
-        $this->db->set('code', 'total');
-        $this->db->set('title', 'Total');
-        $this->db->set('value', $total);
-        $this->db->insert('order_totals');
     }
 
-    public function setTotalTax($id, $total)
-    {
-
-        $this->db->set('total_tax', $total);
-        $this->db->where('id', $id);
-        $this->db->update('orders');
-
-        $this->db->where('order_id', $id);
-        $this->db->where('code', 'total_tax');
-        $this->db->delete('order_totals');
-
-        $this->db->set('order_id', $id);
-        $this->db->set('code', 'total_tax');
-        $this->db->set('title', 'Total Tax');
-        $this->db->set('value', $total);
-        $this->db->insert('order_totals');
-    }
 
     public function clearCart($token)
     {

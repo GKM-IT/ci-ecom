@@ -132,7 +132,7 @@ class Coupons_model extends CI_Model
         endif;
 
         $this->db->from($this->table_view);
-        if ($customer['group_id']) :
+        if ($customer && $customer['group_id']) :
             $this->db->where('customer_group_id', $customer['group_id']);
         endif;
         $this->db->where('code', $code);
