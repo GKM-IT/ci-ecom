@@ -21,10 +21,10 @@ class Purchase_carts_model extends CI_Model
     {
 
         $this->db->from($this->table_view);
-        if ($this->input->post('token')):
+        if ($this->input->post('token')) :
             $this->db->where('token', $this->input->post('token'));
         endif;
-        if ($this->input->post('vendor_id')):
+        if ($this->input->post('vendor_id')) :
             $this->db->where('vendor_id', $this->input->post('vendor_id'));
         endif;
         $this->query_lib->where();
@@ -57,11 +57,11 @@ class Purchase_carts_model extends CI_Model
     }
 
     public function getById($id)
-    {                               
+    {
         $this->db->from($this->table_view);
         $this->db->where('id', $id);
         $query = $this->db->get();
-        return $query->row_array();        
+        return $query->row_array();
     }
 
     public function deleteById($id)
@@ -70,55 +70,58 @@ class Purchase_carts_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->delete($this->table);
         $this->db->trans_complete();
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
     }
 
     public function getProducts($data)
-    {        
-        $this->db->from($this->table_view);        
+    {
+        $this->db->from($this->table_view);
         $this->db->where('token', $data['token']);
         $this->db->where('user_id', $data['user_id']);
         $query = $this->db->get();
         return $query->result_array();
     }
 
-    public function getCartTotalQty()
-    {
-        $total = 0;
-        $this->db->select_sum('t.quantity', 'quantity');
-        $this->db->from('purchase_carts t');
-        $this->db->where('t.token', $this->input->post('token'));
-        $query = $this->db->get()->row_array();
-        if ($query['quantity']):
-            $total = $query['quantity'];
-        endif;
-        return $total;
-    }
-
-    public function getCartTotal()
+    public function getTaxTotal()
     {
         $total = 0;
         $this->db->select('t.*');
         $this->db->from('purchase_carts t');
         $this->db->where('t.token', $this->input->post('token'));
         $query = $this->db->get()->result_array();
-        if ($query):
-            foreach ($query as $value):
+        if ($query) :
+            foreach ($query as $value) :
+                $total += $value['tax'];
+            endforeach;
+        endif;
+        return $total;
+    }
+
+    public function getSubTotal()
+    {
+        $total = 0;
+        $this->db->select('t.*');
+        $this->db->from('purchase_carts t');
+        $this->db->where('t.token', $this->input->post('token'));
+        $query = $this->db->get()->result_array();
+        if ($query) :
+            foreach ($query as $value) :
                 $total += $this->getFinalTotal($value);
             endforeach;
         endif;
         return $total;
     }
 
+
     public function getFinalTotal($object)
     {
-        $total = ($object['price'] * $object['quantity']) + $object['tax'];
+        $total = ($object['price'] * $object['quantity']);
         return $total;
     }
 
@@ -141,31 +144,30 @@ class Purchase_carts_model extends CI_Model
         $this->db->set('price', $this->input->post('price'));
         $this->db->set('quantity', $this->input->post('quantity'));
         $this->db->set('tax', $this->input->post('tax'));
-        
-        if($this->input->post('status')):
+
+        if ($this->input->post('status')) :
             $this->db->set('status', $this->input->post('status'));
-        else:
+        else :
             $this->db->set('status', 1);
         endif;
 
-        if ($this->input->post('id')):
+        if ($this->input->post('id')) :
             $this->db->set('updated_at', $this->currectDatetime);
             $id = $this->input->post('id');
             $this->db->where('id', $id);
             $this->db->update($this->table);
-        else:
+        else :
             $this->db->set('created_at', $this->currectDatetime);
             $this->db->insert($this->table);
             $id = $this->db->insert_id();
         endif;
 
-        if ($this->db->trans_status() === false):
+        if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
             return false;
-        else:
+        else :
             $this->db->trans_commit();
             return true;
         endif;
     }
-
 }

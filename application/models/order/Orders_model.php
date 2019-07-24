@@ -18,6 +18,7 @@ class Orders_model extends CI_Model
         $this->load->model('order/carts_model');
         $this->load->model('product/products_model');
         $this->load->model('customer/customer_addresses_model');
+        $this->load->model('stock/stocks_model');
     }
 
     private function _getTablesQuery()
@@ -270,7 +271,14 @@ class Orders_model extends CI_Model
                     $this->db->set('status', 1);
 
 
-                    $stocks = $this->getStock($orderProduct);
+                    $stockFIlter = [
+                        'reference_id' => $id,
+                        'reference' => 'o',
+                        'type' => 'o',
+                        'product_id' => $orderProduct['product_id']
+                    ];
+
+                    $stocks = $this->stocks_model->getStock($stockFIlter);
                     if ($stocks) :
                         $this->db->set('updated_at', $this->currectDatetime);
                         $this->db->where('id', $stocks['id']);
@@ -280,48 +288,11 @@ class Orders_model extends CI_Model
                         $this->db->insert('stocks');
                     endif;
 
-                    $this->updateStock($orderProduct['product_id']);
+                    $this->stocks_model->updateStock($orderProduct['product_id']);
 
                 endforeach;
             endif;
         endif;
     }
 
-    public function getStock($data)
-    {
-        $this->db->from('stocks');
-        $this->db->where('product_id', $data['product_id']);
-        $this->db->where('reference', 'o');
-        $this->db->where('type', 'o');
-        $this->db->where('reference_id', $data['order_id']);
-        $query = $this->db->get();
-        return $query->row_array();
-    }
-
-
-    public function updateStock($id)
-    {
-        $this->db->select_sum('quantity', 'quantity');
-        $this->db->from('stocks');
-        $this->db->where('product_id', $id);
-        $this->db->where('status', 1);
-        $this->db->where('type', 'o');
-        $this->db->group_by('product_id');
-        $out = $this->db->get()->row_array();
-
-        $this->db->select_sum('quantity', 'quantity');
-        $this->db->from('stocks');
-        $this->db->where('product_id', $id);
-        $this->db->where('status', 1);
-        $this->db->where('type', 'i');
-        $this->db->group_by('product_id');
-        $in = $this->db->get()->row_array();
-
-        $quantity = $in['quantity'] - $out['quantity'];
-
-        $this->db->set('stock', $quantity);
-        $this->db->set('updated_at', $this->currectDatetime);
-        $this->db->where('id', $id);
-        $this->db->update('products');
-    }
 }

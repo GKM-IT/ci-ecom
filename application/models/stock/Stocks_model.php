@@ -108,4 +108,41 @@ class Stocks_model extends CI_Model
             return true;
         endif;
     }
+
+    public function updateStock($id)
+    {
+        $this->db->select_sum('quantity', 'quantity');
+        $this->db->from('stocks');
+        $this->db->where('product_id', $id);
+        $this->db->where('status', 1);
+        $this->db->where('type', 'o');
+        $this->db->group_by('product_id');
+        $out = $this->db->get()->row_array();
+
+        $this->db->select_sum('quantity', 'quantity');
+        $this->db->from('stocks');
+        $this->db->where('product_id', $id);
+        $this->db->where('status', 1);
+        $this->db->where('type', 'i');
+        $this->db->group_by('product_id');
+        $in = $this->db->get()->row_array();
+
+        $quantity = $in['quantity'] - $out['quantity'];
+
+        $this->db->set('stock', $quantity);
+        $this->db->set('updated_at', $this->currectDatetime);
+        $this->db->where('id', $id);
+        $this->db->update('products');
+    }
+
+    public function getStock($data)
+    {
+        $this->db->from('stocks');
+        $this->db->where('product_id', $data['product_id']);
+        $this->db->where('reference', $data['reference_id']);
+        $this->db->where('type', $data['type']);
+        $this->db->where('reference_id', $data['reference_id']);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
 }

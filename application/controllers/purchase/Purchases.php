@@ -72,6 +72,8 @@ class Purchases extends REST_Controller
         $this->data['data'] = $result;
         $this->data['message'] = $this->lang->line('text_loading');
 
+        
+
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 

@@ -16,6 +16,8 @@ class Purchases_model extends CI_Model
         $this->query_lib->table_view = $this->table_view;
         $this->query_lib->column_search = $this->column_search;
         $this->load->model('purchase/purchase_carts_model');
+        $this->load->model('product/products_model');
+        $this->load->model('stock/stocks_model');
     }
 
     private function _getTablesQuery()
@@ -99,8 +101,6 @@ class Purchases_model extends CI_Model
 
         $filter['token'] = $this->input->post('token');
         $filter['user_id'] = $this->input->post('user_id');
-        $total = $this->purchase_carts_model->getCartTotal($filter);
-        $this->db->set('total', $total);
 
         if ($this->input->post('id')) :
             $this->db->set('updated_at', $this->currectDatetime);
@@ -115,6 +115,7 @@ class Purchases_model extends CI_Model
 
         $this->setProducts($id);
         $this->setTotals($id);
+        $this->purchaseToStock($id);
 
         if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
@@ -166,66 +167,99 @@ class Purchases_model extends CI_Model
     {
         $this->db->where('purchase_id', $id);
         $this->db->delete('purchase_totals');
+
+        $totals = [];
+        $taxes = $this->purchase_carts_model->getTaxTotal();
         $total = 0;
         $totalTax = 0;
-        $subTotal = 0;
-        $filter = [];
-        $filter['token'] = $this->input->post('token');
-        $filter['user_id'] = $this->input->post('user_id');
-        $products = $this->purchase_carts_model->getProducts($filter);
-        if ($products) :
-            foreach ($products as $value) :
-                $total = ($value['price'] * $value['quantity']);
-                $subTotal += ($value['price'] * $value['quantity']);
-                $totalTax += $value['tax'];
-                $total += $subTotal + $totalTax;
-            endforeach;
-        endif;
 
-        $this->setTotalTax($id, $totalTax);
-        $this->setTotal($id, $total);
-    }
+        $total_data = [
+            'totals' => &$totals,
+            'taxes' => &$taxes,
+            'total' => &$total
+        ];
 
+        $extensions = [
+            'sub_total',
+            'total_tax',
+            'total',
+        ];
 
-    public function setTotal($id, $total)
-    {
+        foreach ($extensions as $extension) :
+            $this->load->model('purchase/total/' . $extension . '_model');
+            $this->{$extension . '_model'}->getTotal($total_data);
+        endforeach;
+
+        foreach ($totals as $totalValue) :
+            if ($totalValue['code'] == 'total_tax') :
+                $totalTax = $totalValue['value'];
+            endif;
+            if ($totalValue['code'] == 'total') :
+                $total = $totalValue['value'];
+            endif;
+
+            $this->db->set('purchase_id', $id);
+            $this->db->set('code', $totalValue['code']);
+            $this->db->set('title', $totalValue['title']);
+            $this->db->set('value', $totalValue['value']);
+            $this->db->set('sort_order', $totalValue['sort_order']);
+            $this->db->insert('purchase_totals');
+        endforeach;
 
         $this->db->set('total', $total);
+        $this->db->set('total_tax', $totalTax);
         $this->db->where('id', $id);
         $this->db->update('purchases');
-
-        $this->db->where('purchase_id', $id);
-        $this->db->where('code', 'total');
-        $this->db->delete('purchase_totals');
-
-        $this->db->set('purchase_id', $id);
-        $this->db->set('code', 'total');
-        $this->db->set('title', 'Total');
-        $this->db->set('value', $total);
-        $this->db->insert('purchase_totals');
     }
 
-    public function setTotalTax($id, $total)
-    {
 
-        $this->db->set('total_tax', $total);
-        $this->db->where('id', $id);
-        $this->db->update('purchases');
-
-        $this->db->where('purchase_id', $id);
-        $this->db->where('code', 'total_tax');
-        $this->db->delete('purchase_totals');
-
-        $this->db->set('purchase_id', $id);
-        $this->db->set('code', 'total_tax');
-        $this->db->set('title', 'Total Tax');
-        $this->db->set('value', $total);
-        $this->db->insert('purchase_totals');
-    }
 
     public function clearCart($token)
     {
         $this->db->where('token', $token);
         $this->db->delete('purchase_carts');
+    }
+
+    public function purchaseToStock($id)
+    {
+        $purchase = $this->getById($id);
+
+        if ($purchase['purchase_status_id'] == $this->settings_lib->config('config', 'complete_purchase_status')) :
+            $purchaseProducts = $this->getProducts($id);
+            if ($purchaseProducts) :
+                foreach ($purchaseProducts as  $purchaseProduct) :
+
+                    $this->db->set('location_id',  $this->settings_lib->config('config', 'default_location'));
+                    $this->db->set('reference', 'p');
+                    $this->db->set('reference_id', $id);
+                    $this->db->set('product_id', $purchaseProduct['product_id']);
+                    $this->db->set('price', $purchaseProduct['price']);
+                    $this->db->set('quantity', $purchaseProduct['quantity']);
+                    $this->db->set('type', 'i');
+                    $this->db->set('status', 1);
+
+
+                    $stockFIlter = [
+                        'reference_id' => $id,
+                        'reference' => 'p',
+                        'type' => 'i',
+                        'product_id' => $purchaseProduct['product_id']
+                    ];
+
+                    $stocks = $this->stocks_model->getStock($stockFIlter);
+                    if ($stocks) :
+                        $this->db->set('updated_at', $this->currectDatetime);
+                        $this->db->where('id', $stocks['id']);
+                        $this->db->update('stocks');
+                    else :
+                        $this->db->set('created_at', $this->currectDatetime);
+                        $this->db->insert('stocks');
+                    endif;
+
+                    $this->stocks_model->updateStock($purchaseProduct['product_id']);
+
+                endforeach;
+            endif;
+        endif;
     }
 }
