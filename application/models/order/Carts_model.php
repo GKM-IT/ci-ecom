@@ -124,6 +124,18 @@ class Carts_model extends CI_Model
         $query = $this->db->get();
         return $query->row_array();
     }
+    public function checkProductQty($id)
+    {
+        $this->db->from('products');
+        $this->db->where('id', $id);
+        $this->db->where('inventory', 1);
+        $query = $this->db->get()->row_array();
+        if ($query['stock']) :
+            return true;
+        else :
+            return false;
+        endif;
+    }
 
     public function save()
     {

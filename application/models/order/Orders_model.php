@@ -84,12 +84,13 @@ class Orders_model extends CI_Model
         if ($this->input->post('order_type_id')) {
             $this->db->set('order_type_id', $this->input->post('order_type_id'));
         } else {
-            $this->db->set('order_type_id', 1);
+            $this->db->set('order_type_id', $this->settings_lib->config('config', 'default_order_type'));
         }
+
         if ($this->input->post('order_status_id')) {
             $this->db->set('order_status_id', $this->input->post('order_status_id'));
         } else {
-            $this->db->set('order_status_id', 1);
+            $this->db->set('order_status_id', $this->settings_lib->config('config', 'pending_order_status'));
         }
         $this->db->set('customer_id', $customer_id);
         $this->db->set('address_id', $this->input->post('address_id'));
@@ -129,7 +130,7 @@ class Orders_model extends CI_Model
 
         $this->setProducts($id);
         $this->setTotals($id);
-
+        $this->orderToStock($id);
 
         if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
@@ -247,5 +248,80 @@ class Orders_model extends CI_Model
     {
         $this->db->where('token', $token);
         $this->db->delete('carts');
+    }
+
+
+    public function orderToStock($id)
+    {
+        $order = $this->getById($id);
+
+        if ($order['order_status_id'] == $this->settings_lib->config('config', 'complete_order_status')) :
+            $orderProducts = $this->getProducts($id);
+            if ($orderProducts) :
+                foreach ($orderProducts as  $orderProduct) :
+
+                    $this->db->set('location_id',  $this->settings_lib->config('config', 'default_location'));
+                    $this->db->set('reference', 'o');
+                    $this->db->set('reference_id', $id);
+                    $this->db->set('product_id', $orderProduct['product_id']);
+                    $this->db->set('price', $orderProduct['price']);
+                    $this->db->set('quantity', $orderProduct['quantity']);
+                    $this->db->set('type', 'o');
+                    $this->db->set('status', 1);
+
+
+                    $stocks = $this->getStock($orderProduct);
+                    if ($stocks) :
+                        $this->db->set('updated_at', $this->currectDatetime);
+                        $this->db->where('id', $stocks['id']);
+                        $this->db->update('stocks');
+                    else :
+                        $this->db->set('created_at', $this->currectDatetime);
+                        $this->db->insert('stocks');
+                    endif;
+
+                    $this->updateStock($orderProduct['product_id']);
+
+                endforeach;
+            endif;
+        endif;
+    }
+
+    public function getStock($data)
+    {
+        $this->db->from('stocks');
+        $this->db->where('product_id', $data['product_id']);
+        $this->db->where('reference', 'o');
+        $this->db->where('type', 'o');
+        $this->db->where('reference_id', $data['order_id']);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+
+    public function updateStock($id)
+    {
+        $this->db->select_sum('quantity', 'quantity');
+        $this->db->from('stocks');
+        $this->db->where('product_id', $id);
+        $this->db->where('status', 1);
+        $this->db->where('type', 'o');
+        $this->db->group_by('product_id');
+        $out = $this->db->get()->row_array();
+
+        $this->db->select_sum('quantity', 'quantity');
+        $this->db->from('stocks');
+        $this->db->where('product_id', $id);
+        $this->db->where('status', 1);
+        $this->db->where('type', 'i');
+        $this->db->group_by('product_id');
+        $in = $this->db->get()->row_array();
+
+        $quantity = $in['quantity'] - $out['quantity'];
+
+        $this->db->set('stock', $quantity);
+        $this->db->set('updated_at', $this->currectDatetime);
+        $this->db->where('id', $id);
+        $this->db->update('products');
     }
 }

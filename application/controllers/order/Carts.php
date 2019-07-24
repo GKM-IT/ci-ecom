@@ -165,7 +165,7 @@ class Carts extends REST_Controller
         endforeach;
 
 
-        $this->data['total'] = $this->settings_lib->number_format($total);        
+        $this->data['total'] = $this->settings_lib->number_format($total);
 
         // $this->data['totals'] = [        
         //     [
@@ -286,12 +286,21 @@ class Carts extends REST_Controller
             return true;
         endif;
     }
+    public function validate_product_qty($field_value)
+    {
+        if (!$this->input->post('id') && $this->carts_model->checkProductQty($field_value)) :
+            $this->form_validation->set_message('validate_product_qty', 'product out of stock');
+            return false;
+        else :
+            return true;
+        endif;
+    }
 
     public function validation()
     {
         $this->validations = array(
             'token' => 'required',
-            'product_id' => 'required|callback_validate_product',
+            'product_id' => 'required|callback_validate_product|callback_validate_product_qty',
             'price_type' => 'required',
             'quantity' => 'required',
         );

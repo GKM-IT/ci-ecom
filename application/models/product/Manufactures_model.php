@@ -87,17 +87,17 @@ class Manufactures_model extends CI_Model
 
         $this->db->set('name', $this->input->post('name'));
 
-        if ($this->input->post('mobile_menu')) :
+        if ($this->input->post('mobile_menu') && $this->input->post('mobile_menu') == 'true') :
             $this->db->set('mobile_menu', true);
         else :
             $this->db->set('mobile_menu', false);
         endif;
-        if ($this->input->post('top')) :
+        if ($this->input->post('top') && $this->input->post('top') == 'true') :
             $this->db->set('top', true);
         else :
             $this->db->set('top', false);
         endif;
-        if ($this->input->post('bottom')) :
+        if ($this->input->post('bottom') && $this->input->post('bottom') == 'true') :
             $this->db->set('bottom', true);
         else :
             $this->db->set('bottom', false);
