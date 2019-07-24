@@ -124,6 +124,7 @@ class Products_model extends CI_Model
         $this->db->set('sku', $this->input->post('sku'));
         $this->db->set('name', $this->input->post('name'));
         $this->db->set('mrp', $this->input->post('mrp'));
+        $this->db->set('margin', $this->input->post('margin'));
         $this->db->set('price', $this->input->post('price'));
         $this->db->set('image', $this->input->post('image'));
         $this->db->set('description', $this->input->post('description'));
@@ -197,6 +198,7 @@ class Products_model extends CI_Model
                 foreach ($prices as $price) :
                     $this->db->set('product_id', $id);
                     $this->db->set('customer_group_id', $price['customerGroupId']);
+                    $this->db->set('discount', $price['discount']);
                     $this->db->set('price', $price['price']);
                     $this->db->set('start', date('Y-m-d', strtotime($price['start'])));
                     $this->db->set('end', date('Y-m-d', strtotime($price['end'])));
@@ -245,7 +247,8 @@ class Products_model extends CI_Model
             foreach ($result as $value) :
                 $data[] = array(
                     'customer_group_id' => $value['customer_group_id'],
-                    'price' => $value['price'],
+                    'discount' => $this->settings_lib->number_format($value['discount']),
+                    'price' => $this->settings_lib->number_format($value['price']),
                     'start' =>  $value['start'],
                     'end' => $value['end'],
                 );
@@ -412,9 +415,7 @@ class Products_model extends CI_Model
             $totalTax = $this->products_model->getTotalTax($object['id'], $finalPrice);
             $totalTaxDetails = $this->products_model->getTaxDetails($object['id'], $finalPrice);
 
-            $discount = $this->settings_lib->discount($finalPrice + $totalTax, $specialPrice + $totalTax);
-
-            $margin = $this->settings_lib->margin($mrp + $totalTax, $finalPrice + $totalTax);
+            $discount = $this->settings_lib->discount($finalPrice + $totalTax, $specialPrice + $totalTax);            
 
             $result = [
                 'id' => $object['id'],
@@ -446,12 +447,12 @@ class Products_model extends CI_Model
                 'minimum' => $object['minimum'],
                 'shipping' => $object['shipping'],
                 'inventory' => $object['inventory'],
+                'margin' => $this->settings_lib->number_format($object['margin']),
                 'stock' => $this->settings_lib->number_format($object['stock']),
                 'mrp' => $mrp,
                 'price' => $price,
                 'special_price' => $specialPrice,
-                'final_price' => $finalPrice,
-                'margin' => $margin,
+                'final_price' => $finalPrice,                
                 'discount' => $discount,
                 'total_tax' => $this->settings_lib->number_format($totalTax),
                 'tax_details' => $totalTaxDetails,
@@ -485,7 +486,7 @@ class Products_model extends CI_Model
 
             $discount = $this->settings_lib->discount($finalPrice + $totalTax, $specialPrice + $totalTax);
 
-            $margin = $this->settings_lib->margin($mrp + $totalTax, $finalPrice + $totalTax);
+            
 
             $relatedProducts = $this->products_model->getRelatedProducts($object['id']);
             $getPrices = $this->products_model->getPrices($object['id']);
@@ -521,12 +522,12 @@ class Products_model extends CI_Model
                 'minimum' => $object['minimum'],
                 'shipping' => $object['shipping'],
                 'inventory' => $object['inventory'],
+                'margin' => $this->settings_lib->number_format($object['margin']),
                 'stock' => $this->settings_lib->number_format($object['stock']),
                 'mrp' => $mrp,
                 'price' => $price,
                 'special_price' => $specialPrice,
-                'final_price' => $finalPrice,
-                'margin' => $margin,
+                'final_price' => $finalPrice,                
                 'discount' => $discount,
                 'total_tax' => $this->settings_lib->number_format($totalTax),
                 'tax_details' => $totalTaxDetails,
@@ -562,7 +563,7 @@ class Products_model extends CI_Model
 
             $discount = $this->settings_lib->discount($price + $totalTax, $specialPrice + $totalTax);
 
-            $margin = $this->settings_lib->margin($mrp + $totalTax, $finalPrice + $totalTax);
+            
             $relatedProducts = $this->products_model->getTypeRelatedProducts($object['id']);
             $result = [
                 'id' => $object['id'],
@@ -595,12 +596,12 @@ class Products_model extends CI_Model
                 'minimum' => $object['minimum'],
                 'shipping' => $object['shipping'],
                 'inventory' => $object['inventory'],
+                'margin' => $this->settings_lib->number_format($object['margin']),
                 'stock' => $this->settings_lib->number_format($object['stock']),
                 'mrp' => $mrp,
                 'price' => $price,
                 'special_price' => $specialPrice,
-                'final_price' => $finalPrice,
-                'margin' => $margin,
+                'final_price' => $finalPrice,                
                 'discount' => $discount,
                 'total_tax' => $this->settings_lib->number_format($totalTax),
                 'tax_details' => $totalTaxDetails,
