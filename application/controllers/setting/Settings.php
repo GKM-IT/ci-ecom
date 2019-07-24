@@ -37,6 +37,8 @@ class Settings extends REST_Controller
         $result['defaultOrderType'] = $this->settings_lib->config('config', 'default_order_type');
         $result['pendingOrderStatus'] = $this->settings_lib->config('config', 'pending_order_status');
         $result['completeOrderStatus'] = $this->settings_lib->config('config', 'complete_order_status');
+        $result['pendingPurchaseStatus'] = $this->settings_lib->config('config', 'pending_purchase_status');
+        $result['completePurchaseStatus'] = $this->settings_lib->config('config', 'complete_purchase_status');
         $result['defaultPurchaseType'] = $this->settings_lib->config('config', 'default_purchase_type');
         $result['defaultLengthClass'] = $this->settings_lib->config('config', 'default_length_class');
         $result['defaultWeightClass'] = $this->settings_lib->config('config', 'default_weight_class');
