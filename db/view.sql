@@ -318,5 +318,3 @@ CREATE OR REPLACE
  VIEW `coupons_view`
  AS
 SELECT c.*,cg.name AS customer_group FROM coupons c LEFT JOIN customer_groups cg ON cg.id=c.customer_group_id;
-
-
