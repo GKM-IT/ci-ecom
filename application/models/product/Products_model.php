@@ -137,10 +137,26 @@ class Products_model extends CI_Model
         $this->db->set('weight_class_id', $this->input->post('weight_class_id'));
         $this->db->set('weight', $this->input->post('weight'));
         $this->db->set('minimum', $this->input->post('minimum'));
-        $this->db->set('shipping', $this->input->post('shipping'));
-        $this->db->set('inventory', $this->input->post('inventory'));
+
+        // print_r($this->input->post('shipping'));
+        // exit;
+        if ($this->input->post('shipping') && $this->input->post('shipping') == 'true') :
+            $this->db->set('shipping', 1);
+        else :
+            $this->db->set('shipping', 0);
+        endif;
+        if ($this->input->post('inventory') && $this->input->post('inventory') == 'true') :
+            $this->db->set('inventory', 1);
+        else :
+            $this->db->set('inventory', 0);
+        endif;
+        if ($this->input->post('featured') && $this->input->post('featured') == 'true') :
+            $this->db->set('featured', 1);
+        else :
+            $this->db->set('featured', 0);
+        endif;
         $this->db->set('stock', $this->input->post('stock'));
-        $this->db->set('featured', $this->input->post('featured'));
+
 
         if ($this->input->post('status')) :
             $this->db->set('status', $this->input->post('status'));
@@ -158,6 +174,9 @@ class Products_model extends CI_Model
             $this->db->insert($this->table);
             $id = $this->db->insert_id();
         endif;
+
+        // print_r($this->db->last_query());
+        // exit;
 
         $this->db->where('product_id', $id);
         $this->db->delete('product_categories');
@@ -225,6 +244,8 @@ class Products_model extends CI_Model
                 endforeach;
             endif;
         endif;
+
+
 
         if ($this->db->trans_status() === false) :
             $this->db->trans_rollback();
@@ -415,7 +436,7 @@ class Products_model extends CI_Model
             $totalTax = $this->products_model->getTotalTax($object['id'], $finalPrice);
             $totalTaxDetails = $this->products_model->getTaxDetails($object['id'], $finalPrice);
 
-            $discount = $this->settings_lib->discount($finalPrice + $totalTax, $specialPrice + $totalTax);            
+            $discount = $this->settings_lib->discount($finalPrice + $totalTax, $specialPrice + $totalTax);
 
             $result = [
                 'id' => $object['id'],
@@ -445,14 +466,15 @@ class Products_model extends CI_Model
                 'weight' => $this->settings_lib->number_format($object['weight']),
                 'viewed' => $object['viewed'],
                 'minimum' => $object['minimum'],
-                'shipping' => $object['shipping'],
-                'inventory' => $object['inventory'],
+                'shipping' => $object['shipping'] ? true : false,
+                'inventory' => $object['inventory'] ? true : false,
+                'featured' => $object['featured'] ? true : false,
                 'margin' => $this->settings_lib->number_format($object['margin']),
                 'stock' => $this->settings_lib->number_format($object['stock']),
                 'mrp' => $mrp,
                 'price' => $price,
                 'special_price' => $specialPrice,
-                'final_price' => $finalPrice,                
+                'final_price' => $finalPrice,
                 'discount' => $discount,
                 'total_tax' => $this->settings_lib->number_format($totalTax),
                 'tax_details' => $totalTaxDetails,
@@ -486,7 +508,7 @@ class Products_model extends CI_Model
 
             $discount = $this->settings_lib->discount($finalPrice + $totalTax, $specialPrice + $totalTax);
 
-            
+
 
             $relatedProducts = $this->products_model->getRelatedProducts($object['id']);
             $getPrices = $this->products_model->getPrices($object['id']);
@@ -520,14 +542,15 @@ class Products_model extends CI_Model
                 'weight' => $this->settings_lib->number_format($object['weight']),
                 'viewed' => $object['viewed'],
                 'minimum' => $object['minimum'],
-                'shipping' => $object['shipping'],
-                'inventory' => $object['inventory'],
+                'shipping' => $object['shipping'] ? true : false,
+                'inventory' => $object['inventory'] ? true : false,
+                'featured' => $object['featured'] ? true : false,
                 'margin' => $this->settings_lib->number_format($object['margin']),
                 'stock' => $this->settings_lib->number_format($object['stock']),
                 'mrp' => $mrp,
                 'price' => $price,
                 'special_price' => $specialPrice,
-                'final_price' => $finalPrice,                
+                'final_price' => $finalPrice,
                 'discount' => $discount,
                 'total_tax' => $this->settings_lib->number_format($totalTax),
                 'tax_details' => $totalTaxDetails,
@@ -563,7 +586,7 @@ class Products_model extends CI_Model
 
             $discount = $this->settings_lib->discount($price + $totalTax, $specialPrice + $totalTax);
 
-            
+
             $relatedProducts = $this->products_model->getTypeRelatedProducts($object['id']);
             $result = [
                 'id' => $object['id'],
@@ -594,14 +617,15 @@ class Products_model extends CI_Model
                 'weight' => $this->settings_lib->number_format($object['weight']),
                 'viewed' => $object['viewed'],
                 'minimum' => $object['minimum'],
-                'shipping' => $object['shipping'],
-                'inventory' => $object['inventory'],
+                'shipping' => $object['shipping'] ? true : false,
+                'inventory' => $object['inventory'] ? true : false,
+                'featured' => $object['featured'] ? true : false,
                 'margin' => $this->settings_lib->number_format($object['margin']),
                 'stock' => $this->settings_lib->number_format($object['stock']),
                 'mrp' => $mrp,
                 'price' => $price,
                 'special_price' => $specialPrice,
-                'final_price' => $finalPrice,                
+                'final_price' => $finalPrice,
                 'discount' => $discount,
                 'total_tax' => $this->settings_lib->number_format($totalTax),
                 'tax_details' => $totalTaxDetails,
@@ -614,5 +638,4 @@ class Products_model extends CI_Model
         endif;
         return $result;
     }
-    
 }

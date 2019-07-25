@@ -288,7 +288,7 @@ class Carts extends REST_Controller
     }
     public function validate_product_qty($field_value)
     {
-        if (!$this->input->post('id') && $this->carts_model->checkProductQty($field_value)) :
+        if (!$this->carts_model->checkProductQty($field_value)) :
             $this->form_validation->set_message('validate_product_qty', 'product out of stock');
             return false;
         else :
