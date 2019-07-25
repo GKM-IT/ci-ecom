@@ -33,6 +33,8 @@ class Banners extends REST_Controller
                 'type_id' => $object['type_id'],
                 'type' => $object['type'],
                 'name' => $object['name'],
+                'reference' => $object['reference'],
+                'reference_id' => $object['reference_id'],
                 'status' => $object['status'],
                 'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
                 'created_at' => date($this->datetime_format, strtotime($object['created_at'])),

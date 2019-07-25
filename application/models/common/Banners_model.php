@@ -76,6 +76,8 @@ class Banners_model extends CI_Model
         $this->db->trans_start();
 
         $this->db->set('type_id', $this->input->post('type_id'));
+        $this->db->set('reference', $this->input->post('reference'));
+        $this->db->set('reference_id', $this->input->post('reference_id'));
         $this->db->set('name', $this->input->post('name'));
         
         if($this->input->post('status')):
