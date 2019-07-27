@@ -139,6 +139,11 @@ CREATE OR REPLACE
 SELECT op.*, p.name AS product, p.image AS product_image
 FROM order_products op
     LEFT JOIN products p ON p.id=op.product_id;
+    
+CREATE OR REPLACE 
+ VIEW `order_histories_view`
+ AS
+SELECT oh.*,os.name AS order_status FROM order_histories oh LEFT JOIN order_statuses os ON os.id=oh.order_status_id;
 
 CREATE OR REPLACE 
  VIEW `products_view`

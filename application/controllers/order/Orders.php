@@ -182,10 +182,12 @@ class Orders extends REST_Controller
             $products = $this->orders_model->getProducts($object['id']);
             $productsData = $this->getProductData($products);
             $totals = $this->orders_model->getTotals($object['id']);
+            $histories = $this->orders_model->getHistories($object['id']);
             $totalsData = $this->getTotalsData($totals);
             $result = $this->getData($object);
             $result['products'] = $productsData;
             $result['totals'] = $totalsData;
+            $result['histories'] = $histories;
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
         else :

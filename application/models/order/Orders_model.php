@@ -12,6 +12,7 @@ class Orders_model extends CI_Model
     {
         parent::__construct();
         $this->currectDatetime = date('Y-m-d h:i:s');
+        $this->datetime_format = $this->settings_lib->config('config', 'default_date_time_format');
         $this->query_lib->table = $this->table;
         $this->query_lib->table_view = $this->table_view;
         $this->query_lib->column_search = $this->column_search;
@@ -143,6 +144,30 @@ class Orders_model extends CI_Model
         endif;
     }
 
+
+    public function getHistories($id)
+    {
+        $result = [];
+        $this->db->from('order_histories_view');
+        $this->db->where('id', $id);
+        $query = $this->db->get()->result_array();
+
+        if ($query) :
+            foreach ($query as  $object) :
+                $result[] = [                    
+                    'order_status_id' => $object['order_status_id'],
+                    'order_status' => $object['order_status'],
+                    'comment' => $object['comment'],
+                    'status' => $object['status'],
+                    'status_text' => $object['status'] ? $this->lang->line('text_enable') : $this->lang->line('text_disable'),
+                    'created_at' => date($this->datetime_format, strtotime($object['created_at'])),
+                    'updated_at' => date($this->datetime_format, strtotime($object['updated_at'])),
+                ];
+            endforeach;
+        endif;
+
+        return $result;
+    }
 
 
     public function getProducts($id)
@@ -294,5 +319,4 @@ class Orders_model extends CI_Model
             endif;
         endif;
     }
-
 }
