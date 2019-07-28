@@ -198,6 +198,29 @@ class Orders extends REST_Controller
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
 
+    public function clear_history_get($id)
+    {
+        $this->data = [];
+        $this->data['data'] = [];
+        $this->data['status'] = true;
+
+        $object = $this->orders_model->clearHistories($id);
+
+        $result = [];
+        if ($object) :
+            $this->data['status'] = true;
+            $this->data['message'] = sprintf($this->lang->line('success_delete'), $this->lang->line('text_country'));
+            $result = $object;
+        else :
+            $this->data['status'] = false;
+            $this->data['error'] = sprintf($this->lang->line('error_delete'), $this->lang->line('text_country'));
+        endif;
+
+        $this->data['data'] = $result;
+
+        $this->set_response($this->data, REST_Controller::HTTP_OK);
+    }
+
     public function history_post()
     {
         $this->data = [];

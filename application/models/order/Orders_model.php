@@ -144,6 +144,11 @@ class Orders_model extends CI_Model
         endif;
     }
 
+    public function clearHistories($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('order_histories');
+    }
 
     public function getHistories($id)
     {
@@ -154,7 +159,7 @@ class Orders_model extends CI_Model
 
         if ($query) :
             foreach ($query as  $object) :
-                $result[] = [                    
+                $result[] = [
                     'order_status_id' => $object['order_status_id'],
                     'order_status' => $object['order_status'],
                     'comment' => $object['comment'],
