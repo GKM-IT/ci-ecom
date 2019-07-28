@@ -287,7 +287,7 @@ class Types extends REST_Controller
                 $result[] = [
                     'id' => $object['id'],
                     'name' => $object['name'],
-                    'image' => base_url($value['image']),
+                    'image' => base_url($object['image']),
                     'categories' => $categoriesData,
                 ];
             endforeach;
