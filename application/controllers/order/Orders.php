@@ -48,7 +48,7 @@ class Orders extends REST_Controller
                 'zone' => $object['zone'],
                 'city_id' => $object['city_id'],
                 'city' => $object['city'],
-                'postcode' => $object['postcode'],                
+                'postcode' => $object['postcode'],
                 'address' => $object['address'],
                 'comment' => $object['comment'],
                 'total_tax' => $this->settings_lib->number_format($object['total_tax']),
@@ -182,12 +182,10 @@ class Orders extends REST_Controller
             $products = $this->orders_model->getProducts($object['id']);
             $productsData = $this->getProductData($products);
             $totals = $this->orders_model->getTotals($object['id']);
-            $histories = $this->orders_model->getHistories($object['id']);
             $totalsData = $this->getTotalsData($totals);
             $result = $this->getData($object);
             $result['products'] = $productsData;
             $result['totals'] = $totalsData;
-            $result['histories'] = $histories;
             $this->data['status'] = true;
             $this->data['message'] = $this->lang->line('text_loading');
         else :
@@ -196,6 +194,28 @@ class Orders extends REST_Controller
         endif;
 
         $this->data['data'] = $result;
+
+        $this->set_response($this->data, REST_Controller::HTTP_OK);
+    }
+
+    public function history_post()
+    {
+        $this->data = [];
+        $this->data['data'] = [];
+
+        $id = $this->post('id');
+
+        $object = $this->orders_model->getHistories($id);
+
+        if ($object) :
+            $this->data['data'] = $object;
+            $this->data['status'] = true;
+            $this->data['message'] = $this->lang->line('text_loading');
+        else :
+            $this->data['data'] = [];
+            $this->data['status'] = false;
+            $this->data['error'] = sprintf($this->lang->line('error_not_found'), $this->lang->line('text_country'));
+        endif;
 
         $this->set_response($this->data, REST_Controller::HTTP_OK);
     }
